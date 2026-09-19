@@ -1,0 +1,259 @@
+/* Lovable design tokens — paste into src/app/globals.css (or equivalent) */
+
+:root {
+  /* Colors */
+  --color-parchment: #fcfbf8;
+  --color-warm-sand: #f7f4ed;
+  --color-linen-border: #eceae4;
+  --color-stone: #d4d3d0;
+  --color-dim-gray: #5f5f5d;
+  --color-charcoal: #1c1c1c;
+  --color-ink: #030303;
+  --color-indigo-accent: #3451b2;
+  --gradient-hero: linear-gradient(
+    90deg,
+    rgb(28, 28, 28) 0%,
+    rgb(28, 28, 28) 33.33%,
+    rgb(130, 188, 255) 40%,
+    rgb(36, 131, 255) 45%,
+    rgb(255, 102, 244) 50%,
+    rgb(255, 48, 41) 55%,
+    rgb(254, 123, 2) 60%,
+    rgba(0, 0, 0, 0) 66.67%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  /* Surfaces */
+  --surface-canvas: var(--color-parchment);
+  --surface-card: var(--color-warm-sand);
+  --surface-inverse: var(--color-charcoal);
+
+  /* Typography — Inter/DM Sans substitute for Camera Plain Variable */
+  --font-sans: "Inter", "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-heading: 500; /* prefer 480 if variable font available */
+  --font-weight-semibold: 600;
+  --tracking-tight: -0.025em;
+
+  /* Radii */
+  --radius-input: 8px;
+  --radius-image: 12px;
+  --radius-card: 16px;
+  --radius-card-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Shadows — inset / subtle only */
+  --shadow-inset: oklch(0 0 0 / 0.25) 0px 0px 0px 0.5px inset;
+  --shadow-inset-strong: oklch(0 0 0 / 0.16) 0px 0px 0px 0.5px inset;
+  --shadow-chat: oklab(0 0 0 / 0.08) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.1) 0px 8px 10px -6px;
+  --shadow-dark-pill:
+    rgba(255, 255, 255, 0.2) 0px 0.5px 0px 0px inset,
+    rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset,
+    rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+
+  /* Layout */
+  --sidebar-width: 240px;
+  --page-max-width: 1280px;
+}
+
+@theme {
+  --color-parchment: #fcfbf8;
+  --color-warm-sand: #f7f4ed;
+  --color-linen-border: #eceae4;
+  --color-stone: #d4d3d0;
+  --color-dim-gray: #5f5f5d;
+  --color-charcoal: #1c1c1c;
+  --color-ink: #030303;
+  --color-indigo-accent: #3451b2;
+  --font-sans: "Inter", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --shadow-subtle: oklch(0 0 0 / 0.25) 0px 0px 0px 0.5px inset;
+}
+
+/* Base dashboard shell */
+.dashboard-root,
+[data-dashboard] {
+  background: var(--surface-canvas);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  letter-spacing: var(--tracking-tight);
+  font-feature-settings: "liga" 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dashboard-root h1,
+.dashboard-root h2,
+.dashboard-root h3,
+[data-dashboard] h1,
+[data-dashboard] h2,
+[data-dashboard] h3 {
+  font-weight: var(--font-weight-heading);
+  color: var(--color-charcoal);
+  letter-spacing: var(--tracking-tight);
+}
+
+.dashboard-root p,
+.dashboard-root .muted,
+[data-dashboard] .muted {
+  color: var(--color-dim-gray);
+}
+
+/* Buttons */
+.btn-pill-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.88);
+  color: var(--color-parchment);
+  border: none;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: var(--tracking-tight);
+  box-shadow: var(--shadow-dark-pill);
+  transition: opacity 0.15s ease;
+}
+.btn-pill-dark:hover { opacity: 0.85; }
+.btn-pill-dark:active { opacity: 0.8; }
+
+.btn-pill-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-charcoal);
+  border: 1px solid var(--color-linen-border);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: var(--tracking-tight);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.btn-pill-outlined:hover {
+  background: rgba(28, 28, 28, 0.03);
+}
+
+.btn-ghost-nav {
+  background: transparent;
+  border: none;
+  color: var(--color-charcoal);
+  font-size: 15px;
+  font-weight: 400;
+  padding: 4px 6px;
+  letter-spacing: var(--tracking-tight);
+}
+.btn-ghost-nav[data-active="true"],
+.btn-ghost-nav.active {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+/* Cards */
+.card-warm {
+  background: var(--surface-card);
+  border: 1px solid var(--color-linen-border);
+  border-radius: var(--radius-card-lg);
+  padding: 20px 24px;
+  box-shadow: none;
+}
+
+.card-template {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.card-template img,
+.card-template .preview {
+  border-radius: var(--radius-image);
+  border: 1px solid var(--color-linen-border);
+  display: block;
+  width: 100%;
+}
+.card-template .title {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-charcoal);
+}
+.card-template .desc {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--color-dim-gray);
+}
+
+/* Chat / prompt input (if present on dashboard home) */
+.chat-input-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-card-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-chat);
+  border: none;
+}
+.chat-input-card input,
+.chat-input-card textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: var(--color-ink);
+  font-size: 16px;
+  letter-spacing: var(--tracking-tight);
+}
+.chat-input-card input::placeholder,
+.chat-input-card textarea::placeholder {
+  color: var(--color-dim-gray);
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+  width: var(--sidebar-width);
+  background: var(--surface-canvas);
+  border-right: 1px solid var(--color-linen-border);
+  padding: 16px 12px;
+}
+.dashboard-sidebar .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  color: var(--color-dim-gray);
+  font-size: 14px;
+  letter-spacing: var(--tracking-tight);
+  text-decoration: none;
+}
+.dashboard-sidebar .nav-item:hover {
+  background: rgba(28, 28, 28, 0.03);
+  color: var(--color-charcoal);
+}
+.dashboard-sidebar .nav-item[data-active="true"],
+.dashboard-sidebar .nav-item.active {
+  background: var(--surface-card);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-inset);
+}
+
+.dashboard-main {
+  background: var(--surface-canvas);
+  min-height: 100vh;
+  padding: 24px 32px;
+  max-width: var(--page-max-width);
+}
+
+/* Decorative hero strip ONLY — never on controls */
+.hero-gradient-strip {
+  height: 4px;
+  width: 100%;
+  background: var(--gradient-hero);
+  border-radius: var(--radius-pill);
+}

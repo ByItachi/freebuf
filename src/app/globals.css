@@ -1,0 +1,1115 @@
+@import "tailwindcss";
+
+/*
+  Camera Plain Variable â€” the only typeface in the design system
+  (same file as lovable.dev serves).
+*/
+@font-face {
+  font-family: "Camera Plain Variable";
+  src: url("/fonts/CameraPlainVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Cookie banner button primitives (matches live lovable.dev DOM/effects) */
+.btn-primitive {
+  cursor: pointer;
+  border: none;
+  font: inherit;
+}
+.btn-chassis {
+  overflow: hidden;
+}
+.btn-hit-slop {
+  isolation: isolate;
+}
+.typestyle-control-sm {
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+.rounded-2 {
+  border-radius: 6px;
+}
+.fx-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--_resting, 1);
+}
+.fx-layer-fade {
+  transition: opacity 0.15s ease;
+}
+.btn-primitive:hover .fx-interaction {
+  opacity: var(--_hover, 0.08);
+}
+.btn-primitive:active .fx-interaction {
+  opacity: var(--_pressed, 0.1);
+}
+.btn-content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+}
+
+/*
+  Pulse tokens Ã¢â‚¬" the app/dashboard surface language (verbatim from the
+  lovable.dev dashboard build). The marketing pages use the warm parchment
+  palette above; the dashboard uses these.
+*/
+:root {
+  --bg-depth: oklch(95.49% 0 107);
+  --bg-base: oklch(96.99% 0 107);
+  --bg-primary: oklch(98.51% 0 107);
+  --bg-secondary: oklch(99.99% 0 107);
+  --bg-tertiary: oklch(99.99% 0 107);
+  --bg-quaternary: oklch(99.99% 0 107);
+  --bg-accent: oklch(52.43% 0.2396 264.41);
+  --bg-accent-translucent: oklch(52.43% 0.2396 264.41 / 0.16);
+  --bg-destructive: oklch(58.53% 0.2203 26.56);
+  --bg-destructive-translucent: oklch(58.53% 0.2203 26.56 / 0.16);
+  --bg-special: oklch(58.99% 0.2523 294.88);
+  --bg-special-translucent: oklch(58.99% 0.2523 294.88 / 0.16);
+  --bg-positive: oklch(54.42% 0.1689 138.23);
+  --bg-positive-translucent: oklch(54.42% 0.1689 138.23 / 0.16);
+  --bg-attention: oklch(58.01% 0.1819 40.04);
+  --bg-attention-translucent: oklch(58.01% 0.1819 40.04 / 0.16);
+  --bg-highlight: oklch(59.06% 0.2244 359.16);
+  --bg-highlight-translucent: oklch(59.06% 0.2244 359.16 / 0.16);
+  --bg-translucent: oklch(100% 0 0 / 0.8);
+  --bg-scrim: oklch(100% 0 0 / 0.8);
+  --bg-scrim-inverse: oklch(0% 0 0 / 0.8);
+  --bg-muted: oklch(56.74% 0.009 106.68 / 0.16);
+  --bg-inverse: oklch(0% 0 0 / 0.88);
+
+  --fg-primary: oklch(10% 0 0);
+  --fg-secondary: oklch(30% 0.001 107);
+  --fg-tertiary: oklch(50% 0.001 107);
+  --fg-quaternary: oklch(72.34% 0.002 107);
+  --fg-inverse: oklch(98.51% 0 89.88);
+
+  --border-translucent: oklch(55% 0.002 107 / 0.16);
+  --border-glow-on-surface-hover: oklch(56.74% 0.009 106.68 / 0.24);
+  --border-glow-on-accent: oklch(0% 0 0 / 0.064);
+
+  --glow-neutral-hover: oklch(0% 0 0 / 0.04);
+  --glow-neutral-pressed: oklch(0% 0 0 / 0.08);
+  --glow-on-inverse-hover: oklch(0% 0 0 / 0.88);
+
+  --color-gray-550: oklch(56.74% 0.009 106.68);
+  --color-gray-600: oklch(51.89% 0.009 106.72);
+
+  /* Prismatic accent ramp used by the composer halo, tab indicator and
+     upgrade cards. */
+  --pulse-prism: linear-gradient(
+    90deg,
+    #5e89f2 0%,
+    #ff66f4 50%,
+    #fe7b02 100%
+  );
+}
+
+/* Live-site build-mode switcher tokens (verbatim from lovable.dev) */
+:root {
+  --border-default: 0.5px;
+  --lov-bg-switcher-pill: linear-gradient(180deg, #0000 0%, #0000000a 100%),
+    linear-gradient(0deg, #1f55f129 0%, #1f55f129 100%), #fff;
+  --lov-shadow-switcher-track: 0 0 0 var(--border-default)
+      var(--border-depth, #d2d2d0) inset,
+    0 2px 2px -1px #00000005 inset, 0 4px 4px -2px #00000005 inset,
+    0 var(--border-default) var(--border-default) 0 #fffc;
+  --lov-shadow-switcher-pill-soft: 0 0 0 var(--border-default) #5e89f2 inset,
+    0 1px 1px 0 #ffffff7a inset, 0 -1px 1px 0 #ffffff29 inset,
+    0 0 1px 1px #ffffff8f inset, 0 2px 2px -1px #1f55f114,
+    0 4px 4px -2px #1f55f114;
+}
+
+/*
+  Lovable â€” Warm parchment design tokens (Tailwind v4 @theme)
+  Single prismatic gradient hero, warm beige surfaces, one sans-serif.
+*/
+/* use @theme static so every Lovable token is emitted to :root
+   even when a utility doesn't reference it yet */
+@theme static {
+  /* Colors â€” 1:1 from the Lovable parchment style reference */
+  --color-parchment: #fcfbf8;
+  --color-warm-sand: #f7f4ed;
+  --color-linen-border: #eceae4;
+  --color-stone: #d4d3d0;
+  --color-dim-gray: #5f5f5d;
+  --color-steel: #5f5f5d;
+  --color-smoke: #8f8e8a;
+  --color-charcoal: #1c1c1c;
+  --color-ink: #030303;
+  --color-hero-gradient: oklch(52.43% 0.2396 264.41);
+  --color-indigo-accent: oklch(52.43% 0.2396 264.41);
+  --gradient-hero-gradient: linear-gradient(
+    90deg,
+    rgb(28 28 28) 0%,
+    rgb(28 28 28) 33.33%,
+    rgb(130 188 255) 40%,
+    rgb(36 131 255) 45%,
+    rgb(255 102 244) 50%,
+    rgb(255 48 41) 55%,
+    rgb(254 123 2) 60%,
+    rgb(0 0 0 / 0) 66.67%,
+    rgb(0 0 0 / 0) 100%
+  );
+
+  /* Typography */
+  --font-camera-plain-variable: 'Camera Plain Variable', ui-sans-serif,
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Typography â€” Scale (compound vars so text-* utilities set size+leading+tracking) */
+  --text-caption: 14px;
+  --text-caption--line-height: 1.5;
+  --text-caption--letter-spacing: -0.35px;
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: -0.4px;
+  --text-subheading: 18px;
+  --text-subheading--line-height: 1.38;
+  --text-subheading--letter-spacing: -0.45px;
+  --text-heading-sm: 20px;
+  --text-heading-sm--line-height: 1.25;
+  --text-heading-sm--letter-spacing: -0.5px;
+  --text-heading: 36px;
+  --text-heading--line-height: 1.1;
+  --text-heading--letter-spacing: -0.9px;
+  --text-heading--font-weight: 480;
+  --text-heading-lg: 48px;
+  --text-heading-lg--line-height: 1.1;
+  --text-heading-lg--letter-spacing: -1.2px;
+  --text-heading-lg--font-weight: 480;
+  --text-display: 60px;
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -1.5px;
+  --text-display--font-weight: 480;
+
+  /* Typography â€” Weights */
+  --font-weight-regular: 400;
+  --font-weight-w480: 480;
+  --font-weight-semibold: 600;
+
+  /* Border Radius */
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-3xl-2: 28px;
+
+  /* Named Radii */
+  --radius-cards: 16-24px;
+  --radius-badges: 9999px;
+  --radius-images: 12px;
+  --radius-inputs: 8px;
+  --radius-buttons: 9999px;
+  --radius-containers: 16px;
+
+  /* Layout */
+  --page-max-width: 1280px;
+  --section-gap: 64-80px;
+  --card-padding: 20-24px;
+  --element-gap: 6-8px;
+
+  /* Shadows */
+  --shadow-subtle: oklch(0 0 0 / 0.25) 0px 0px 0px 0.5px inset;
+  --shadow-subtle-2:
+    oklab(0 0 0 / 0.08) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.1) 0px 8px 10px -6px;
+  --shadow-subtle-3: oklch(0 0 0 / 0.16) 0px 0px 0px 0.5px inset;
+
+  /* Surfaces â€” lovable.dev */
+  --surface-canvas: #fcfbf8;
+  --surface-card: #f7f4ed;
+  --surface-inverse: #1c1c1c;
+
+  /* Marketing tokens â€” lovable.dev/home */
+  --marketing-background: 45 40% 98%;
+  --marketing-foreground: 0 0% 11%;
+  --marketing-card: 45 40% 98%;
+  --marketing-card-foreground: 0 0% 5%;
+  --marketing-muted: 42 38% 95%;
+  --marketing-muted-foreground: 60 1% 37%;
+  --marketing-border: 45 17% 91%;
+  --marketing-accent: 216 73% 91%;
+}
+
+@theme inline {
+  --font-camera-plain-variable: "Camera Plain Variable",
+    var(--font-camera-variable), "Inter", ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/*
+  Spacing tokens live outside @theme (plain :root) so Tailwind's default
+  spacing scale stays intact (mt-6 = 24px, py-20 = 80px) while the reference
+  tokens are still emitted verbatim for the style-guide "CSS custom properties".
+*/
+:root {
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-56: 56px;
+  --spacing-73: 73px;
+  --spacing-80: 80px;
+  --spacing-144: 144px;
+  --spacing-160: 160px;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-linen-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--color-parchment);
+    color: var(--color-charcoal);
+    font-family: var(--font-camera-plain-variable);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    font-feature-settings: "liga" 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-hero-gradient);
+    color: var(--color-parchment);
+  }
+}
+
+@layer utilities {
+  .contain {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 768px) {
+    .contain {
+      padding-inline: 32px;
+    }
+  }
+
+  /* Aurora hero: layered soft radial glows â€” blue top corners, big light
+     center glow behind the headline, pink bloom below, orange base */
+  .hero-gradient {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background-color: #f3b3d8;
+  }
+
+  .hero-gradient::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -25% -15%;
+    background:
+      radial-gradient(46% 42% at 4% 0%, rgb(75 115 255 / 0.88) 0%, rgb(75 115 255 / 0) 100%),
+      radial-gradient(46% 42% at 96% 0%, rgb(75 115 255 / 0.88) 0%, rgb(75 115 255 / 0) 100%),
+      radial-gradient(64% 56% at 50% 6%, #fcfbf8 0%, rgb(252 251 248 / 0.92) 38%, rgb(252 251 248 / 0) 100%),
+      linear-gradient(180deg, rgb(255 1 5 / 0) 58%, rgb(255 1 5 / 0.4) 80%, rgb(254 123 2 / 0.92) 97%),
+      radial-gradient(72% 46% at 50% 76%, rgb(255 102 244 / 0.9) 0%, rgb(255 102 244 / 0.45) 45%, rgb(255 102 244 / 0) 100%);
+    filter: blur(48px);
+    pointer-events: none;
+  }
+
+  /* Build-mode switcher â€” track + sliding pill, tokens from the live site */
+  .lov-switcher-track {
+    position: relative;
+    display: flex;
+    border-radius: 9999px;
+    padding: 2px;
+    background: #ffffff;
+    box-shadow: var(--lov-shadow-switcher-track);
+  }
+
+  .lov-switcher-pill {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    width: calc(50% - 2px);
+    border-radius: 9999px;
+    background: var(--lov-bg-switcher-pill);
+    box-shadow: var(--lov-shadow-switcher-pill-soft);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Gradient text sweep â€” live "Endless possibilities." treatment:
+     text-colored 0-33%, prismatic middle, fade out; bg-position animates. */
+  .gradient-text-sweep {
+    background-image: linear-gradient(
+      90deg,
+      #1c1c1c 0%,
+      #1c1c1c 33.33%,
+      #82bcff 40%,
+      #2483ff 45%,
+      #ff66f4 50%,
+      #ff3029 55%,
+      #fe7b02 60%,
+      transparent 66.67%,
+      transparent 100%
+    );
+    background-size: 300% 100%;
+    background-position: 100% 0;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-text-anim 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+  }
+
+  @keyframes gradient-text-anim {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: 0 0;
+    }
+  }
+
+  /* Light variant for dark sections (live "and beyond" treatment) */
+  .gradient-text-sweep-light {
+    background-image: linear-gradient(
+      90deg,
+      #ffffff 0%,
+      #ffffff 33.33%,
+      #82bcff 40%,
+      #2483ff 45%,
+      #ff66f4 50%,
+      #ff3029 55%,
+      #fe7b02 60%,
+      transparent 66.67%,
+      transparent 100%
+    );
+    background-size: 300% 100%;
+    background-position: 100% 0;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-text-anim 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+  }
+
+  /* Logo heartbeat on hover (live footer mark) */
+  @keyframes heartbeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.12);
+    }
+    45% {
+      transform: scale(0.96);
+    }
+    65% {
+      transform: scale(1.06);
+    }
+  }
+
+  .hover-heartbeat:hover {
+    animation: heartbeat 1s ease-in-out;
+  }
+
+  /* Slow ambient drift for the hero aurora (live canvas approximation) */
+  @keyframes ambient-drift {
+    0%,
+    100% {
+      transform: translate3d(-2%, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(2%, -1.5%, 0) scale(1.04);
+    }
+  }
+
+  .hero-gradient::before {
+    animation: ambient-drift 14s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-gradient::before {
+      animation: none;
+    }
+
+    .hover-heartbeat:hover {
+      animation: none;
+    }
+  }
+
+  /* Prismatic bar used behind the "One platform" card mockups (live palette) */
+  .lov-prism-bar {
+    background: linear-gradient(
+      to right,
+      #4f88ff 0%,
+      #5185ff 4.76%,
+      #5885ff 9.52%,
+      #6289ff 14.29%,
+      #7491ff 19.05%,
+      #91a0ff 23.81%,
+      #b0acfe 28.57%,
+      #ceaffb 33.33%,
+      #e2a5f2 38.1%,
+      #f388de 42.86%,
+      #fb65c2 47.62%,
+      #fd49a8 52.38%,
+      #fd2980 57.14%,
+      #fc1a58 61.9%,
+      #fa1f41 66.67%,
+      #fa2733 71.43%,
+      #fb3d26 76.19%,
+      #fc541f 80.95%,
+      #fe6a1e 85.71%,
+      #fe771d 90.48%,
+      #ff861b 95.24%,
+      #ff8f1b 100%
+    );
+  }
+
+  /* Live "One platform" card elevation */
+  .lov-card-shadow {
+    box-shadow:
+      0 0 0 1px rgb(118 118 118 / 0.1),
+      0 1px 1px 0 rgb(118 118 118 / 0.07),
+      0 2px 5px 0 rgb(118 118 118 / 0.05),
+      0 4px 24px -8px rgb(118 118 118 / 0.1),
+      0 4px 34px -5px rgb(118 118 118 / 0.08);
+  }
+
+  /* The one exception to "gradient never on components": the chat send button */
+  .hero-gradient-btn {
+    background-image: linear-gradient(
+      135deg,
+      rgb(75 115 255) 0%,
+      rgb(75 115 255) 18%,
+      rgb(255 102 244) 55%,
+      rgb(255 1 5) 78%,
+      rgb(254 123 2) 100%
+    );
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee-scroll 32s linear infinite;
+  }
+
+  @keyframes menu-pop {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .menu-pop {
+    animation: menu-pop 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Restrained scroll reveal â€” 16px rise + fade, per the motion spec */
+  @keyframes reveal-enter {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .scroll-reveal.revealed {
+    animation: reveal-enter 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-reveal.revealed {
+      animation: none;
+    }
+
+    .float-soft {
+      animation: none !important;
+    }
+  }
+
+  /* Gentle levitation for the footer heart mark */
+  @keyframes float-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  .float-soft {
+    animation: float-soft 5.5s ease-in-out infinite;
+  }
+
+  /* â”€â”€ For-work page: floating logo tiles â”€â”€ */
+  @keyframes tile-bounce {
+    0%, 100% { transform: translateY(0) scale(var(--tile-scale, 1)) rotate(var(--tile-rotate, 0deg)); }
+    25% { transform: translateY(-10px) scale(var(--tile-scale, 1)) rotate(var(--tile-rotate, 0deg)); }
+    50% { transform: translateY(0) scale(var(--tile-scale, 1)) rotate(var(--tile-rotate, 0deg)); }
+    75% { transform: translateY(5px) scale(var(--tile-scale, 1)) rotate(var(--tile-rotate, 0deg)); }
+  }
+
+  .for-work-tile-bounce {
+    animation: tile-bounce 4s ease-in-out infinite;
+  }
+
+  /* â”€â”€ Drift animation for arc tiles on mobile â”€â”€ */
+  @keyframes tile-drift {
+    0%, 100% { transform: translateY(0) rotate(var(--arc-tile-rotate, 0deg)); }
+    50% { transform: translateY(-8px) rotate(var(--arc-tile-rotate, 0deg)); }
+  }
+
+  .for-work-tile-drift {
+    animation: tile-drift var(--drift-duration, 8s) ease-in-out infinite;
+    animation-delay: var(--drift-delay, 0s);
+  }
+
+  /* â”€â”€ Connector dashed lines animation â”€â”€ */
+  @keyframes connector-dash {
+    0% { stroke-dashoffset: 1; }
+    100% { stroke-dashoffset: 0; }
+  }
+
+  .for-work-connector-dash {
+    stroke-dasharray: var(--dash-len, 0.1) var(--dash-d, 0.01px);
+    animation: connector-dash 1.5s linear infinite;
+    animation-delay: var(--animation-delay, 0s);
+  }
+
+  /* â”€â”€ Impact glow for connector endpoints â”€â”€ */
+  @keyframes impact-glow {
+    0%, 100% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  .for-work-impact-glow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #FF8E2A;
+    top: 480px;
+    left: 716px;
+    animation: impact-glow 3s ease-in-out infinite;
+    animation-delay: var(--animation-delay, 0s);
+  }
+
+  /* â”€â”€ Showcase slide transitions â”€â”€ */
+  @keyframes slide-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-up-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up-in {
+    animation: fade-up-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .for-work-showcase-slide {
+    transition: opacity 0.8s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .for-work-showcase-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .for-work-showcase-slide.is-prev {
+    opacity: 0;
+  }
+
+  /* â”€â”€ Dashboard view-switcher (production lovable.dev) â”€â”€ */
+  .view-switcher {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 0.5px solid rgba(0, 0, 0, 0.08);
+    box-shadow: var(--lov-shadow-switcher-track);
+  }
+
+  .view-switcher button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-smoke);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+    background: transparent;
+  }
+
+  .view-switcher button:hover {
+    color: var(--color-charcoal);
+  }
+
+  .view-switcher button[aria-selected="true"] {
+    color: var(--color-charcoal);
+    background: white;
+    box-shadow: var(--lov-shadow-switcher-pill-soft);
+  }
+
+  /* â”€â”€ Select field (production lovable.dev) â”€â”€ */
+  .select-field {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    border-radius: 9999px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-charcoal);
+  }
+
+  .select-field-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 0.5px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.15s ease;
+  }
+
+  .select-field-content:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  /* â”€â”€ Toggle switch (production lovable.dev) â”€â”€ */
+  .switch-track {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    border-radius: 10px;
+    background: #e5e5e5;
+    border: 0.5px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .switch-track[data-state="checked"] {
+    background: #4B73FF;
+  }
+
+  .switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .switch-track[data-state="checked"] .switch-thumb {
+    transform: translateX(16px);
+  }
+
+  /* â”€â”€ Mention pill (production lovable.dev) â”€â”€ */
+  .mention-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    background: rgba(75, 115, 255, 0.1);
+    border: 0.5px solid rgba(75, 115, 255, 0.2);
+    color: #4B73FF;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  /* â”€â”€ Tile arc positioning (mobile) â”€â”€ */
+  .for-work-tile-arc {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 1rem;
+  }
+
+  .for-work-tile-arc-item {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--arc-angle, 0deg))
+      translateY(-80px)
+      scale(var(--arc-scale, 1))
+      rotate(var(--arc-tile-rotate, 0deg));
+  }
+
+  /* ------------------------------------------------------------------
+     Pulse surface language (dashboard / app shell)
+     ------------------------------------------------------------------ */
+
+  /* Corner radii used by the dashboard primitives. */
+  .rounded-1\.5 {
+    border-radius: 6px;
+  }
+  .rounded-2 {
+    border-radius: 8px;
+  }
+  .rounded-3 {
+    border-radius: 12px;
+  }
+  .rounded-5 {
+    border-radius: 20px;
+  }
+  .rounded-6 {
+    border-radius: 24px;
+  }
+  .rounded-6\.5 {
+    border-radius: 26px;
+  }
+  .rounded-7 {
+    border-radius: 28px;
+  }
+  .rounded-t-5 {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  .rounded-b-6\.5 {
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+  }
+
+  /* Text styles. */
+  .typestyle-title-sm {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.35px;
+    font-weight: 500;
+  }
+  .typestyle-body-sm {
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: -0.3px;
+    font-weight: 400;
+  }
+  .typestyle-control-sm {
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: -0.3px;
+    font-weight: 500;
+  }
+
+  /* Button chassis: the shared hit area + interaction layer. */
+  .btn-primitive {
+    position: relative;
+    isolation: isolate;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition:
+      color 150ms ease-out,
+      background-color 150ms ease-out,
+      opacity 150ms ease-out;
+  }
+  .btn-primitive:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .btn-chassis {
+    display: inline-flex;
+  }
+  .btn-content {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+  .btn-hit-slop::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+  }
+
+  /* Interaction layer: a tinted overlay that fades in on hover/press. */
+  .fx-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .fx-layer-fade {
+    opacity: var(--_resting, 0);
+    transition: opacity 150ms ease-out;
+  }
+  .fx-interaction {
+    mix-blend-mode: multiply;
+  }
+  .btn-primitive:hover .fx-layer-fade {
+    opacity: var(--_hover, 0.08);
+  }
+  .btn-primitive:active .fx-layer-fade {
+    opacity: var(--_pressed, 0.1);
+  }
+  .fx-touch-hidden {
+    display: block;
+  }
+
+  /* Surface hover/press tints for non-button surfaces. */
+  .surface-interactive {
+    transition:
+      background-color 150ms ease-out,
+      opacity 150ms ease-out;
+  }
+  .surface-interactive:hover {
+    background-color: var(--glow-neutral-hover);
+  }
+  .surface-interactive:active {
+    background-color: var(--glow-neutral-pressed);
+  }
+
+  /* Focus ring used across the dashboard. */
+  .focus-outline-pulse:focus-visible {
+    outline: 2px solid var(--bg-accent);
+    outline-offset: 2px;
+  }
+  .focus-visible\:outline-focus-pulse:focus-visible {
+    outline: 2px solid var(--bg-accent);
+  }
+
+  /* The prismatic halo behind the composer. */
+  .composer-glow {
+    background: var(--pulse-prism);
+  }
+
+  /* Prismatic text used by the dashboard hero heading. */
+  .text-primary-pulse {
+    color: var(--fg-primary);
+  }
+  .bg-primary-pulse {
+    background-color: var(--bg-primary);
+  }
+  .bg-depth-pulse {
+    background-color: var(--bg-depth);
+  }
+  .border-translucent-pulse {
+    border-color: var(--border-translucent);
+  }
+}
+
+/* === dashboard-fx: parchment + prism motion (matches site tokens) === */
+@keyframes dash-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dash-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes dash-prism-drift {
+  0% { background-position: 0% 40%; transform: scale(1); }
+  50% { background-position: 100% 60%; transform: scale(1.06); }
+  100% { background-position: 0% 40%; transform: scale(1); }
+}
+@keyframes dash-prism-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes dash-soft-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+@keyframes dash-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes dash-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+[data-dashboard] {
+  --dash-canvas: var(--color-parchment, #fcfbf8);
+  --dash-card: var(--color-warm-sand, #f7f4ed);
+  --dash-border: var(--color-linen-border, #eceae4);
+  --dash-muted: var(--color-dim-gray, #5f5f5d);
+  --dash-text: var(--color-charcoal, #1c1c1c);
+  --dash-ink: var(--color-ink, #030303);
+  --dash-prism: var(--pulse-prism, linear-gradient(90deg, #5e89f2 0%, #ff66f4 50%, #fe7b02 100%));
+}
+
+[data-dashboard] .dash-anim-in {
+  animation: dash-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+[data-dashboard] .dash-anim-in-delay-1 { animation-delay: 0.06s; }
+[data-dashboard] .dash-anim-in-delay-2 { animation-delay: 0.12s; }
+[data-dashboard] .dash-anim-in-delay-3 { animation-delay: 0.18s; }
+[data-dashboard] .dash-anim-in-delay-4 { animation-delay: 0.24s; }
+[data-dashboard] .dash-anim-in-delay-5 { animation-delay: 0.3s; }
+
+[data-dashboard] .dash-hero-aurora {
+  background: radial-gradient(ellipse 70% 55% at 20% 10%, rgba(94,137,242,0.5) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 75% 0%, rgba(255,102,244,0.42) 0%, transparent 50%),
+    radial-gradient(ellipse 55% 45% at 55% 35%, rgba(254,123,2,0.32) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 90% 40%, rgba(36,131,255,0.25) 0%, transparent 50%);
+  background-size: 140% 140%;
+  animation: dash-prism-drift 14s ease-in-out infinite;
+  filter: blur(0px);
+}
+
+[data-dashboard] .dash-prompt-shell {
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
+}
+[data-dashboard] .dash-prompt-shell:focus-within {
+  transform: translateY(-2px) scale(1.01);
+}
+[data-dashboard] .dash-prompt-shell::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: var(--dash-prism);
+  background-size: 200% 200%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: dash-shimmer 3s linear infinite;
+}
+[data-dashboard] .dash-prompt-shell:focus-within::before {
+  opacity: 1;
+}
+
+[data-dashboard] .dash-send-btn {
+  background: var(--dash-prism);
+  background-size: 200% 200%;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+[data-dashboard] .dash-send-btn:hover {
+  transform: scale(1.08);
+  filter: brightness(1.05);
+}
+[data-dashboard] .dash-send-btn:active {
+  transform: scale(0.95);
+}
+
+[data-dashboard] .dash-card {
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.25s ease;
+}
+[data-dashboard] .dash-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px -24px rgba(28,28,28,0.28);
+  border-color: color-mix(in srgb, var(--dash-border) 40%, #1c1c1c);
+}
+[data-dashboard] .dash-card-thumb {
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+[data-dashboard] .dash-card:hover .dash-card-thumb {
+  transform: scale(1.04);
+}
+
+[data-dashboard] .dash-nav-item {
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+[data-dashboard] .dash-nav-item:hover {
+  transform: translateX(2px);
+}
+[data-dashboard] .dash-nav-item[data-active="true"] {
+  box-shadow: inset 0 0 0 0.5px rgba(28,28,28,0.06);
+}
+
+[data-dashboard] .dash-promo {
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+[data-dashboard] .dash-promo:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--dash-border) 50%, #1c1c1c);
+}
+
+[data-dashboard] .dash-tab {
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+[data-dashboard] .dash-tab[data-active="true"] {
+  box-shadow: 0 1px 2px rgba(28,28,28,0.04);
+}
+[data-dashboard] .dash-connect-pill {
+  animation: dash-float 5s ease-in-out infinite;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+[data-dashboard] .dash-connect-pill:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+[data-dashboard] .dash-sidebar {
+  animation: dash-fade-in 0.4s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-dashboard] .dash-hero-aurora,
+  [data-dashboard] .dash-anim-in,
+  [data-dashboard] .dash-connect-pill,
+  [data-dashboard] .dash-prompt-shell::before {
+    animation: none !important;
+  }
+  [data-dashboard] .dash-card:hover,
+  [data-dashboard] .dash-nav-item:hover {
+    transform: none;
+  }
+}

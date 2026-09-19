@@ -1,0 +1,29 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { AppChrome } from "@/components/site/app-chrome";
+import "./globals.css";
+
+const camera = Inter({
+  variable: "--font-camera-variable",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Lovable | Your home to make software with an AI Agent",
+  description:
+    "Build products, features, and prototypes in minutes. Prompt, iterate, and ship with Lovable.",
+  icons: {
+    icon: "/favicon.svg",
+  },
+};
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  return (
+    <html lang="en" className={`${camera.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col">
+        <AppChrome>{children}</AppChrome>
+      </body>
+    </html>
+  );
+}
