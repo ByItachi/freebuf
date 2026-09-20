@@ -56,17 +56,23 @@ const PILL_ICONS = [
 ];
 
 function ConnectorIcons() {
-  // Connected state lives in localStorage (set from /dashboard/connectors):
-  // connected platforms are shown first in the strip.
+  // Connected state is server-backed (admin panel + connectors page both write
+  // it): connected platforms are shown first in the strip.
   const [connected, setConnected] = useState<Record<string, boolean>>({});
   useEffect(() => {
-    const t = setTimeout(() => {
-      try {
-        const raw = localStorage.getItem("lovable.connectors");
-        if (raw) setConnected(JSON.parse(raw) as Record<string, boolean>);
-      } catch {}
-    }, 0);
-    return () => clearTimeout(t);
+    let alive = true;
+    fetch("/api/connectors", { cache: "no-store" })
+      .then((r) => r.json() as Promise<{ connectors: { id: string; connected: boolean }[]}>)
+      .then((d) => {
+        if (!alive) return;
+        const next: Record<string, boolean> = {};
+        for (const c of d.connectors) next[c.id] = c.connected;
+        setConnected(next);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
   }, []);
   const icons = [...PILL_ICONS].sort(
     (a, b) => Number(Boolean(connected[b.id])) - Number(Boolean(connected[a.id])),

@@ -12,6 +12,7 @@ const CHROME_HIDDEN_ROUTES = [
   /^\/dashboard(?:\/|$)/,
   /^\/projects\/[^/]+(?:\/|$)/,
   /^\/login(?:\/|$)/,
+  /^\/admin(?:\/|$)/,
 ];
 
 export function AppChrome({ children }: { children: React.ReactNode }) {

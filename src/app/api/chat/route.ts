@@ -1,6 +1,7 @@
 import { platform } from "@/platform";
 import { NextResponse } from "next/server";
 import { PROVIDERS, getProvider, type AIProvider, type ChatMessage } from "@/lib/models";
+import { getAIConfig, getProviderKey } from "@/lib/admin-store";
 
 type ChatRequest = {
   source: "ollama" | "remote" | "demo";
@@ -54,7 +55,13 @@ async function callOpenAICompatible(baseUrl: string, apiKey: string, model: stri
   return { content, usage: data.usage ?? null };
 }
 
-async function callAnthropic(baseUrl: string, apiKey: string, model: string, messages: ChatMessage[]) {
+async function callAnthropic(
+  baseUrl: string,
+  apiKey: string,
+  model: string,
+  messages: ChatMessage[],
+  maxTokens = 4096,
+) {
   const url = `${baseUrl.replace(/\/+$/, "")}/messages`;
   const res = await fetch(url, {
     method: "POST",
@@ -63,7 +70,7 @@ async function callAnthropic(baseUrl: string, apiKey: string, model: string, mes
       "x-api-key": apiKey,
       "anthropic-version": ANTHROPIC_VERSION,
     },
-    body: JSON.stringify({ model, max_tokens: 4096, messages }),
+    body: JSON.stringify({ model, max_tokens: maxTokens, messages }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
   const data = await res.json().catch(() => null);
@@ -94,15 +101,30 @@ export async function POST(request: Request) {
   }
 
   try {
-      // Local builder brain when no provider key / Ollama is available
-  if (body.source === "demo") {
-    const lastUser = [...body.messages].reverse().find((m) => m.role === "user")?.content ?? "";
-    const { demoAssistantReply, buildPreviewHtml } = await import("@/lib/store");
-    const content = demoAssistantReply(lastUser, "your project");
-    const previewHtml = buildPreviewHtml(lastUser);
-    return NextResponse.json({ content, previewHtml, demo: true });
-  }
-if (body.source === "ollama") {
+    // Admin-controlled gates (/admin → AI tab).
+    const cfg = await getAIConfig();
+
+    // Local builder brain when no provider key / Ollama is available
+    if (body.source === "demo") {
+      if (!cfg.demoFallback) {
+        return NextResponse.json(
+          { error: "Demo mode is disabled by the administrator. Configure a provider key in the admin panel." },
+          { status: 403 },
+        );
+      }
+      const lastUser = [...body.messages].reverse().find((m) => m.role === "user")?.content ?? "";
+      const { demoAssistantReply, buildPreviewHtml } = await import("@/lib/store");
+      const content = demoAssistantReply(lastUser, "your project");
+      const previewHtml = buildPreviewHtml(lastUser);
+      return NextResponse.json({ content, previewHtml, demo: true });
+    }
+    if (body.source === "ollama") {
+      if (!cfg.allowOllama) {
+        return NextResponse.json(
+          { error: "Ollama (local models) is disabled by the administrator." },
+          { status: 403 },
+        );
+      }
       let res: Response;
       try {
         res = await fetch(OLLAMA_URL, {
@@ -129,14 +151,20 @@ if (body.source === "ollama") {
       return NextResponse.json({ content });
     }
 
-    const provider = body.providerId ? getProvider(body.providerId) : undefined;
+    const provider = body.providerId
+      ? getProvider(body.providerId)
+      : cfg.defaultProviderId
+        ? getProvider(cfg.defaultProviderId)
+        : undefined;
     const baseUrl = provider && !body.baseUrl ? provider.baseUrl : body.baseUrl;
     if (!baseUrl) {
       return NextResponse.json({ error: "Missing base URL for provider." }, { status: 400 });
     }
 
-    const apiKey =
-      body.apiKey?.trim() || (provider?.envKey ? process.env[provider.envKey] : undefined);
+    // Key priority: per-request key → server env → admin panel key (never sent to clients).
+    const envKey = provider?.envKey ? process.env[provider.envKey] : undefined;
+    const panelKey = provider ? await getProviderKey(provider.id) : null;
+    const apiKey = body.apiKey?.trim() || envKey || panelKey || undefined;
     if (!apiKey) {
       return NextResponse.json(
         { error: provider ? missingKeyError(provider) : "This provider needs an API key." },
@@ -147,7 +175,7 @@ if (body.source === "ollama") {
     const protocol = provider?.protocol ?? "openai";
     const result =
       protocol === "anthropic"
-        ? await callAnthropic(baseUrl, apiKey, body.model, body.messages)
+        ? await callAnthropic(baseUrl, apiKey, body.model, body.messages, cfg.maxTokens)
         : await callOpenAICompatible(baseUrl, apiKey, body.model, body.messages);
     return NextResponse.json(result);
   } catch (err) {
