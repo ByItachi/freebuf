@@ -520,7 +520,7 @@ export default function DashboardHomePage() {
                   <div
                     role="menu"
                     aria-orientation="vertical"
-                    className="dash-menu-pop absolute top-full left-0 z-50 mt-2 min-w-48 rounded-2xl border border-linen-border bg-parchment p-1 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+                    className="dash-menu-pop absolute top-full right-0 z-50 mt-2 min-w-48 rounded-2xl border border-linen-border bg-parchment p-1 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
                   >
                     <div role="group">
                       {(

@@ -793,12 +793,12 @@ export function AppSidebar() {
       </div>
 
       <div className="mt-auto flex flex-col gap-2 border-t border-linen-border px-3 py-3">
-        {/* stacked promo cards — hovering opens the stack UPWARD, sliding the
-            Share card out above the Upgrade card */}
+        {/* Stacked promo cards — Upgrade rests on top, Share sits underneath;
+            hovering slides the Share card out DOWNWARD below the Upgrade card. */}
         <div className="group/promos relative h-16 w-full">
           <Link
             href="/settings/billing#plans"
-            className="absolute inset-x-0 top-0 z-10 flex h-16 items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left transition-all duration-200 ease-out group-hover/promos:scale-[0.97]"
+            className="relative z-10 flex h-16 w-full items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left transition-all duration-200 ease-out group-hover/promos:translate-y-[-4px]"
           >
             <span className="min-w-0">
               <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
@@ -813,10 +813,10 @@ export function AppSidebar() {
             </span>
           </Link>
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-full z-0 h-[72px] translate-y-3 scale-[0.97] opacity-0 transition-all duration-200 ease-out group-hover/promos:pointer-events-auto group-hover/promos:translate-y-0 group-hover/promos:scale-100 group-hover/promos:opacity-100">
+          <div className="pointer-events-none absolute inset-x-0 top-full z-0 mt-1 translate-y-[-8px] scale-[0.97] opacity-0 transition-all duration-200 ease-out group-hover/promos:pointer-events-auto group-hover/promos:translate-y-0 group-hover/promos:scale-100 group-hover/promos:opacity-100">
             <Link
               href="/dashboard/settings"
-              className="absolute inset-x-0 top-0 flex h-16 items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left"
+              className="flex h-16 w-full items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left"
             >
               <span className="min-w-0">
                 <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
