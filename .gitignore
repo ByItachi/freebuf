@@ -38,6 +38,10 @@ yarn-error.log*
 .pnpm-debug.log*
 *.log
 
+# editor/agent leftovers
+*.bak
+*.tmp
+
 # env files (can opt-in for committing if needed)
 .env*
 

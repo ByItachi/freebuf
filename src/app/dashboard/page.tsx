@@ -57,7 +57,7 @@ const PILL_ICONS = [
 
 function ConnectorIcons() {
   // Connected state lives in localStorage (set from /dashboard/connectors):
-  // connected icons render in full color first, the rest stay grayscale.
+  // connected platforms are shown first in the strip.
   const [connected, setConnected] = useState<Record<string, boolean>>({});
   useEffect(() => {
     const t = setTimeout(() => {
@@ -82,10 +82,7 @@ function ConnectorIcons() {
             alt=""
             width={24}
             height={24}
-            className={
-              "mr-[-6px] shrink-0 rounded-full bg-parchment object-contain transition-[filter,opacity] duration-200 " +
-              (connected[ic.id] ? "" : "opacity-45 grayscale")
-            }
+            className="mr-[-6px] shrink-0 rounded-full bg-parchment object-contain"
           />
         ))}
       </span>
