@@ -101,26 +101,39 @@ export function FeatureGrid({ items }: { items: { title: string; desc: string }[
   );
 }
 
-export function Faq({ items }: { items: { q: string; a: string }[] }) {
+export function Faq({ items }: { items: { q: string; a: ReactNode }[] }) {
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto flex w-full flex-col gap-2">
       {items.map((f) => (
         <details
           key={f.q}
-          className="group mb-2 rounded-xl border border-black/10 bg-white open:shadow-sm"
+          className="group rounded-2xl border border-linen-border bg-parchment open:shadow-sm"
         >
-          <summary className="cursor-pointer list-none px-5 py-4 font-medium text-charcoal [&::-webkit-details-marker]:hidden">
-            <span className="flex items-center justify-between gap-4">
-              {f.q}
-              <span aria-hidden="true" className="text-steel transition-transform group-open:rotate-45">
-                +
-              </span>
-            </span>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-left text-lg font-medium leading-normal text-charcoal [&::-webkit-details-marker]:hidden">
+            {f.q}
+            <ChevronDownIcon
+              className="size-5 shrink-0 text-dim-gray transition-transform duration-200 group-open:-rotate-90 motion-reduce:transition-none"
+            />
           </summary>
-          <p className="px-5 pb-4 text-[15px] leading-relaxed text-steel">{f.a}</p>
+          <div className="px-4 pb-3 text-base text-balance leading-relaxed text-charcoal/60">
+            {f.a}
+          </div>
         </details>
       ))}
     </div>
+  );
+}
+
+function ChevronDownIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M6.46967 9.46967C6.76256 9.17678 7.23744 9.17678 7.53033 9.46967L12 13.9393L16.4697 9.46967C16.7626 9.17678 17.2374 9.17678 17.5303 9.46967C17.8232 9.76256 17.8232 10.2374 17.5303 10.5303L12.5303 15.5303C12.2374 15.8232 11.7626 15.8232 11.4697 15.5303L6.46967 10.5303C6.17678 10.2374 6.17678 9.76256 6.46967 9.46967Z" />
+    </svg>
   );
 }
 

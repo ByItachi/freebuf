@@ -6,18 +6,25 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   BookOpen,
+  Check,
   ChevronDown,
   ChevronRight,
+  Download,
+  FileText,
   FolderKanban,
   Gift,
   Home,
+  Inbox,
+  LifeBuoy,
   LogOut,
   Mail,
+  Monitor,
+  Moon,
   Plug,
-  Plus,
   Search,
   Settings,
   Star,
+  Sun,
   UserRound,
   Users,
   Zap,
@@ -25,6 +32,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useUser, type DashboardUser } from "@/lib/use-user";
 import { recentProjectIds, isProjectHidden } from "@/lib/recents";
+import { USER_STORAGE_KEY } from "@/lib/use-user";
 import { ConnectorsDrawer } from "@/components/app/connectors-drawer";
 import { ProjectActionsMenu } from "@/components/app/project-actions-menu";
 
@@ -101,26 +109,158 @@ function LovableHeart({ className }: { className?: string }) {
   );
 }
 
-const DAILY_CREDITS = 5;
+const LOGGED_OUT_KEY = "lovable.logged-out";
 
-function WorkspaceMenu({
+type ThemeChoice = "light" | "dark" | "system";
+
+function readStoredTheme(): ThemeChoice {
+  if (typeof window === "undefined") return "light";
+  try {
+    const v = localStorage.getItem("lovable.theme");
+    return v === "dark" || v === "system" ? v : "light";
+  } catch {
+    return "light";
+  }
+}
+
+/** Resolves the effective theme and applies/removes data-theme on <html>. */
+function useTheme() {
+  const [choice, setChoice] = useState<ThemeChoice>(() => readStoredTheme());
+
+  useEffect(() => {
+    const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
+    const apply = () => {
+      const dark = choice === "dark" || (choice === "system" && mq?.matches);
+      document.documentElement.toggleAttribute("data-theme", dark);
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    };
+    apply();
+    mq?.addEventListener?.("change", apply);
+    return () => mq?.removeEventListener?.("change", apply);
+  }, [choice]);
+
+  const setTheme = useCallback((next: ThemeChoice) => {
+    setChoice(next);
+    try {
+      localStorage.setItem("lovable.theme", next);
+    } catch {}
+  }, []);
+
+  return { choice, setTheme };
+}
+
+function ThemeSubmenu({
+  choice,
+  onPick,
+}: {
+  choice: ThemeChoice;
+  onPick: (t: ThemeChoice) => void;
+}) {
+  const options: Array<{ value: ThemeChoice; label: string; icon: typeof Sun }> = [
+    { value: "light", label: "Light", icon: Sun },
+    { value: "dark", label: "Dark", icon: Moon },
+    { value: "system", label: "System", icon: Monitor },
+  ];
+  return (
+    <div
+      role="menu"
+      aria-label="Appearance"
+      className="dash-menu-pop-up absolute left-full top-0 z-50 ml-1.5 w-44 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+    >
+      {options.map(({ value, label, icon: Icon }) => (
+        <button
+          key={value}
+          type="button"
+          role="menuitemradio"
+          aria-checked={choice === value}
+          onClick={() => onPick(value)}
+          className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] tracking-tight text-charcoal transition-colors hover:bg-black/[0.04]"
+        >
+          <Icon className="size-4 text-dim-gray" />
+          {label}
+          {choice === value ? <Check className="ml-auto size-4 text-charcoal" /> : null}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SignOutDialog({
+  onCancel,
+  onConfirm,
+}: {
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4" onClick={onCancel}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Sign out"
+        onClick={(e) => e.stopPropagation()}
+        className="dash-menu-pop-up w-full max-w-sm rounded-3xl border border-linen-border bg-parchment p-5 shadow-[0_24px_60px_-24px_rgba(28,28,28,0.5)]"
+      >
+        <h2 className="text-[16px] font-medium tracking-tight text-charcoal">Sign out of Lovable?</h2>
+        <p className="mt-1.5 text-[13px] leading-relaxed text-dim-gray">
+          Your projects stay safely in this workspace. You can sign back in anytime.
+        </p>
+        <div className="mt-5 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="rounded-full border border-linen-border bg-parchment px-4 py-2 text-[13px] font-medium text-charcoal transition-colors hover:bg-black/[0.04]"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            className="rounded-full bg-charcoal px-4 py-2 text-[13px] font-medium text-parchment transition-colors hover:bg-charcoal/90"
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AccountMenu({
   user,
   initials,
+  cascade,
+  setCascade,
+  theme,
+  onPickTheme,
+  signOutRequest,
   onClose,
 }: {
   user: DashboardUser | null;
   initials: string;
+  cascade: "closed" | "appearance" | "documentation";
+  setCascade: (c: "closed" | "appearance" | "documentation") => void;
+  theme: ThemeChoice;
+  onPickTheme: (t: ThemeChoice) => void;
+  signOutRequest: () => void;
   onClose: () => void;
 }) {
-  const menuItemCls =
-    "flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] text-charcoal hover:bg-black/[0.04]";
+  const itemCls =
+    "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] tracking-tight text-charcoal transition-colors hover:bg-black/[0.04]";
+  const submenuCls = `${itemCls} cursor-default`;
+
   return (
     <div
       role="menu"
-      className="absolute left-0 top-full z-50 mt-1 w-60 overflow-hidden rounded-2xl border border-linen-border bg-parchment shadow-lg"
+      aria-orientation="vertical"
+      className="dash-menu-pop-up absolute bottom-full left-0 z-50 mb-2 w-56 overflow-visible rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
     >
-      {/* identity header */}
-      <div className="flex items-center gap-2.5 border-b border-linen-border px-3 py-3">
+      {/* identity row — avatar + email, like Lovable's account menu */}
+      <Link
+        href="/dashboard/settings"
+        onClick={onClose}
+        className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-black/[0.04]"
+      >
         {user?.avatarUrl ? (
           <Image
             src={user.avatarUrl}
@@ -131,73 +271,248 @@ function WorkspaceMenu({
           />
         ) : (
           <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02] text-[11px] font-medium text-parchment">
-            {initials || "RD"}
+            {initials || "GA"}
           </span>
         )}
-        <span className="min-w-0">
-          <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
-            {user?.name ?? "Refero Design"}
-          </span>
-          <span className="block truncate text-[11.5px] text-dim-gray">
-            Free Plan • 1 member
-          </span>
+        <span className="min-w-0 flex-1 truncate text-[13px] font-medium tracking-tight text-charcoal">
+          {user?.email ?? user?.name ?? "mylife12.gra@gmail.com"}
         </span>
-      </div>
+      </Link>
 
-      <div className="p-1.5">
-        <Link href="/dashboard/settings" onClick={onClose} className={menuItemCls}>
-          <UserRound className="size-3.5" /> Invite members
-        </Link>
-        <Link href="/dashboard/settings" onClick={onClose} className={menuItemCls}>
-          <Settings className="size-3.5" /> Settings
-        </Link>
+      <div className="mx-1 my-1 h-px bg-linen-border" />
 
-        <div className="my-1.5 h-px bg-linen-border" />
-
-        {/* credits card — mirrors Lovable's workspace menu */}
-        <Link href="/settings/billing" onClick={onClose} className="group/credits block">
-          <div className="flex items-center justify-between px-3 py-2">
-            <span className="text-[13px] font-medium tracking-tight text-charcoal">Credits</span>
-            <span className="flex items-center gap-0.5 text-[12px] text-dim-gray">
-              {DAILY_CREDITS} left
-              <ChevronRight className="size-3.5 transition-transform motion-safe:group-hover/credits:translate-x-0.5" />
-            </span>
-          </div>
-          <div className="mx-3 mb-2 h-1.5 overflow-hidden rounded-full bg-black/[0.06]">
-            <div
-              className="h-full rounded-full bg-blue-600 transition-[width] duration-150"
-              style={{ width: `${Math.max(4, (DAILY_CREDITS / DAILY_CREDITS) * 100)}%` }}
-            />
-          </div>
-          <p className="px-3 pb-2.5 text-[11px] text-dim-gray">Daily credits reset at midnight UTC</p>
-        </Link>
-
-        <div className="my-1.5 h-px bg-linen-border" />
-
-        <button type="button" className={`${menuItemCls} w-full text-left`} disabled>
-          <Plus className="size-3.5" /> New workspace
+      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
+        <UserRound className="size-4 text-dim-gray" /> Profile
+      </Link>
+      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
+        <Inbox className="size-4 text-dim-gray" /> Inbox
+        <span className="ml-auto mr-1 size-2 rounded-full bg-red-500" />
+      </Link>
+      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
+        <Settings className="size-4 text-dim-gray" /> Settings
+        <span className="ml-auto hidden sm:flex items-center gap-0.5 text-[10px] text-dim-gray">
+          <span className="rounded border border-linen-border bg-parchment px-1 py-0.5">Ctrl</span>
+          <span className="rounded border border-linen-border bg-parchment px-1 py-0.5">.</span>
+        </span>
+      </Link>
+      <div className="relative">
+        <button
+          type="button"
+          className={submenuCls}
+          aria-haspopup="menu"
+          aria-expanded={cascade === "appearance"}
+          onMouseEnter={() => setCascade("appearance")}
+          onFocus={() => setCascade("appearance")}
+          onClick={() => setCascade(cascade === "appearance" ? "closed" : "appearance")}
+        >
+          <Sun className="size-4 text-dim-gray" /> Appearance
+          <ChevronRight className="ml-auto size-4 text-dim-gray" />
         </button>
-
-        <div className="my-1.5 h-px bg-linen-border" />
-
-        <div className="flex items-center gap-2 px-3 py-2">
-          <Zap className="size-3.5 text-[#7c3aed]" />
-          <span className="flex-1 text-[13px] text-charcoal">Turn Pro</span>
-          <Link
-            href="/pricing"
-            onClick={onClose}
-            className="rounded-full bg-black/90 px-2.5 py-1 text-[11.5px] font-medium text-parchment transition-opacity hover:opacity-90"
-          >
-            Upgrade
-          </Link>
-        </div>
-
-        <div className="my-1.5 h-px bg-linen-border" />
-
-        <Link href="/" onClick={onClose} className={menuItemCls}>
-          <LogOut className="size-3.5" /> Sign out
-        </Link>
+        {cascade === "appearance" ? (
+          <ThemeSubmenu choice={theme} onPick={onPickTheme} />
+        ) : null}
       </div>
+
+      <div className="mx-1 my-1 h-px bg-linen-border" />
+
+      <div className="relative">
+        <button
+          type="button"
+          className={submenuCls}
+          aria-haspopup="menu"
+          aria-expanded={cascade === "documentation"}
+          onMouseEnter={() => setCascade("documentation")}
+          onFocus={() => setCascade("documentation")}
+          onClick={() => setCascade(cascade === "documentation" ? "closed" : "documentation")}
+        >
+          <BookOpen className="size-4 text-dim-gray" /> Documentation
+          <ChevronRight className="ml-auto size-4 text-dim-gray" />
+        </button>
+        {cascade === "documentation" ? (
+          <div
+            role="menu"
+            aria-label="Documentation"
+            className="dash-menu-pop-up absolute left-full top-0 z-50 ml-1.5 w-48 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+          >
+            <Link href="/docs" onClick={onClose} className={itemCls}>
+              <BookOpen className="size-4 text-dim-gray" /> Documentation
+            </Link>
+            <Link href="/guides" onClick={onClose} className={itemCls}>
+              <FileText className="size-4 text-dim-gray" /> Guides
+            </Link>
+            <Link href="/support" onClick={onClose} className={itemCls}>
+              <LifeBuoy className="size-4 text-dim-gray" /> Help center
+            </Link>
+          </div>
+        ) : null}
+      </div>
+      <a
+        href="https://community.lovable.dev"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClose}
+        className={itemCls}
+      >
+        <Users className="size-4 text-dim-gray" /> Community
+      </a>
+      <Link href="/download" onClick={onClose} className={itemCls}>
+        <Download className="size-4 text-dim-gray" /> Download apps
+      </Link>
+      <Link href="/" onClick={onClose} className={itemCls}>
+        <Home className="size-4 text-dim-gray" /> Homepage
+      </Link>
+
+      <div className="mx-1 my-1 h-px bg-linen-border" />
+
+      <button type="button" onClick={signOutRequest} className={itemCls}>
+        <LogOut className="size-4 text-dim-gray" /> Sign out
+      </button>
+    </div>
+  );
+}
+
+function WorkspaceMenu({
+  user,
+  initials,
+  cascade,
+  setCascade,
+  theme,
+  onPickTheme,
+  signOutRequest,
+  onClose,
+}: {
+  user: DashboardUser | null;
+  initials: string;
+  cascade: "closed" | "appearance" | "documentation";
+  setCascade: (c: "closed" | "appearance" | "documentation") => void;
+  theme: ThemeChoice;
+  onPickTheme: (t: ThemeChoice) => void;
+  signOutRequest: () => void;
+  onClose: () => void;
+}) {
+  const itemCls =
+    "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] tracking-tight text-charcoal transition-colors hover:bg-black/[0.04]";
+  const submenuCls = `${itemCls} cursor-default`;
+
+  return (
+    <div
+      role="menu"
+      aria-orientation="vertical"
+      className="dash-menu-pop-up absolute left-0 top-full z-50 mt-1.5 w-56 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+    >
+      {/* identity row — avatar + email, like Lovable's menu */}
+      <Link
+        href="/dashboard/settings"
+        onClick={onClose}
+        className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-black/[0.04]"
+      >
+        {user?.avatarUrl ? (
+          <Image
+            src={user.avatarUrl}
+            alt=""
+            width={32}
+            height={32}
+            className="size-8 rounded-full object-cover"
+          />
+        ) : (
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02] text-[11px] font-medium text-parchment">
+            {initials || "G"}
+          </span>
+        )}
+        <span className="min-w-0 flex-1 truncate text-[13px] font-medium tracking-tight text-charcoal">
+          {user?.email ?? user?.name ?? "mylife12.gra@gmail.com"}
+        </span>
+      </Link>
+
+      <div className="mx-1 my-1 h-px bg-linen-border" />
+
+      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
+        <UserRound className="size-4 text-dim-gray" /> Profile
+      </Link>
+      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
+        <Inbox className="size-4 text-dim-gray" /> Inbox
+        <span className="ml-auto mr-1 size-2 rounded-full bg-red-500" />
+      </Link>
+      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
+        <Settings className="size-4 text-dim-gray" /> Settings
+        <span className="ml-auto hidden sm:flex items-center gap-0.5 text-[10px] text-dim-gray">
+          <span className="rounded border border-linen-border bg-parchment px-1 py-0.5">Ctrl</span>
+          <span className="rounded border border-linen-border bg-parchment px-1 py-0.5">.</span>
+        </span>
+      </Link>
+      <div className="relative">
+        <button
+          type="button"
+          className={submenuCls}
+          aria-haspopup="menu"
+          aria-expanded={cascade === "appearance"}
+          onMouseEnter={() => setCascade("appearance")}
+          onFocus={() => setCascade("appearance")}
+          onClick={() => setCascade(cascade === "appearance" ? "closed" : "appearance")}
+        >
+          <Sun className="size-4 text-dim-gray" /> Appearance
+          <ChevronRight className="ml-auto size-4 text-dim-gray" />
+        </button>
+        {cascade === "appearance" ? <ThemeSubmenu choice={theme} onPick={onPickTheme} /> : null}
+      </div>
+
+      <div className="mx-1 my-1 h-px bg-linen-border" />
+
+      <Link href="/support" onClick={onClose} className={itemCls}>
+        <LifeBuoy className="size-4 text-dim-gray" /> Support
+      </Link>
+      <div className="relative">
+        <button
+          type="button"
+          className={submenuCls}
+          aria-haspopup="menu"
+          aria-expanded={cascade === "documentation"}
+          onMouseEnter={() => setCascade("documentation")}
+          onFocus={() => setCascade("documentation")}
+          onClick={() => setCascade(cascade === "documentation" ? "closed" : "documentation")}
+        >
+          <BookOpen className="size-4 text-dim-gray" /> Documentation
+          <ChevronRight className="ml-auto size-4 text-dim-gray" />
+        </button>
+        {cascade === "documentation" ? (
+          <div
+            role="menu"
+            aria-label="Documentation"
+            className="dash-menu-pop-up absolute left-full top-0 z-50 ml-1.5 w-48 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+          >
+            <Link href="/docs" onClick={onClose} className={itemCls}>
+              <BookOpen className="size-4 text-dim-gray" /> Documentation
+            </Link>
+            <Link href="/guides" onClick={onClose} className={itemCls}>
+              <FileText className="size-4 text-dim-gray" /> Guides
+            </Link>
+            <Link href="/support" onClick={onClose} className={itemCls}>
+              <LifeBuoy className="size-4 text-dim-gray" /> Help center
+            </Link>
+          </div>
+        ) : null}
+      </div>
+      <a
+        href="https://community.lovable.dev"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClose}
+        className={itemCls}
+      >
+        <Users className="size-4 text-dim-gray" /> Community
+      </a>
+      <Link href="/download" onClick={onClose} className={itemCls}>
+        <Download className="size-4 text-dim-gray" /> Download apps
+      </Link>
+      <Link href="/" onClick={onClose} className={itemCls}>
+        <Home className="size-4 text-dim-gray" /> Homepage
+      </Link>
+
+      <div className="mx-1 my-1 h-px bg-linen-border" />
+
+      <button type="button" onClick={signOutRequest} className={itemCls}>
+        <LogOut className="size-4 text-dim-gray" /> Sign out
+      </button>
     </div>
   );
 }
@@ -212,7 +527,10 @@ export function AppSidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [connectorsOpen, setConnectorsOpen] = useState(false);
-  const { user, initials } = useUser();
+  const [cascade, setCascade] = useState<"closed" | "appearance" | "documentation">("closed");
+  const [signOutOpen, setSignOutOpen] = useState(false);
+  const { user, initials, setUserName } = useUser();
+  const { choice: theme, setTheme } = useTheme();
   const workspaceRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
 
@@ -264,13 +582,19 @@ export function AppSidebar() {
       const t = e.target as Node;
       if (menuOpen && workspaceRef.current && !workspaceRef.current.contains(t)) {
         setMenuOpen(false);
+        setCascade("closed");
       }
       if (accountOpen && accountRef.current && !accountRef.current.contains(t)) {
         setAccountOpen(false);
+        setCascade("closed");
       }
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
+        if (cascade !== "closed") {
+          setCascade("closed");
+          return;
+        }
         setMenuOpen(false);
         setAccountOpen(false);
       }
@@ -281,7 +605,7 @@ export function AppSidebar() {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [menuOpen, accountOpen]);
+  }, [menuOpen, accountOpen, cascade]);
 
   // live search across projects; Enter opens the first match
   useEffect(() => {
@@ -311,6 +635,22 @@ export function AppSidebar() {
     }
   }, [searchResults, router]);
 
+  const requestSignOut = useCallback(() => {
+    setMenuOpen(false);
+    setAccountOpen(false);
+    setSignOutOpen(true);
+  }, []);
+
+  const confirmSignOut = useCallback(() => {
+    try {
+      localStorage.setItem(LOGGED_OUT_KEY, "1");
+      localStorage.removeItem(USER_STORAGE_KEY);
+    } catch {}
+    setUserName("");
+    setSignOutOpen(false);
+    router.push("/login");
+  }, [router, setUserName]);
+
   return (
     <aside className="dash-sidebar fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-linen-border bg-parchment md:flex">
       <div className="flex items-center gap-2 px-4 pb-3 pt-4">
@@ -332,7 +672,19 @@ export function AppSidebar() {
             <ChevronDown className="size-3.5 shrink-0 text-dim-gray" />
           </button>
           {menuOpen ? (
-            <WorkspaceMenu user={user} initials={initials} onClose={() => setMenuOpen(false)} />
+            <WorkspaceMenu
+              user={user}
+              initials={initials}
+              cascade={cascade}
+              setCascade={setCascade}
+              theme={theme}
+              onPickTheme={setTheme}
+              signOutRequest={requestSignOut}
+              onClose={() => {
+                setMenuOpen(false);
+                setCascade("closed");
+              }}
+            />
           ) : null}
         </div>
       </div>
@@ -441,12 +793,12 @@ export function AppSidebar() {
       </div>
 
       <div className="mt-auto flex flex-col gap-2 border-t border-linen-border px-3 py-3">
-        {/* stacked promo cards — Upgrade slides UP out of the stack on hover,
-            revealing the Share card beneath it */}
+        {/* stacked promo cards — hovering opens the stack UPWARD, sliding the
+            Share card out above the Upgrade card */}
         <div className="group/promos relative h-16 w-full">
           <Link
             href="/settings/billing#plans"
-            className="absolute inset-x-0 top-0 z-10 flex h-16 items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left transition-all duration-200 ease-out group-hover/promos:-translate-y-2 group-hover/promos:scale-[0.97] group-hover/promos:opacity-0 group-hover/promos:pointer-events-none"
+            className="absolute inset-x-0 top-0 z-10 flex h-16 items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left transition-all duration-200 ease-out group-hover/promos:scale-[0.97]"
           >
             <span className="min-w-0">
               <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
@@ -461,22 +813,24 @@ export function AppSidebar() {
             </span>
           </Link>
 
-          <Link
-            href="/dashboard/settings"
-            className="absolute inset-x-0 top-0 z-0 flex h-16 translate-y-3 scale-[0.97] items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left opacity-0 transition-all duration-200 ease-out group-hover/promos:translate-y-0 group-hover/promos:scale-100 group-hover/promos:opacity-100"
-          >
-            <span className="min-w-0">
-              <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
-                Share Lovable
+          <div className="pointer-events-none absolute inset-x-0 bottom-full z-0 h-[72px] translate-y-3 scale-[0.97] opacity-0 transition-all duration-200 ease-out group-hover/promos:pointer-events-auto group-hover/promos:translate-y-0 group-hover/promos:scale-100 group-hover/promos:opacity-100">
+            <Link
+              href="/dashboard/settings"
+              className="absolute inset-x-0 top-0 flex h-16 items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left"
+            >
+              <span className="min-w-0">
+                <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
+                  Share Lovable
+                </span>
+                <span className="block truncate text-[11.5px] leading-snug text-dim-gray">
+                  100 credits per paid referral
+                </span>
               </span>
-              <span className="block truncate text-[11.5px] leading-snug text-dim-gray">
-                100 credits per paid referral
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-black/[0.05]">
+                <Gift className="size-4 text-charcoal" />
               </span>
-            </span>
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-black/[0.05]">
-              <Gift className="size-4 text-charcoal" />
-            </span>
-          </Link>
+            </Link>
+          </div>
         </div>
 
         <div className="flex items-center justify-between px-1 pt-1">
@@ -491,22 +845,19 @@ export function AppSidebar() {
               {initials || "GA"}
             </button>
             {accountOpen ? (
-              <div className="absolute bottom-full left-0 z-50 mb-2 w-48 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-lg">
-                <Link
-                  href="/dashboard/settings"
-                  onClick={() => setAccountOpen(false)}
-                  className="flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] text-charcoal hover:bg-black/[0.04]"
-                >
-                  <Settings className="size-3.5" /> Settings
-                </Link>
-                <Link
-                  href="/"
-                  onClick={() => setAccountOpen(false)}
-                  className="flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] text-charcoal hover:bg-black/[0.04]"
-                >
-                  <LogOut className="size-3.5" /> Sign out
-                </Link>
-              </div>
+              <AccountMenu
+                user={user}
+                initials={initials}
+                cascade={cascade}
+                setCascade={setCascade}
+                theme={theme}
+                onPickTheme={setTheme}
+                signOutRequest={requestSignOut}
+                onClose={() => {
+                  setAccountOpen(false);
+                  setCascade("closed");
+                }}
+              />
             ) : null}
           </div>
           <Link
@@ -520,6 +871,9 @@ export function AppSidebar() {
       </div>
 
       <ConnectorsDrawer open={connectorsOpen} onClose={() => setConnectorsOpen(false)} />
+      {signOutOpen ? (
+        <SignOutDialog onCancel={() => setSignOutOpen(false)} onConfirm={confirmSignOut} />
+      ) : null}
     </aside>
   );
 }

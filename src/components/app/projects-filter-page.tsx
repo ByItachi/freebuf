@@ -49,7 +49,7 @@ export default function ProjectsFilterPage({
   }, [load]);
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10 tracking-tight">
+    <div className="mx-auto w-full max-w-[1600px] px-6 py-10 tracking-tight sm:px-8">
       <h1 className="text-[32px] font-medium text-charcoal">{title}</h1>
       <p className="mt-2 text-[15px] text-dim-gray">{subtitle}</p>
       {projects.length === 0 ? (
@@ -60,16 +60,16 @@ export default function ProjectsFilterPage({
           </Link>
         </div>
       ) : (
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-4 min-[700px]:gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[repeat(auto-fill,minmax(min(345px,calc((100%-48px)/3)),1fr))]">
           {projects.map((p) => (
             <Link
               key={p.id}
               href={`/projects/${p.id}`}
-              className="group overflow-hidden rounded-2xl border border-linen-border bg-warm-sand"
+              className="group overflow-hidden rounded-2xl bg-warm-sand"
             >
-              <div className="relative aspect-[16/10] overflow-hidden">
+              <div className="relative min-h-[100px] overflow-hidden">
                 {p.cover ? (
-                  <Image src={p.cover} alt={p.name} fill className="object-cover object-top" sizes="320px" />
+                  <Image src={p.cover} alt={p.name} fill className="object-cover object-top" sizes="(min-width:1024px) 448px, (min-width:640px) 50vw, 100vw" />
                 ) : (
                   <div className="absolute inset-0 bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02]" />
                 )}

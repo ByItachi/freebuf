@@ -7,25 +7,25 @@ export default function GlobalNotFound() {
     <html lang="en" suppressHydrationWarning>
       <body>
         <div
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-10 bg-black px-6 text-center"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-10 bg-[#fcfbf8] px-6 text-center"
           style={{ fontFamily: "Inter, system-ui, sans-serif" }}
         >
           <img
             src="/404-flower.png"
             alt=""
-            className="size-[140px] object-contain drop-shadow-[0_0_24px_rgba(255,102,244,0.35)]"
+            className="size-[140px] object-contain"
           />
           <div className="space-y-2">
-            <h1 className="text-[26px] font-medium tracking-tight text-white">
+            <h1 className="text-[26px] font-medium tracking-tight text-[#1c1c1c]">
               Page not found
             </h1>
-            <p className="text-[15px] text-white/60">
+            <p className="text-[15px] text-[#5f5f5d]">
               The page you’re looking for doesn’t exist or has been moved.
             </p>
           </div>
           <a
             href="/dashboard"
-            className="flex h-10 items-center rounded-full bg-white px-5 text-[14px] font-medium text-black transition-colors hover:bg-white/90"
+            className="flex h-10 items-center rounded-full bg-[#1c1c1c] px-5 text-[14px] font-medium text-[#fcfbf8] transition-colors hover:bg-black"
           >
             Go home
           </a>
