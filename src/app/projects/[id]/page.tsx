@@ -433,7 +433,7 @@ export default function ProjectWorkspacePage() {
                   ) : null}
                 </div>
                 <div className="mb-0.5 flex shrink-0 items-center gap-1.5">
-                  <div ref={modeMenuRef} className="relative">
+                  <div ref={modeMenuRef} className="relative hidden sm:block">
                     <button
                       type="button"
                       onClick={() => setModeOpen((v) => !v)}
