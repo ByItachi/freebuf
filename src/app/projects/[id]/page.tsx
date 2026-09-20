@@ -6,8 +6,13 @@ import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowUp,
+  Check,
+  ChevronDown,
   Loader2,
+  Mic,
+  MicOff,
   PanelRightOpen,
+  Plus,
   RefreshCw,
   Sparkles,
   Star,
@@ -16,6 +21,17 @@ import { recordProjectView, unhideProjectFromRecents } from "@/lib/recents";
 function cn(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
+
+type SpeechRecognitionLike = {
+  lang: string;
+  interimResults: boolean;
+  continuous: boolean;
+  start: () => void;
+  stop: () => void;
+  onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+};
 
 type Msg = { role: "user" | "assistant"; content: string };
 type Project = {
@@ -38,7 +54,83 @@ export default function ProjectWorkspacePage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(true);
+  const [modeOpen, setModeOpen] = useState(false);
+  const [attachOpen, setAttachOpen] = useState(false);
+  const [mode, setMode] = useState<"build" | "plan">("build");
+  const [listening, setListening] = useState(false);
+  const [voiceSupported, setVoiceSupported] = useState(false);
+  const modeMenuRef = useRef<HTMLDivElement>(null);
+  const attachMenuRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Voice input (same as the dashboard composer)
+  const toggleVoice = useCallback(() => {
+    const w = window as unknown as {
+      SpeechRecognition?: new () => SpeechRecognitionLike;
+      webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+    };
+    const Ctor = w.SpeechRecognition ?? w.webkitSpeechRecognition;
+    if (!Ctor) return;
+    if (listening) {
+      setListening(false);
+      return;
+    }
+    const rec = new Ctor();
+    rec.lang = "en-US";
+    rec.interimResults = false;
+    rec.continuous = false;
+    rec.onresult = (e) => {
+      const transcript = Array.from({ length: e.results.length }, (_, i) =>
+        e.results[i][0].transcript,
+      ).join(" ");
+      setInput((p) => (p ? `${p} ${transcript}` : transcript));
+    };
+    rec.onend = () => setListening(false);
+    rec.onerror = () => setListening(false);
+    setListening(true);
+    rec.start();
+  }, [listening]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const w = window as unknown as {
+        SpeechRecognition?: new () => SpeechRecognitionLike;
+        webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+      };
+      setVoiceSupported(Boolean(w.SpeechRecognition || w.webkitSpeechRecognition));
+    }, 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Close popovers on outside click / Escape
+  useEffect(() => {
+    function onDown(e: MouseEvent) {
+      const t = e.target as Node;
+      if (modeOpen && modeMenuRef.current && !modeMenuRef.current.contains(t)) {
+        setModeOpen(false);
+      }
+      if (attachOpen && attachMenuRef.current && !attachMenuRef.current.contains(t)) {
+        setAttachOpen(false);
+      }
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setModeOpen(false);
+        setAttachOpen(false);
+        return;
+      }
+      if (e.altKey && e.key.toLowerCase() === "p") {
+        e.preventDefault();
+        setMode((m) => (m === "build" ? "plan" : "build"));
+      }
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [modeOpen, attachOpen]);
 
   const load = useCallback(async () => {
     if (!id) return;
@@ -283,7 +375,7 @@ export default function ProjectWorkspacePage() {
 
           <div className="border-t border-linen-border p-4">
             <form
-              className="mx-auto flex max-w-2xl items-end gap-2 rounded-[24px] bg-warm-sand p-3 shadow-[inset_0_0_0_0.5px_rgba(28,28,28,0.08)]"
+              className="dash-prompt-shell relative mx-auto w-full max-w-3xl rounded-[24px] bg-warm-sand p-3 shadow-[inset_0_0_0_0.5px_rgba(28,28,28,0.06)]"
               onSubmit={(e) => {
                 e.preventDefault();
                 void runChat();
@@ -294,7 +386,7 @@ export default function ProjectWorkspacePage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask AI to change the UI, add a section, connect data…"
-                className="max-h-40 min-h-[48px] flex-1 resize-none bg-transparent px-2 py-2 text-[14px] outline-none placeholder:text-dim-gray"
+                className="max-h-40 min-h-[28px] w-full resize-none bg-transparent px-2 py-1.5 text-[14px] leading-snug tracking-tight text-charcoal outline-none placeholder:text-dim-gray"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -302,14 +394,126 @@ export default function ProjectWorkspacePage() {
                   }
                 }}
               />
+              <div className="mt-0.5 flex items-end justify-between gap-2">
+                <div ref={attachMenuRef} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setAttachOpen((v) => !v)}
+                    aria-expanded={attachOpen}
+                    className="flex size-9 shrink-0 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-black/[0.05]"
+                    aria-label="Attach"
+                  >
+                    <Plus className="size-5" />
+                  </button>
+                  {attachOpen ? (
+                    <div
+                      role="menu"
+                      className="dash-menu-pop absolute bottom-full left-0 z-50 mb-2 w-56 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setAttachOpen(false)}
+                        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-[13px] text-charcoal transition-colors hover:bg-black/[0.04]"
+                      >
+                        <span>
+                          <span className="block font-medium">Upload file</span>
+                          <span className="text-[12px] text-dim-gray">Images, docs, and data</span>
+                        </span>
+                      </button>
+                      <Link
+                        href="/dashboard/connectors"
+                        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-[13px] text-charcoal transition-colors hover:bg-black/[0.04]"
+                      >
+                        <span>
+                          <span className="block font-medium">Connect a tool</span>
+                          <span className="text-[12px] text-dim-gray">GitHub, Supabase, Stripe…</span>
+                        </span>
+                      </Link>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="mb-0.5 flex shrink-0 items-center gap-1.5">
+                  <div ref={modeMenuRef} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setModeOpen((v) => !v)}
+                      aria-expanded={modeOpen}
+                      aria-haspopup="menu"
+                      className="inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-[13px] font-medium text-charcoal transition-colors hover:bg-black/[0.05]"
+                    >
+                      {mode === "build" ? "Build" : "Plan"}
+                      <ChevronDown className="size-3.5 text-dim-gray" />
+                    </button>
+                    {modeOpen ? (
+                      <div
+                        role="menu"
+                        aria-orientation="vertical"
+                        className="dash-menu-pop absolute top-full right-0 z-50 mt-2 min-w-48 rounded-2xl border border-linen-border bg-parchment p-1 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+                      >
+                        <div role="group">
+                          {(
+                            [
+                              { value: "build" as const, title: "Build", desc: "Make changes directly" },
+                              { value: "plan" as const, title: "Plan", desc: "Detailed spec for complex builds" },
+                            ]
+                          ).map((opt) => (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              role="menuitemradio"
+                              aria-checked={mode === opt.value}
+                              onClick={() => {
+                                setMode(opt.value);
+                                setModeOpen(false);
+                              }}
+                              className="relative flex w-full cursor-pointer items-start justify-start gap-x-1 rounded-xl px-2 py-2 pe-8 text-left text-[13px] tracking-tight text-charcoal transition-colors hover:bg-black/[0.04]"
+                            >
+                              <span>
+                                <span className="block">{opt.title}</span>
+                                <span className="block text-[12px] text-dim-gray">{opt.desc}</span>
+                              </span>
+                              {mode === opt.value ? (
+                                <Check className="absolute right-2 top-2 size-4 text-dim-gray" />
+                              ) : null}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="mx-1 my-1 hidden h-px bg-linen-border sm:block" />
+                        <p className="hidden items-center gap-1 px-2 py-0.5 text-[12px] text-dim-gray sm:flex">
+                          Switch modes with
+                          <span className="inline-flex items-center gap-0.5">
+                            <kbd className="rounded border border-linen-border bg-warm-sand px-1 py-0.5 text-[10px] text-dim-gray">Alt</kbd>
+                            <kbd className="rounded border border-linen-border bg-warm-sand px-1 py-0.5 text-[10px] text-dim-gray">P</kbd>
+                          </span>
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                  {voiceSupported ? (
+                    <button
+                      type="button"
+                      onClick={toggleVoice}
+                      className={`flex size-9 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-black/[0.05] ${
+                        listening ? "bg-black/[0.08]" : ""
+                      }`}
+                      aria-label={listening ? "Stop voice input" : "Start voice input"}
+                      aria-pressed={listening}
+                    >
+                      {listening ? <MicOff className="size-[18px]" /> : <Mic className="size-[18px]" />}
+                    </button>
+                  ) : null}
+                </div>
+              </div>
+              {listening ? (
+                <p className="mt-1 px-1 text-[12px] text-dim-gray">Listening… speak now</p>
+              ) : null}
               <button
                 type="submit"
                 disabled={busy || !input.trim()}
-                className="flex size-10 items-center justify-center rounded-full bg-[rgba(0,0,0,0.88)] text-parchment disabled:opacity-40"
-                aria-label="Send"
-              >
-                <ArrowUp className="size-4" />
-              </button>
+                className="hidden"
+                aria-hidden
+                tabIndex={-1}
+              />
             </form>
           </div>
         </section>

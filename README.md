@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# crowl
 
-## Getting Started
+A Lovable-style AI app builder built with **Next.js (App Router) + Tailwind CSS v4**.
+Describe an idea, get a project: the dashboard composer creates projects, the
+workspace chats with an AI endpoint and renders a live HTML preview.
 
-First, run the development server:
+## Features
+
+- **Dashboard home** — Lovable-accurate hero: aurora background, greeting,
+  composer with Build/Plan mode picker (`Alt+P`), attach menu, connector
+  marquee pill, and a live "My projects" grid (3 cards + invite card).
+- **Workspace** (`/projects/[id]`) — chat with the AI, star, remix, live
+  preview pane, voice input, same Build/Plan composer as the dashboard.
+- **Sidebar** — workspace + account menus with Appearance (light/dark/system)
+  theme switching, Documentation cascades, sign-out confirmation flow.
+- **Connectors** — 75 brand icons (`public/connectors`) with connected-state
+  toggles persisted locally; connected platforms lead the pill marquee.
+- **Project filters** — All / My projects / Shared / Starred pages, plus
+  "Recently viewed" backed by local view history.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Optional: copy `.env.example` to `.env.local` and fill in AI keys — the app
+degrades gracefully without them.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command         | What it does                          |
+| --------------- | ------------------------------------- |
+| `npm run dev`   | Start the dev server                  |
+| `npm run build` | Production build                      |
+| `npm start`     | Serve the production build            |
+| `npm run lint`  | ESLint across the repo                |
 
-## Learn More
+## CI / Deploy
 
-To learn more about Next.js, take a look at the following resources:
+- **CI** (`.github/workflows/ci.yml`) — on every push/PR to `main`:
+  typecheck (`tsc --noEmit`), lint, and production build.
+- **Deploy** (`.github/workflows/deploy.yml`) — optional Vercel production
+  deploy. Add repo secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+  and it runs automatically on `main`; without them the job skips.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/            # App Router pages (dashboard, projects, marketing, API routes)
+  components/
+    app/          # sidebar, drawers, project cards/menus
+    site/         # marketing chrome (header/footer/sections)
+  lib/            # use-user identity, recents history, project store
+public/
+  connectors/     # brand SVGs (fetch via scripts/fetch-connector-icons.mjs)
+scripts/          # maintenance utilities
+```
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Theme (light/dark/system) and connected connectors persist in
+  `localStorage`; project data lives in `.data/` via `src/lib/store`.
+- `prefers-reduced-motion` disables all decorative animations.

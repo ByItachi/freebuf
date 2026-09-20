@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import { AppChrome } from "@/components/site/app-chrome";
 import "./globals.css";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${camera.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
