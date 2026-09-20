@@ -427,7 +427,7 @@ export default function DashboardHomePage() {
           <ArrowRight className="size-3.5 text-dim-gray" />
         </Link>
 
-        <h1 className="dash-anim-in dash-anim-in-delay-1 mb-10 mt-24 text-center text-[40px] font-medium leading-tight tracking-tight text-charcoal md:mt-44 sm:text-[44px]">
+        <h1 className="dash-anim-in dash-anim-in-delay-1 mb-10 mt-24 text-center text-[40px] font-medium leading-tight tracking-tight text-charcoal md:mt-40 sm:text-[44px]">
           {greeting}
         </h1>
 
@@ -581,7 +581,7 @@ export default function DashboardHomePage() {
           ) : null}
         </form>
 
-        <section className="dash-anim-in dash-anim-in-delay-3 mt-28 w-full rounded-[28px] border border-linen-border bg-parchment/90 p-4 shadow-[inset_0_0_0_0.5px_rgba(28,28,28,0.03)] backdrop-blur-sm sm:p-6">
+        <section className="dash-anim-in dash-anim-in-delay-3 mt-44 w-full rounded-[28px] border border-linen-border bg-parchment/90 p-4 shadow-[inset_0_0_0_0.5px_rgba(28,28,28,0.03)] backdrop-blur-sm sm:p-6">
           {/* Tab bar — Search pill expands into an input, sliding indicator */}
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div className="relative flex min-w-0 items-center rounded-full bg-black/[0.04] shadow-[inset_0_0_0_0.5px_rgba(28,28,28,0.03)]">
