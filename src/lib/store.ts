@@ -22,7 +22,9 @@ export type Project = {
 
 type DB = { projects: Project[] };
 
-const DATA_DIR = path.join(process.cwd(), ".data");
+// Data lives next to the app in dev; override with FREEBUFF_DATA_DIR for
+// installed desktop builds (Program Files is not writable) and hosted deploys.
+const DATA_DIR = process.env.FREEBUFF_DATA_DIR ?? path.join(process.cwd(), ".data");
 const DB_PATH = path.join(DATA_DIR, "projects.json");
 
 const COVERS = [

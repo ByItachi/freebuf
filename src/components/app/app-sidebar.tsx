@@ -17,12 +17,14 @@ import {
   Inbox,
   LifeBuoy,
   LogOut,
-  Mail,
   Monitor,
   Moon,
+  PanelLeftClose,
   Plug,
   Search,
   Settings,
+  SquarePen,
+  Settings2,
   Star,
   Sun,
   UserRound,
@@ -32,6 +34,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useUser, type DashboardUser } from "@/lib/use-user";
 import { recentProjectIds, isProjectHidden } from "@/lib/recents";
+import { readCredits, remainingCredits, CREDITS_LIMIT } from "@/lib/credits";
 import { USER_STORAGE_KEY } from "@/lib/use-user";
 import { ConnectorsDrawer } from "@/components/app/connectors-drawer";
 import { ProjectActionsMenu } from "@/components/app/project-actions-menu";
@@ -109,8 +112,6 @@ function LovableHeart({ className }: { className?: string }) {
   );
 }
 
-const LOGGED_OUT_KEY = "lovable.logged-out";
-
 type ThemeChoice = "light" | "dark" | "system";
 
 function readStoredTheme(): ThemeChoice {
@@ -152,9 +153,12 @@ function useTheme() {
 function ThemeSubmenu({
   choice,
   onPick,
+  placement = "cascade",
 }: {
   choice: ThemeChoice;
   onPick: (t: ThemeChoice) => void;
+  /** "cascade" opens to the right (AccountMenu); "above" opens upward (bottom bar). */
+  placement?: "cascade" | "above";
 }) {
   const options: Array<{ value: ThemeChoice; label: string; icon: typeof Sun }> = [
     { value: "light", label: "Light", icon: Sun },
@@ -165,7 +169,9 @@ function ThemeSubmenu({
     <div
       role="menu"
       aria-label="Appearance"
-      className="dash-menu-pop-up absolute left-full top-0 z-50 ml-1.5 w-44 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+      className={`dash-menu-pop-up absolute z-50 w-44 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)] ${
+        placement === "above" ? "bottom-full left-0 mb-2" : "left-full top-0 ml-1.5"
+      }`}
     >
       {options.map(({ value, label, icon: Icon }) => (
         <button
@@ -334,7 +340,7 @@ function AccountMenu({
             aria-label="Documentation"
             className="dash-menu-pop-up absolute left-full top-0 z-50 ml-1.5 w-48 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
           >
-            <Link href="/docs" onClick={onClose} className={itemCls}>
+            <Link href="/guides" onClick={onClose} className={itemCls}>
               <BookOpen className="size-4 text-dim-gray" /> Documentation
             </Link>
             <Link href="/guides" onClick={onClose} className={itemCls}>
@@ -372,152 +378,97 @@ function AccountMenu({
 }
 
 function WorkspaceMenu({
-  user,
-  initials,
-  cascade,
-  setCascade,
-  theme,
-  onPickTheme,
-  signOutRequest,
   onClose,
 }: {
-  user: DashboardUser | null;
-  initials: string;
-  cascade: "closed" | "appearance" | "documentation";
-  setCascade: (c: "closed" | "appearance" | "documentation") => void;
-  theme: ThemeChoice;
-  onPickTheme: (t: ThemeChoice) => void;
-  signOutRequest: () => void;
   onClose: () => void;
 }) {
+  // Lovable's compact workspace popover: workspace header, Invite members,
+  // Settings, the daily credits meter, and Turn Pro. All deeper settings
+  // sections live on /settings/workspace.
+  const { user, initials } = useUser();
+  const [credits, setCredits] = useState(readCredits());
+  useEffect(() => {
+    const sync = () => setCredits(readCredits());
+    window.addEventListener("lovable:credits-changed", sync);
+    return () => window.removeEventListener("lovable:credits-changed", sync);
+  }, []);
+  const remaining = remainingCredits(credits);
+  const usedPct = Math.min(100, Math.round((credits.used / CREDITS_LIMIT) * 100));
+
+  const workspaceName = user?.name ?? "Gürkan's Lovable";
   const itemCls =
-    "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] tracking-tight text-charcoal transition-colors hover:bg-black/[0.04]";
-  const submenuCls = `${itemCls} cursor-default`;
+    "flex w-full items-center justify-center gap-2 rounded-full border border-linen-border bg-parchment px-3 py-2.5 text-[13px] font-medium tracking-tight text-charcoal transition-colors hover:bg-black/[0.04]";
 
   return (
     <div
       role="menu"
       aria-orientation="vertical"
-      className="dash-menu-pop-up absolute left-0 top-full z-50 mt-1.5 w-56 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+      className="dash-menu-pop-up absolute left-0 top-full z-50 mt-1.5 w-60 rounded-2xl border border-linen-border bg-parchment p-2 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
     >
-      {/* identity row — avatar + email, like Lovable's menu */}
-      <Link
-        href="/dashboard/settings"
-        onClick={onClose}
-        className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-black/[0.04]"
-      >
-        {user?.avatarUrl ? (
-          <Image
-            src={user.avatarUrl}
-            alt=""
-            width={32}
-            height={32}
-            className="size-8 rounded-full object-cover"
-          />
-        ) : (
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02] text-[11px] font-medium text-parchment">
-            {initials || "G"}
-          </span>
-        )}
-        <span className="min-w-0 flex-1 truncate text-[13px] font-medium tracking-tight text-charcoal">
-          {user?.email ?? user?.name ?? "mylife12.gra@gmail.com"}
+      {/* Workspace header */}
+      <Link href="/settings/workspace" onClick={onClose} className="flex w-full items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-black/[0.04]">
+        <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-charcoal text-[10px] font-semibold text-parchment">
+          {(initials || "G").slice(0, 1)}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">{workspaceName}</span>
+          <span className="block truncate text-[11px] text-dim-gray">Free Plan · 1 member</span>
         </span>
       </Link>
 
-      <div className="mx-1 my-1 h-px bg-linen-border" />
+      <Link href="/settings/workspace#invite" onClick={onClose} className={itemCls}>
+        <UserRound className="size-4" /> Invite members
+      </Link>
+      <Link href="/settings/workspace" onClick={onClose} className={`${itemCls} mt-1.5`}>
+        <Settings2 className="size-4" /> Settings
+      </Link>
 
-      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
-        <UserRound className="size-4 text-dim-gray" /> Profile
+      <div className="mx-0 my-2 h-px bg-linen-border" />
+
+      {/* Daily credits meter — real count of model calls sent from this browser */}
+      <Link href="/settings/billing" onClick={onClose} className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 transition-colors hover:bg-black/[0.04]">
+        <span className="text-[13px] font-medium tracking-tight text-charcoal">Credits</span>
+        <span className="text-[13px] text-dim-gray">{remaining} left</span>
+        <ChevronRight className="size-3.5 text-dim-gray" />
       </Link>
-      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
-        <Inbox className="size-4 text-dim-gray" /> Inbox
-        <span className="ml-auto mr-1 size-2 rounded-full bg-red-500" />
-      </Link>
-      <Link href="/dashboard/settings" onClick={onClose} className={itemCls}>
-        <Settings className="size-4 text-dim-gray" /> Settings
-        <span className="ml-auto hidden sm:flex items-center gap-0.5 text-[10px] text-dim-gray">
-          <span className="rounded border border-linen-border bg-parchment px-1 py-0.5">Ctrl</span>
-          <span className="rounded border border-linen-border bg-parchment px-1 py-0.5">.</span>
-        </span>
-      </Link>
-      <div className="relative">
-        <button
-          type="button"
-          className={submenuCls}
-          aria-haspopup="menu"
-          aria-expanded={cascade === "appearance"}
-          onMouseEnter={() => setCascade("appearance")}
-          onFocus={() => setCascade("appearance")}
-          onClick={() => setCascade(cascade === "appearance" ? "closed" : "appearance")}
-        >
-          <Sun className="size-4 text-dim-gray" /> Appearance
-          <ChevronRight className="ml-auto size-4 text-dim-gray" />
-        </button>
-        {cascade === "appearance" ? <ThemeSubmenu choice={theme} onPick={onPickTheme} /> : null}
+      <div className="mt-1 h-2 overflow-hidden rounded-full bg-black/[0.08]">
+        <div
+          className="h-full rounded-full bg-charcoal transition-[width] duration-300"
+          style={{ width: `${Math.max(remaining === 0 ? 100 : 0, usedPct)}%` }}
+        />
       </div>
+      <p className="mt-2 flex items-center gap-1.5 px-2 text-[11px] text-dim-gray">
+        <span className="size-1.5 shrink-0 rounded-full bg-dim-gray/60" />
+        Daily credits reset at midnight UTC
+      </p>
 
-      <div className="mx-1 my-1 h-px bg-linen-border" />
+      <div className="mx-0 my-2 h-px bg-linen-border" />
 
-      <Link href="/support" onClick={onClose} className={itemCls}>
-        <LifeBuoy className="size-4 text-dim-gray" /> Support
-      </Link>
-      <div className="relative">
-        <button
-          type="button"
-          className={submenuCls}
-          aria-haspopup="menu"
-          aria-expanded={cascade === "documentation"}
-          onMouseEnter={() => setCascade("documentation")}
-          onFocus={() => setCascade("documentation")}
-          onClick={() => setCascade(cascade === "documentation" ? "closed" : "documentation")}
-        >
-          <BookOpen className="size-4 text-dim-gray" /> Documentation
-          <ChevronRight className="ml-auto size-4 text-dim-gray" />
-        </button>
-        {cascade === "documentation" ? (
-          <div
-            role="menu"
-            aria-label="Documentation"
-            className="dash-menu-pop-up absolute left-full top-0 z-50 ml-1.5 w-48 rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
-          >
-            <Link href="/docs" onClick={onClose} className={itemCls}>
-              <BookOpen className="size-4 text-dim-gray" /> Documentation
-            </Link>
-            <Link href="/guides" onClick={onClose} className={itemCls}>
-              <FileText className="size-4 text-dim-gray" /> Guides
-            </Link>
-            <Link href="/support" onClick={onClose} className={itemCls}>
-              <LifeBuoy className="size-4 text-dim-gray" /> Help center
-            </Link>
-          </div>
-        ) : null}
-      </div>
-      <a
-        href="https://community.lovable.dev"
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        type="button"
         onClick={onClose}
-        className={itemCls}
+        className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left transition-colors hover:bg-black/[0.04]"
       >
-        <Users className="size-4 text-dim-gray" /> Community
-      </a>
-      <Link href="/download" onClick={onClose} className={itemCls}>
-        <Download className="size-4 text-dim-gray" /> Download apps
-      </Link>
-      <Link href="/" onClick={onClose} className={itemCls}>
-        <Home className="size-4 text-dim-gray" /> Homepage
-      </Link>
-
-      <div className="mx-1 my-1 h-px bg-linen-border" />
-
-      <button type="button" onClick={signOutRequest} className={itemCls}>
-        <LogOut className="size-4 text-dim-gray" /> Sign out
+        <Zap className="size-4 text-charcoal" />
+        <span className="flex-1 text-[13px] font-medium tracking-tight text-charcoal">Turn Pro</span>
+        <Link
+          href="/settings/billing#plans"
+          onClick={onClose}
+          className="rounded-full border border-linen-border bg-parchment px-2.5 py-1 text-[11px] font-medium text-charcoal transition-colors hover:bg-black/[0.06]"
+        >
+          Upgrade
+        </Link>
       </button>
     </div>
   );
 }
-
-export function AppSidebar() {
+export function AppSidebar({
+  collapsed,
+  onToggleCollapsed,
+}: {
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const searchRef = useRef<HTMLInputElement>(null);
@@ -527,12 +478,14 @@ export function AppSidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [connectorsOpen, setConnectorsOpen] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [cascade, setCascade] = useState<"closed" | "appearance" | "documentation">("closed");
   const [signOutOpen, setSignOutOpen] = useState(false);
   const { user, initials, setUserName } = useUser();
   const { choice: theme, setTheme } = useTheme();
   const workspaceRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
+  const themeRef = useRef<HTMLDivElement>(null);
 
   const isActive = (href: string, exact?: boolean) => {
     if (exact) return pathname === href || pathname === "/dashboard/";
@@ -588,6 +541,9 @@ export function AppSidebar() {
         setAccountOpen(false);
         setCascade("closed");
       }
+      if (themeMenuOpen && themeRef.current && !themeRef.current.contains(t)) {
+        setThemeMenuOpen(false);
+      }
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -597,6 +553,7 @@ export function AppSidebar() {
         }
         setMenuOpen(false);
         setAccountOpen(false);
+        setThemeMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", onDown);
@@ -605,7 +562,7 @@ export function AppSidebar() {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [menuOpen, accountOpen, cascade]);
+  }, [menuOpen, accountOpen, themeMenuOpen, cascade]);
 
   // live search across projects; Enter opens the first match
   useEffect(() => {
@@ -643,7 +600,6 @@ export function AppSidebar() {
 
   const confirmSignOut = useCallback(() => {
     try {
-      localStorage.setItem(LOGGED_OUT_KEY, "1");
       localStorage.removeItem(USER_STORAGE_KEY);
     } catch {}
     setUserName("");
@@ -652,44 +608,60 @@ export function AppSidebar() {
   }, [router, setUserName]);
 
   return (
-    <aside className="dash-sidebar fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-linen-border bg-parchment md:flex">
-      <div className="flex items-center gap-2 px-4 pb-3 pt-4">
-        <LovableHeart className="size-6 shrink-0 transition-transform duration-300 hover:scale-110" />
-        <div ref={workspaceRef} className="relative min-w-0 flex-1">
+    <aside
+      className={`dash-sidebar fixed inset-y-0 left-0 z-40 hidden flex-col border-r border-linen-border bg-parchment transition-[width] duration-200 md:flex ${
+        collapsed ? "w-16" : "w-64"
+      }`}
+    >
+      {/* Reference layout: mark alone on top; collapse toggle beside it.
+          Collapsed state = icon rail; the mark itself becomes the expand button. */}
+      {collapsed ? (
+        <div className="flex justify-center px-2 pb-2 pt-4">
+          <button
+            type="button"
+            onClick={onToggleCollapsed}
+            aria-label="Expand navigation"
+            className="flex size-9 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-black/[0.04]"
+          >
+            <LovableHeart className="size-6" />
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between px-4 pb-2 pt-4">
+          <LovableHeart className="size-6 shrink-0 transition-transform duration-300 hover:scale-110" />
+          <button
+            type="button"
+            onClick={onToggleCollapsed}
+            aria-label="Collapse navigation"
+            className="flex size-8 items-center justify-center rounded-full text-dim-gray transition-colors hover:bg-black/[0.04] hover:text-charcoal"
+          >
+            <PanelLeftClose className="size-4" />
+          </button>
+        </div>
+      )}
+
+      {!collapsed ? (
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-3 pb-3">
+        {/* Workspace name pill — its own row above Home */}
+        <div ref={workspaceRef} className="relative">
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-haspopup="menu"
-            className="flex w-full min-w-0 items-center gap-1.5 rounded-lg px-1 py-1 text-left transition-colors hover:bg-black/[0.03]"
+            className="flex w-full min-w-0 items-center gap-1.5 rounded-xl border border-linen-border bg-warm-sand px-2 py-1.5 text-left transition-colors hover:bg-warm-sand/70"
           >
             <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02] text-[9.5px] font-medium text-parchment">
               {initials || "RD"}
             </span>
-            <span className="truncate text-[13.5px] font-medium tracking-tight text-charcoal">
+            <span className="min-w-0 flex-1 truncate text-[13.5px] font-medium tracking-tight text-charcoal">
               {user?.name ?? "Refero Design"}
             </span>
             <ChevronDown className="size-3.5 shrink-0 text-dim-gray" />
           </button>
-          {menuOpen ? (
-            <WorkspaceMenu
-              user={user}
-              initials={initials}
-              cascade={cascade}
-              setCascade={setCascade}
-              theme={theme}
-              onPickTheme={setTheme}
-              signOutRequest={requestSignOut}
-              onClose={() => {
-                setMenuOpen(false);
-                setCascade("closed");
-              }}
-            />
-          ) : null}
+          {menuOpen ? <WorkspaceMenu onClose={() => setMenuOpen(false)} /> : null}
         </div>
-      </div>
 
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-3 pb-3">
         <nav className="flex flex-col gap-0.5">
           <NavItem href="/dashboard" label="Home" icon={Home} active={isActive("/dashboard", true)} />
           <div className="relative">
@@ -791,14 +763,19 @@ export function AppSidebar() {
           </ul>
         </div>
       </div>
+      ) : null}
 
+      {!collapsed ? (
       <div className="mt-auto flex flex-col gap-2 border-t border-linen-border px-3 py-3">
         {/* Stacked promo cards — Upgrade rests on top, Share sits underneath;
             hovering slides the Share card out DOWNWARD below the Upgrade card. */}
+        {/* Promo stack expands UPWARD on hover: Upgrade slides up into the
+            scroll area, Share takes over its bottom slot — the sidebar's bottom
+            edge stays fixed and nothing gets clipped below it. */}
         <div className="group/promos relative h-16 w-full">
           <Link
             href="/settings/billing#plans"
-            className="relative z-10 flex h-16 w-full items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left transition-all duration-200 ease-out group-hover/promos:translate-y-[-4px]"
+            className="relative z-10 flex h-16 w-full items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left transition-all duration-200 ease-out group-hover/promos:-translate-y-[68px]"
           >
             <span className="min-w-0">
               <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
@@ -813,7 +790,7 @@ export function AppSidebar() {
             </span>
           </Link>
 
-          <div className="pointer-events-none absolute inset-x-0 top-full z-0 mt-1 translate-y-[-8px] scale-[0.97] opacity-0 transition-all duration-200 ease-out group-hover/promos:pointer-events-auto group-hover/promos:translate-y-0 group-hover/promos:scale-100 group-hover/promos:opacity-100">
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-0 translate-y-2 scale-[0.97] opacity-0 transition-all duration-200 ease-out group-hover/promos:pointer-events-auto group-hover/promos:translate-y-0 group-hover/promos:scale-100 group-hover/promos:opacity-100">
             <Link
               href="/dashboard/settings"
               className="flex h-16 w-full items-center justify-between gap-3 rounded-2xl border border-linen-border bg-warm-sand px-3 text-left"
@@ -860,15 +837,88 @@ export function AppSidebar() {
               />
             ) : null}
           </div>
-          <Link
-            href="/dashboard/settings"
-            className="flex size-8 items-center justify-center rounded-full text-dim-gray transition-colors hover:bg-black/[0.04] hover:text-charcoal"
-            aria-label="Messages and keys"
-          >
-            <Mail className="size-4" />
-          </Link>
+          <div ref={themeRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setThemeMenuOpen((v) => !v)}
+              aria-expanded={themeMenuOpen}
+              aria-haspopup="menu"
+              aria-label="Görünüm (tema)"
+              className="flex size-8 items-center justify-center rounded-full text-dim-gray transition-colors hover:bg-black/[0.04] hover:text-charcoal"
+            >
+              {theme === "dark" ? <Moon className="size-4" /> : <Sun className="size-4" />}
+            </button>
+            {themeMenuOpen ? (
+              <ThemeSubmenu placement="above" choice={theme} onPick={setTheme} />
+            ) : null}
+          </div>
         </div>
       </div>
+      ) : null}
+
+      {/* Collapsed icon rail: mark (expand), New, Search, theme, account */}
+      {collapsed ? (
+      <div className="flex min-h-0 flex-1 flex-col items-center gap-1 overflow-y-auto px-2 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <button
+          type="button"
+          onClick={() => router.push("/new")}
+          aria-label="New chat"
+          className="flex size-9 items-center justify-center rounded-full text-dim-gray transition-colors hover:bg-black/[0.04] hover:text-charcoal"
+        >
+          <SquarePen className="size-4" />
+        </button>
+        <Link
+          href="/dashboard"
+          aria-label="Search"
+          className="flex size-9 items-center justify-center rounded-full text-dim-gray transition-colors hover:bg-black/[0.04] hover:text-charcoal"
+        >
+          <Search className="size-4" />
+        </Link>
+        <div className="mt-auto flex flex-col items-center gap-1 border-t border-linen-border w-full pt-2">
+          <button
+            type="button"
+            onClick={() => setThemeMenuOpen((v) => !v)}
+            aria-expanded={themeMenuOpen}
+            aria-haspopup="menu"
+            aria-label="Görünüm (tema)"
+            className="relative flex size-9 items-center justify-center rounded-full text-dim-gray transition-colors hover:bg-black/[0.04] hover:text-charcoal"
+          >
+            {theme === "dark" ? <Moon className="size-4" /> : <Sun className="size-4" />}
+            {themeMenuOpen ? (
+              <ThemeSubmenu placement="above" choice={theme} onPick={setTheme} />
+            ) : null}
+          </button>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setAccountOpen((v) => !v)}
+              aria-expanded={accountOpen}
+              aria-label="Account menu"
+              className="flex size-9 items-center justify-center rounded-full"
+            >
+              <span className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02] text-[11px] font-medium text-parchment">
+                {initials || "GA"}
+              </span>
+            </button>
+            {accountOpen ? (
+              <AccountMenu
+                user={user}
+                initials={initials}
+                cascade={cascade}
+                setCascade={setCascade}
+                theme={theme}
+                onPickTheme={setTheme}
+                signOutRequest={requestSignOut}
+                onClose={() => {
+                  setAccountOpen(false);
+                  setCascade("closed");
+                }}
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>
+      ) : null}
 
       <ConnectorsDrawer open={connectorsOpen} onClose={() => setConnectorsOpen(false)} />
       {signOutOpen ? (

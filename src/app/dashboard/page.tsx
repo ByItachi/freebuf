@@ -149,6 +149,9 @@ export default function DashboardHomePage() {
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [typedPh, setTypedPh] = useState(PLACEHOLDER_SUGGESTIONS[0]);
   const [now, setNow] = useState(() => Date.now());
+
+  // Theme: applied by the sidebar's control (lovable.theme); nothing to do here.
+
   const { user, initials } = useUser();
 
   const firstName = useMemo(() => {
@@ -158,6 +161,11 @@ export default function DashboardHomePage() {
   }, [user]);
 
   const greeting = firstName ? `Got an idea, ${firstName}?` : "Got an idea?";
+
+  function closeSearch() {
+    setSearchOpen(false);
+    setQuery("");
+  }
 
   async function refresh() {
     try {
@@ -381,11 +389,6 @@ export default function DashboardHomePage() {
     });
   }
 
-  function closeSearch() {
-    setSearchOpen(false);
-    setQuery("");
-  }
-
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (q) {
@@ -423,7 +426,7 @@ export default function DashboardHomePage() {
       {/* Full-page pastel aurora: blurred corner blobs behind everything */}
       <div aria-hidden className="dash-hero-aurora pointer-events-none absolute inset-0" />
 
-      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col items-center px-6 pb-16 pt-10 sm:px-8">
+      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col items-center px-6 pb-16 pt-16 sm:px-8">
         <Link
           href="/dashboard/connectors"
           className="dash-connect-pill dash-anim-in inline-flex items-center gap-1 rounded-full border border-linen-border bg-parchment/75 px-3.5 py-1.5 text-[13px] tracking-tight text-charcoal shadow-[inset_0_0_0_0.5px_rgba(28,28,28,0.04)] backdrop-blur-md transition-transform hover:-translate-y-0.5"

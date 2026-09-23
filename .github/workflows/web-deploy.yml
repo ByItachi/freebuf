@@ -1,0 +1,71 @@
+name: Web Deploy (Live)
+
+# Two supported live paths:
+#  1. Vercel (recommended): set VERCEL_TOKEN as a repo secret, or just import
+#     the repo in the Vercel dashboard once — this workflow then becomes a no-op.
+#  2. Docker: builds an image and (optionally) pushes to GHCR when
+#     settings > actions > workflow permissions allow it.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  vercel:
+    if: ${{ vars.DEPLOY_TARGET == 'vercel' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Pull Vercel environment
+        run: npx vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: Build
+        run: npx vercel build --prod --token=$VERCEL_TOKEN
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy
+        run: npx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+  docker:
+    if: ${{ vars.DEPLOY_TARGET == 'docker' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: freebuff-web:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Smoke test
+        run: |
+          docker run -d --name smoke -p 3000:3000 freebuff-web:latest
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:3000/api/platform/status > /dev/null; then
+              echo "server responded ✓"; docker rm -f smoke > /dev/null; exit 0
+            fi
+            sleep 2
+          done
+          docker logs smoke; docker rm -f smoke > /dev/null; exit 1
+      - name: Push to GHCR
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}/freebuff-web:latest

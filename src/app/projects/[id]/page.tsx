@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
-  ArrowUp,
   Check,
   ChevronDown,
   Loader2,
@@ -18,6 +17,9 @@ import {
   Star,
 } from "lucide-react";
 import { recordProjectView, unhideProjectFromRecents } from "@/lib/recents";
+import ModelPicker from "@/components/chat/model-picker";
+import type { ModelSelection } from "@/lib/models";
+import { spendCredit } from "@/lib/credits";
 function cn(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
@@ -54,14 +56,54 @@ export default function ProjectWorkspacePage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(true);
+  // Mobile: builder is single-pane; tabs switch Chat ↔ Preview (md+ shows both).
+  const [mobileTab, setMobileTab] = useState<"chat" | "preview">("chat");
   const [modeOpen, setModeOpen] = useState(false);
   const [attachOpen, setAttachOpen] = useState(false);
   const [mode, setMode] = useState<"build" | "plan">("build");
   const [listening, setListening] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
+  // Model selection (shared with /new via localStorage)
+  const [selection, setSelection] = useState<ModelSelection>({ source: "demo", model: "manus-builder" });
+  const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
+  const [ollama, setOllama] = useState<{ running?: boolean; models: string[] }>({ models: [] });
   const modeMenuRef = useRef<HTMLDivElement>(null);
   const attachMenuRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Load selection + keys + ollama status (deferred; same stores as /new)
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        const modelRaw = localStorage.getItem("lovable.model");
+        if (modelRaw) {
+          const parsed = JSON.parse(modelRaw) as ModelSelection;
+          if (parsed && typeof parsed.model === "string") setSelection(parsed);
+        }
+      } catch {}
+      try {
+        const keysRaw = localStorage.getItem("lovable.keys");
+        if (keysRaw) setApiKeys(JSON.parse(keysRaw) as Record<string, string>);
+      } catch {}
+      fetch("/api/models")
+        .then((r) => r.json())
+        .then((d) => setOllama({ running: d.running, models: d.models ?? [] }))
+        .catch(() => setOllama({ running: false, models: [] }));
+    }, 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Persist selection + keys so /new stays in sync
+  useEffect(() => {
+    try {
+      localStorage.setItem("lovable.model", JSON.stringify(selection));
+    } catch {}
+  }, [selection]);
+  useEffect(() => {
+    try {
+      localStorage.setItem("lovable.keys", JSON.stringify(apiKeys));
+    } catch {}
+  }, [apiKeys]);
 
   // Voice input (same as the dashboard composer)
   const toggleVoice = useCallback(() => {
@@ -194,24 +236,11 @@ export default function ProjectWorkspacePage() {
       setProject({ ...project, messages });
 
       try {
-        const keysRaw = localStorage.getItem("lovable.keys");
-        const keys = keysRaw ? (JSON.parse(keysRaw) as Record<string, string>) : {};
-        const modelRaw = localStorage.getItem("lovable.model");
-        let selection: { source: string; providerId?: string; model: string } = {
-          source: "demo",
-          model: "manus-builder",
-        };
-        try {
-          if (modelRaw) selection = JSON.parse(modelRaw);
-        } catch {}
-
-        let source = selection.source === "ollama" ? "ollama" : selection.source === "remote" ? "remote" : "demo";
-        // Prefer remote if key present; else demo
-        if (source === "remote") {
-          const providerId = selection.providerId;
-          const hasKey = providerId ? Boolean(keys[providerId]) : false;
-          if (!hasKey) source = "demo";
-        }
+        // Remote providers fall back to env/panel keys server-side; ollama is direct.
+        const source =
+          selection.source === "ollama" || selection.source === "remote"
+            ? selection.source
+            : "demo";
 
         const res = await fetch("/api/chat", {
           method: "POST",
@@ -219,12 +248,13 @@ export default function ProjectWorkspacePage() {
           body: JSON.stringify({
             source,
             providerId: selection.providerId,
-            apiKey: selection.providerId ? keys[selection.providerId] : undefined,
-            model: source === "demo" ? "manus-builder" : selection.model,
+            apiKey: selection.providerId ? apiKeys[selection.providerId] : undefined,
+            model: selection.model,
             messages,
           }),
         });
         const data = await res.json();
+        if (res.ok) spendCredit();
         if (!res.ok) {
           // soft-fallback to demo
           const demo = await fetch("/api/chat", {
@@ -258,7 +288,7 @@ export default function ProjectWorkspacePage() {
         setBusy(false);
       }
     },
-    [project, busy, input],
+    [project, busy, input, selection, apiKeys],
   );
 
   useEffect(() => {
@@ -301,7 +331,7 @@ export default function ProjectWorkspacePage() {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-parchment text-charcoal">
+    <div className="flex h-[100dvh] flex-col bg-parchment text-charcoal">
       <header className="flex h-14 shrink-0 items-center gap-3 border-b border-linen-border px-4">
         <button
           type="button"
@@ -342,7 +372,7 @@ export default function ProjectWorkspacePage() {
       </header>
 
       <div className="flex min-h-0 flex-1">
-        <section className="flex min-w-0 flex-1 flex-col">
+        <section className={`flex min-w-0 flex-1 flex-col ${mobileTab === "preview" ? "hidden md:flex" : "flex"}`}>
           <div className="flex-1 overflow-y-auto px-4 py-6">
             <div className="mx-auto flex max-w-2xl flex-col gap-4">
               {project.messages.map((m, i) => (
@@ -380,22 +410,23 @@ export default function ProjectWorkspacePage() {
                 e.preventDefault();
                 void runChat();
               }}
-            >
-              <textarea
-                rows={2}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask AI to change the UI, add a section, connect data…"
-                className="max-h-40 min-h-[28px] w-full resize-none bg-transparent px-2 py-1.5 text-[14px] leading-snug tracking-tight text-charcoal outline-none placeholder:text-dim-gray"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    void runChat();
-                  }
-                }}
-              />
-              <div className="mt-0.5 flex items-end justify-between gap-2">
-                <div ref={attachMenuRef} className="relative">
+        >
+          <textarea
+            rows={2}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask AI to change the UI, add a section, connect data…"
+            className="max-h-40 min-h-[28px] w-full resize-none bg-transparent px-2 py-1.5 text-[14px] leading-snug tracking-tight text-charcoal outline-none placeholder:text-dim-gray"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                void runChat();
+              }
+            }}
+          />
+          <div className="mt-0.5 flex items-end justify-between gap-2">
+            <div className="flex items-end gap-1.5">
+              <div ref={attachMenuRef} className="relative">
                   <button
                     type="button"
                     onClick={() => setAttachOpen((v) => !v)}
@@ -432,7 +463,18 @@ export default function ProjectWorkspacePage() {
                     </div>
                   ) : null}
                 </div>
-                <div className="mb-0.5 flex shrink-0 items-center gap-1.5">
+                <div className="relative max-w-[200px]">
+                  <ModelPicker
+                    selection={selection}
+                    apiKeys={apiKeys}
+                    ollamaRunning={ollama.running}
+                    ollamaModels={ollama.models}
+                    onSelect={setSelection}
+                    onKeyChange={(pid, key) => setApiKeys((k) => ({ ...k, [pid]: key }))}
+                  />
+                </div>
+              </div>
+              <div className="mb-0.5 flex shrink-0 items-center gap-1.5">
                   <div ref={modeMenuRef} className="relative hidden sm:block">
                     <button
                       type="button"
@@ -519,7 +561,11 @@ export default function ProjectWorkspacePage() {
         </section>
 
         {showPreview ? (
-          <aside className="hidden w-[46%] min-w-[320px] border-l border-linen-border bg-white lg:flex lg:flex-col">
+          <aside
+            className={`min-w-0 flex-1 flex-col border-t border-linen-border bg-white md:w-[46%] md:min-w-[320px] md:flex-row md:border-t-0 md:border-l ${
+              mobileTab === "preview" ? "flex" : "hidden md:flex"
+            }`}
+          >
             <div className="flex h-10 items-center justify-between border-b border-linen-border px-3 text-[12px] text-dim-gray">
               <span>Live preview</span>
               <span className="rounded-full bg-black/[0.04] px-2 py-0.5">HTML</span>
@@ -533,6 +579,33 @@ export default function ProjectWorkspacePage() {
           </aside>
         ) : null}
       </div>
+
+      {/* Mobile bottom tab bar: Chat ↔ Preview (md+ shows both panes) */}
+      <nav
+        className="flex shrink-0 items-center justify-center gap-1 border-t border-linen-border bg-parchment pb-[env(safe-area-inset-bottom)] md:hidden"
+        aria-label="Builder panels"
+      >
+        {(
+          [
+            { id: "chat" as const, label: "Chat" },
+            { id: "preview" as const, label: "Preview" },
+          ]
+        ).map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => setMobileTab(t.id)}
+            aria-pressed={mobileTab === t.id}
+            className={`rounded-full px-4 py-2 text-[13px] tracking-tight transition-colors ${
+              mobileTab === t.id
+                ? "bg-black/[0.06] font-medium text-ink"
+                : "text-dim-gray hover:bg-black/[0.03] hover:text-charcoal"
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </nav>
     </div>
   );
 }

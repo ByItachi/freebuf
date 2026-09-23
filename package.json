@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "icon": "node scripts/generate-icon.mjs",
+    "desktop:prepare": "node scripts/prepare-desktop.mjs",
+    "desktop:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "deploy:docker": "docker build -t freebuff-web ."
   },
   "dependencies": {
     "lucide-react": "^1.45.0",
@@ -16,6 +21,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/cli": "^2.11.5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

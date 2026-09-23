@@ -7,6 +7,7 @@ import {
   deletePaymentMethod,
   listInvoices,
   listPaymentMethods,
+  recordAudit,
   updateInvoice,
   updatePaymentMethod,
 } from "@/lib/admin-store";
@@ -60,17 +61,35 @@ export async function POST(request: Request) {
         description: body.description,
         status: body.status,
       });
+      await recordAudit({
+        action: "invoice.create",
+        description: `Fatura oluşturuldu: ${invoice.number} — $${invoice.amount}`,
+        metadata: { invoiceId: invoice.id, memberId: invoice.memberId },
+      });
       return NextResponse.json({ invoice }, { status: 201 });
     }
     case "invoice.update": {
       if (!body.id) return NextResponse.json({ error: "id required" }, { status: 400 });
       const invoice = await updateInvoice(body.id, { status: body.status });
       if (!invoice) return NextResponse.json({ error: "not found" }, { status: 404 });
+      await recordAudit({
+        action: "invoice.update",
+        description: `Fatura güncellendi: ${invoice.number} → ${invoice.status}`,
+        metadata: { invoiceId: invoice.id, status: invoice.status },
+      });
       return NextResponse.json({ invoice });
     }
     case "invoice.delete": {
       if (!body.id) return NextResponse.json({ error: "id required" }, { status: 400 });
-      return NextResponse.json({ deleted: await deleteInvoice(body.id) });
+      const ok = await deleteInvoice(body.id);
+      if (ok) {
+        await recordAudit({
+          action: "invoice.delete",
+          description: `Fatura silindi: ${body.id}`,
+          metadata: { invoiceId: body.id },
+        });
+      }
+      return NextResponse.json({ deleted: ok });
     }
     case "pm.create": {
       if (!body.memberId || !body.brand || !body.last4) {

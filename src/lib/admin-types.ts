@@ -1,5 +1,6 @@
 import type {
   AIConfig,
+  AuditEntry,
   ConnectorState,
   Invoice,
   Member,
@@ -39,5 +40,6 @@ export type AdminSnapshot = {
   aiProviders: { id: string; name: string; keyUrl: string }[];
   aiEnvKeyFlags: Record<string, boolean>;
   aiStoredKeyFlags: Record<string, boolean>;
+  auditLog: AuditEntry[];
   projects: AdminProjectRow[];
 };

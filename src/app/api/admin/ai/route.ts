@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/admin-auth";
 import {
   getAIConfig,
   providerKeyFlags,
+  recordAudit,
   setProviderKey,
   updateAIConfig,
 } from "@/lib/admin-store";
@@ -52,13 +53,26 @@ export async function POST(request: Request) {
       patch.maxTokens = Math.min(32768, Math.max(256, Math.round(body.ai.maxTokens)));
     }
     await updateAIConfig(patch);
+    await recordAudit({
+      action: "ai.config.update",
+      description: `AI ayarları güncellendi`,
+      metadata: { ...patch },
+    });
   }
 
   if (body.providerId) {
     if (!PROVIDERS.some((p) => p.id === body.providerId)) {
       return NextResponse.json({ error: "unknown provider" }, { status: 400 });
     }
+    const settingKey = Boolean(body.apiKey);
     await setProviderKey(body.providerId, body.apiKey ? String(body.apiKey).trim() : null);
+    await recordAudit({
+      action: settingKey ? "ai.key.set" : "ai.key.remove",
+      description: settingKey
+        ? `Provider anahtarı kaydedildi: ${body.providerId}`
+        : `Provider anahtarı silindi: ${body.providerId}`,
+      metadata: { providerId: body.providerId },
+    });
   }
 
   const [ai, storedKeyFlags] = await Promise.all([getAIConfig(), providerKeyFlags()]);

@@ -61,6 +61,18 @@ export type ConnectorState = {
   connected: boolean;
 };
 
+export type AuditEntry = {
+  id: string;
+  /** e.g. "member.update", "invoice.create", "ai.key.set", "connector.toggle" */
+  action: string;
+  description: string;
+  /** Who performed it ("admin" until real user sessions exist). */
+  actor: string;
+  createdAt: string;
+  status: "success" | "error";
+  metadata?: Record<string, unknown>;
+};
+
 type AdminDB = {
   members: Member[];
   invoices: Invoice[];
@@ -69,9 +81,13 @@ type AdminDB = {
   ai: AIConfig;
   /** Provider API keys pasted from the admin panel. Never returned to clients. */
   providerKeys: Record<string, string>;
+  /** Append-only action log, newest first, capped. */
+  auditLog: AuditEntry[];
 };
 
-const DATA_DIR = path.join(process.cwd(), ".data");
+// Same policy as src/lib/store.ts: writable dir via FREEBUFF_DATA_DIR when
+// running from an installed desktop build or a hosted deploy.
+const DATA_DIR = process.env.FREEBUFF_DATA_DIR ?? path.join(process.cwd(), ".data");
 const DB_PATH = path.join(DATA_DIR, "admin.json");
 
 /** Canonical connector catalog (mirrors /dashboard/connectors). */
@@ -168,6 +184,7 @@ function seed(): AdminDB {
       updatedAt: iso(0),
     },
     providerKeys: {},
+    auditLog: [],
   };
 }
 
@@ -185,6 +202,7 @@ async function ensureDb(): Promise<AdminDB> {
       connectors: { ...base.connectors, ...(db.connectors ?? {}) },
       ai: { ...base.ai, ...(db.ai ?? {}) },
       providerKeys: db.providerKeys ?? {},
+      auditLog: db.auditLog ?? [],
     };
   } catch {
     const db = seed();
@@ -446,4 +464,38 @@ export async function adminOverview() {
     ai: db.ai,
     hasAnyProviderKey: Object.keys(db.providerKeys).length > 0,
   };
+}
+
+/* ------------------------------- audit log ------------------------------ */
+
+const AUDIT_CAP = 500;
+
+/** Append-only audit entry (newest first). Fire-and-forget safe. */
+export async function recordAudit(entry: {
+  action: string;
+  description: string;
+  actor?: string;
+  status?: "success" | "error";
+  metadata?: Record<string, unknown>;
+}) {
+  const db = await ensureDb();
+  db.auditLog = [
+    {
+      id: randomUUID(),
+      action: entry.action,
+      description: entry.description,
+      actor: entry.actor ?? "admin",
+      createdAt: new Date().toISOString(),
+      status: entry.status ?? "success",
+      metadata: entry.metadata,
+    },
+    ...db.auditLog,
+  ].slice(0, AUDIT_CAP);
+  await saveDb(db);
+}
+
+/** Newest-first audit entries. */
+export async function listAudit(): Promise<AuditEntry[]> {
+  const db = await ensureDb();
+  return db.auditLog;
 }

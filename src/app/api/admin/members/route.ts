@@ -4,6 +4,7 @@ import {
   createMember,
   deleteMember,
   listMembers,
+  recordAudit,
   updateMember,
   type MemberPlan,
   type MemberRole,
@@ -45,6 +46,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "name and valid email required" }, { status: 400 });
       }
       const member = await createMember({ name, email, role: body.role, plan: body.plan });
+      await recordAudit({
+        action: "member.create",
+        description: `Üye eklendi: ${member.name} (${member.email})`,
+        metadata: { memberId: member.id, role: member.role },
+      });
       return NextResponse.json({ member }, { status: 201 });
     }
     case "update": {
@@ -58,11 +64,24 @@ export async function POST(request: Request) {
       if (body.email) patch.email = String(body.email).trim().toLowerCase();
       const member = await updateMember(body.id, patch);
       if (!member) return NextResponse.json({ error: "not found" }, { status: 404 });
+      await recordAudit({
+        action: "member.update",
+        description: `Üye güncellendi: ${member.name}`,      
+        metadata: { memberId: member.id, ...patch },
+      });
       return NextResponse.json({ member });
     }
     case "delete": {
       if (!body.id) return NextResponse.json({ error: "id required" }, { status: 400 });
+      const target = (await listMembers()).find((m) => m.id === body.id);
       const ok = await deleteMember(body.id);
+      if (ok) {
+        await recordAudit({
+          action: "member.delete",
+          description: `Üye silindi: ${target?.name ?? body.id}`,
+          metadata: { memberId: body.id },
+        });
+      }
       return NextResponse.json({ deleted: ok });
     }
     default:

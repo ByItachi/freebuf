@@ -2,9 +2,11 @@
 
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { LovableLogo, LovableMark } from "@/components/brand";
+import { ArrowUp } from "lucide-react";
+import { LovableMark } from "@/components/brand";
 import ModelPicker from "@/components/chat/model-picker";
 import { getProvider, type ModelSelection } from "@/lib/models";
+import { spendCredit } from "@/lib/credits";
 
 const suggestions = [
   "Build me a landing page for my new SaaS product",
@@ -119,6 +121,7 @@ function NewChatInner() {
           }),
         });
         const data = await res.json();
+        if (res.ok) spendCredit();
         const reply = (data.content as string) ?? (data.error ? `Error: ${data.error}` : "No reply");
         setMessages((m) => [...m, { role: "assistant", content: reply }]);
       } catch {
@@ -141,10 +144,10 @@ function NewChatInner() {
 
   return (
     <div className="flex min-h-screen bg-parchment text-charcoal">
-      {/* ===== Sidebar ===== */}
+      {/* ===== Sidebar — mark alone on top, actions below (reference layout) ===== */}
       <aside className="hidden w-[268px] shrink-0 flex-col border-r border-linen-border bg-warm-sand md:flex">
         <div className="px-4 py-4">
-          <LovableLogo className="text-charcoal" />
+          <LovableMark className="h-7 w-7 text-charcoal" />
         </div>
         <div className="px-3">
           <button
@@ -270,25 +273,11 @@ function NewChatInner() {
           </div>
         )}
 
-        {/* ===== Composer ===== */}
+        {/* ===== Composer — model picker lives INSIDE the composer (reference layout):
+            + on the left, model pill + round send button on the right. ===== */}
         <div className="border-t border-linen-border px-4 pb-4 pt-3">
-          <div className="mx-auto mb-2 flex max-w-3xl items-center justify-between gap-2 px-1">
-            <ModelPicker
-              selection={selection}
-              apiKeys={apiKeys}
-              ollamaRunning={ollamaRunning}
-              ollamaModels={ollama.models}
-              onSelect={setSelection}
-              onKeyChange={(id, key) =>
-                setApiKeys((k) => ({ ...k, [id]: key }))
-              }
-            />
-            <span className="hidden text-[11px] text-dim-gray sm:block">
-              Free models via Ollama + Free-LLM directory
-            </span>
-          </div>
           <form
-            className="mx-auto flex max-w-3xl items-end gap-2 rounded-3xl border border-linen-border bg-warm-sand p-2 pl-5 shadow-subtle-2 focus-within:border-stone"
+            className="mx-auto max-w-3xl rounded-3xl border border-linen-border bg-warm-sand p-2 pl-3 shadow-subtle-2 focus-within:border-stone"
             onSubmit={(e) => {
               e.preventDefault();
               send();
@@ -300,7 +289,7 @@ function NewChatInner() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Describe what you want to build..."
               aria-label="Message"
-              className="max-h-40 min-h-[40px] flex-1 resize-none bg-transparent py-2.5 text-[15px] leading-[1.5] text-charcoal outline-none placeholder:text-dim-gray"
+              className="max-h-40 min-h-[40px] w-full resize-none bg-transparent px-2 py-2.5 text-[15px] leading-[1.5] text-charcoal outline-none placeholder:text-dim-gray"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
@@ -308,22 +297,28 @@ function NewChatInner() {
                 }
               }}
             />
-            <button
-              type="submit"
-              aria-label="Send"
-              disabled={!input.trim() || thinking}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full hero-gradient-btn text-white transition-transform hover:scale-105 disabled:opacity-40"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M5 12h14m0 0l-6-6m6 6l-6 6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+            <div className="mt-0.5 flex items-center justify-end gap-2">
+              <div className="flex shrink-0 items-center gap-1.5">
+                <ModelPicker
+                  selection={selection}
+                  apiKeys={apiKeys}
+                  ollamaRunning={ollamaRunning}
+                  ollamaModels={ollama.models}
+                  onSelect={setSelection}
+                  onKeyChange={(id, key) =>
+                    setApiKeys((k) => ({ ...k, [id]: key }))
+                  }
                 />
-              </svg>
-            </button>
+                <button
+                  type="submit"
+                  aria-label="Send"
+                  disabled={!input.trim() || thinking}
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full bg-charcoal text-parchment transition-transform hover:scale-105 disabled:opacity-40"
+                >
+                  <ArrowUp className="size-4" />
+                </button>
+              </div>
+            </div>
           </form>
           <p className="mx-auto mt-2 max-w-3xl text-[11px] text-dim-gray">
             Free models can make mistakes. Your API keys never leave this browser.

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
 import {
   adminOverview,
+  listAudit,
   listMembers,
   listInvoices,
   listPaymentMethods,
@@ -16,7 +17,7 @@ export async function GET() {
   const denied = await requireAdmin();
   if (denied) return denied;
 
-  const [overview, members, invoices, paymentMethods, connectors, projects, storedKeyFlags] =
+  const [overview, members, invoices, paymentMethods, connectors, projects, storedKeyFlags, auditLog] =
     await Promise.all([
       adminOverview(),
       listMembers(),
@@ -25,6 +26,7 @@ export async function GET() {
       listConnectorStates(),
       listProjects(),
       providerKeyFlags(),
+      listAudit(),
     ]);
 
   return NextResponse.json({
@@ -38,6 +40,7 @@ export async function GET() {
       PROVIDERS.map((p) => [p.id, Boolean(p.envKey && process.env[p.envKey])]),
     ),
     aiStoredKeyFlags: storedKeyFlags,
+    auditLog,
     projects: projects.map((p) => ({
       id: p.id,
       name: p.name,

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { KeyRound, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { LovableMark } from "@/components/brand";
 
 export function LoginForm() {
   const [password, setPassword] = useState("");
@@ -33,15 +34,17 @@ export function LoginForm() {
   return (
     <form
       onSubmit={submit}
-      className="w-full max-w-sm rounded-3xl border border-white/10 bg-[#1c1c1a] p-6 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.6)]"
+      className="w-full max-w-sm rounded-3xl border border-linen-border bg-parchment p-6 shadow-[0_24px_60px_-32px_rgba(28,28,28,0.25)]"
     >
-      <div className="flex size-11 items-center justify-center rounded-2xl bg-white/[0.06] text-white">
-        <KeyRound className="size-5" />
+      <div className="flex items-center gap-2">
+        <LovableMark className="size-6" />
+        <span className="text-[15px] font-medium tracking-tight text-charcoal">Refero Design</span>
       </div>
-      <h1 className="mt-4 text-[18px] font-medium tracking-tight text-white">Admin paneli</h1>
-      <p className="mt-1 text-[13px] leading-relaxed text-white/50">
-        Devam etmek için yönetici şifresini gir. <code className="text-white/70">ADMIN_PASSWORD</code>{" "}
-        ortam değişkeniyle belirlenir; tanımlı değilse sunucu konsolunda geçici şifre görünür.
+      <h1 className="mt-4 text-[18px] font-medium tracking-tight text-charcoal">Admin paneli</h1>
+      <p className="mt-1 text-[13px] leading-relaxed text-dim-gray">
+        Devam etmek için yönetici şifresini gir.{" "}
+        <code className="text-charcoal">ADMIN_PASSWORD</code> ortam değişkeniyle belirlenir;
+        tanımlı değilse sunucu konsolunda geçici şifre görünür.
       </p>
       <input
         type="password"
@@ -49,13 +52,13 @@ export function LoginForm() {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Yönetici şifresi"
         autoFocus
-        className="mt-4 w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-[14px] text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/25"
+        className="mt-4 w-full rounded-xl border border-linen-border bg-parchment px-3.5 py-2.5 text-[14px] text-charcoal outline-none transition-colors placeholder:text-dim-gray focus:border-stone"
       />
-      {error ? <p className="mt-2 text-[12px] text-red-400">{error}</p> : null}
+      {error ? <p className="mt-2 text-[12px] text-red-600">{error}</p> : null}
       <button
         type="submit"
         disabled={busy || !password}
-        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-[14px] font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-40"
+        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-charcoal px-4 py-2.5 text-[14px] font-medium text-parchment transition-opacity hover:opacity-90 disabled:opacity-40"
       >
         {busy ? <Loader2 className="size-4 animate-spin" /> : null}
         Giriş yap

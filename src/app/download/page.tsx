@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { CtaBand, InnerHero, Section } from "@/components/site/inner";
-import { px } from "@/lib/img";
+import { FreebuffDownload } from "./freebuff-download";
+
+export const metadata: Metadata = {
+  title: "Download & CLI — Manus",
+  description:
+    "Manus desktop for Windows, macOS and Linux — plus the manus CLI with an interactive terminal REPL.",
+};
 
 export default function DownloadPage() {
   return (
@@ -7,40 +14,48 @@ export default function DownloadPage() {
       <InnerHero
         eyebrow="Apps"
         title="Dream it. Build it. Ship it."
-        sub="Your best ideas. On the go — plus Figma to Lovable for your design workflow."
-        primary={{ label: "Get the mobile app", href: "/new" }}
-        secondary={{ label: "Figma to Lovable", href: "/new" }}
+        sub="Manus Desktop for Windows, macOS and Linux — plus the manus CLI with an interactive REPL for your terminal workflow."
+        primary={{ label: "Download for Windows", href: "/api/download/windows" }}
       />
       <section className="mx-auto max-w-6xl px-4 md:px-8">
-        <div className="overflow-hidden rounded-3xl border border-black/10 shadow-sm">
-          <img
-            src={px("https://lovable.dev/cdn-cgi/image/width=2000,f=auto,fit=scale-down/https://assets.lovable.dev/img/download/downloads-desktop.webp")}
-            alt="Lovable desktop app"
-            loading="eager"
-            decoding="async"
-            className="aspect-[16/9] w-full object-cover"
-          />
-        </div>
+        <FreebuffDownload />
       </section>
 
-      <Section eyebrow="Design to product" title="Figma to Lovable">
+      <Section eyebrow="Terminal" title="manus CLI">
         <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-12">
-          <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
-            <img
-              src={px("https://lovable.dev/cdn-cgi/image/width=1164,f=auto,fit=scale-down/img/download/figma-plugin-window.webp")}
-              alt="Figma plugin window"
-              loading="lazy"
-              decoding="async"
-              className="aspect-[4/3] w-full object-cover object-top"
-            />
+          <div className="rounded-2xl border border-linen-border bg-warm-sand/60 p-5">
+            <p className="text-[13px] font-medium tracking-tight text-charcoal">
+              Kurulum &amp; interaktif REPL
+            </p>
+            <pre className="mt-3 overflow-x-auto rounded-xl bg-charcoal p-4 text-[12.5px] leading-relaxed text-parchment">
+              <code>{`$ npm i -g manus-cli
+$ manus login --server http://localhost:3000
+$ manus chat
+
+  __  __
+ |  \\/  |   _ __     ___   _ __    ___
+  manus  · http://localhost:3000
+
+available commands:
+  /exit or Ctrl+C    stop or exit
+  /regen             regenerate the last response
+  /clear             clear the chat history
+  /read <file>       attach a text file
+  /projects          list workspace projects
+  /new <prompt>      create a project and select it
+
+you > merhaba
+manus > Merhaba! Projen için ne yapabilirim?`}</code>
+            </pre>
           </div>
           <div>
             <h3 className="text-2xl font-medium tracking-tight text-charcoal md:text-3xl">
-              Send frames straight into a working project
+              Agent&apos;ınla terminalde konuş
             </h3>
             <p className="mt-3 text-lg leading-snug text-charcoal/65">
-              Keep your design workflow. Import frames and get functional, responsive pages back —
-              ready to refine with prompts.
+              llama-cli esintili interaktif REPL: dosya ekleyin (<code className="rounded bg-black/[0.05] px-1 text-[0.85em]">/read</code>),
+              proje oluşturun (<code className="rounded bg-black/[0.05] px-1 text-[0.85em]">/new</code>), yanıtları yeniden üretin
+              (<code className="rounded bg-black/[0.05] px-1 text-[0.85em]">/regen</code>). Windows, macOS ve Linux&apos;ta Node.js 18+ ile çalışır.
             </p>
           </div>
         </div>

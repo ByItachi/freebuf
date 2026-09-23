@@ -1,0 +1,50 @@
+version: "3.9"
+
+# Freebuff web stack: app + Postgres/Redis ready for future server components.
+# Usage:
+#   docker compose up -d --build          # start
+#   docker compose logs -f app            # watch
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      FREEBUFF_DATA_DIR: /app/data
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me}
+      # Forward provider keys from .env.production if set
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+    volumes:
+      - app-data:/app/data
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: freebuff
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-freebuff}
+      POSTGRES_DB: freebuff
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U freebuff"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cache:
+    image: redis:7-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  app-data:
+  db-data:

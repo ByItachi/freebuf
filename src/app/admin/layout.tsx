@@ -11,7 +11,7 @@ export const metadata = { title: "Admin — crowl" };
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   if (!(await isAdmin())) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#141412] px-4">
+      <div className="flex min-h-screen items-center justify-center bg-parchment px-4">
         <LoginForm />
       </div>
     );

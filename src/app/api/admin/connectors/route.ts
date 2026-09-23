@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
-import { listConnectorStates, setConnectorEnabled, setConnectorConnected } from "@/lib/admin-store";
+import {
+  listConnectorStates,
+  recordAudit,
+  setConnectorEnabled,
+  setConnectorConnected,
+} from "@/lib/admin-store";
 
 export async function GET() {
   const denied = await requireAdmin();
@@ -29,5 +34,12 @@ export async function POST(request: Request) {
     state = await setConnectorConnected(body.id, body.connected);
   }
   if (!state) return NextResponse.json({ error: "nothing to update" }, { status: 400 });
+  await recordAudit({
+    action: "connector.toggle",
+    description: `Connector güncellendi: ${body.id}${
+      typeof body.enabled === "boolean" ? ` · enabled=${body.enabled}` : ""
+    }${typeof body.connected === "boolean" ? ` · connected=${body.connected}` : ""}`,
+    metadata: { connectorId: body.id, enabled: body.enabled, connected: body.connected },
+  });
   return NextResponse.json({ connector: state });
 }

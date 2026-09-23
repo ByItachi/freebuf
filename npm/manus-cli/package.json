@@ -1,0 +1,31 @@
+{
+  "name": "manus-cli",
+  "version": "0.2.0",
+  "description": "Manus CLI — interactive terminal REPL for your Manus workspace (chat, projects, agent)",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "manus": "./manus.mjs"
+  },
+  "files": [
+    "manus.mjs",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "manus",
+    "cli",
+    "repl",
+    "ai",
+    "agent",
+    "llama-cli",
+    "chat"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/manus.git",
+    "directory": "npm/manus-cli"
+  }
+}

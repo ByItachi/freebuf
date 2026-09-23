@@ -1046,6 +1046,90 @@
   opacity: 0.45;
 }
 
+/* Dark-mode compatibility layer: utility classes that bake in literal
+   white/black values must flip together with the token flips above, or
+   text rendered in --color-charcoal (near-white in dark) disappears on
+   white cards. Kept as CSS overrides so JSX stays on plain utilities. */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+[data-theme="dark"] .bg-white {
+  background-color: var(--color-warm-sand);
+}
+[data-theme="dark"] .bg-white\/80 {
+  background-color: rgb(32 31 37 / 0.8);
+}
+[data-theme="dark"] .bg-white\/85 {
+  background-color: rgb(32 31 37 / 0.85);
+}
+[data-theme="dark"] .bg-white\/60 {
+  background-color: rgb(32 31 37 / 0.6);
+}
+[data-theme="dark"] .bg-white\/40 {
+  background-color: rgb(32 31 37 / 0.4);
+}
+[data-theme="dark"] .border-black\/10,
+[data-theme="dark"] .border-black\/5 {
+  border-color: var(--color-linen-border);
+}
+[data-theme="dark"] .bg-black\/\[0\.02\],
+[data-theme="dark"] .bg-black\/\[0\.03\],
+[data-theme="dark"] .bg-black\/\[0\.04\],
+[data-theme="dark"] .bg-black\/\[0\.05\],
+[data-theme="dark"] .bg-black\/\[0\.06\],
+[data-theme="dark"] .bg-black\/\[0\.08\] {
+  background-color: rgb(255 255 255 / 0.07);
+}
+[data-theme="dark"] .hover\:bg-black\/\[0\.03\]:hover,
+[data-theme="dark"] .hover\:bg-black\/\[0\.04\]:hover,
+[data-theme="dark"] .hover\:bg-black\/\[0\.05\]:hover,
+[data-theme="dark"] .hover\:bg-black\/\[0\.06\]:hover {
+  background-color: rgb(255 255 255 / 0.07);
+}
+[data-theme="dark"] .focus\:bg-black\/\[0\.05\]:focus {
+  background-color: rgb(255 255 255 / 0.07);
+}
+[data-theme="dark"] .hover\:bg-black\/\[0\.02\]:hover {
+  background-color: rgb(255 255 255 / 0.04);
+}
+[data-theme="dark"] .bg-black {
+  background-color: #000000;
+}
+/* Business/Enterprise badges: lavender chip readable on dark */
+[data-theme="dark"] .bg-\[\#efedfb\] {
+  background-color: #322e59;
+}
+[data-theme="dark"] .text-\[\#5b4fc4\] {
+  color: #b9b2f2;
+}
+[data-theme="dark"] .border-\[\#c9c4f2\] {
+  border-color: #4a4390;
+}
+/* Dashboard primitives with fixed light backgrounds */
+[data-theme="dark"] .view-switcher {
+  background: rgb(255 255 255 / 0.06);
+  border-color: rgb(255 255 255 / 0.1);
+}
+[data-theme="dark"] .view-switcher button[aria-selected="true"] {
+  background: #2a2930;
+}
+[data-theme="dark"] .lov-switcher-track {
+  background: #201f25;
+}
+[data-theme="dark"] .select-field-content {
+  background: rgb(255 255 255 / 0.07);
+  border-color: rgb(255 255 255 / 0.1);
+}
+[data-theme="dark"] .switch-track {
+  background: #3b3a42;
+  border-color: rgb(255 255 255 / 0.12);
+}
+[data-theme="dark"] .mention-pill {
+  background: rgb(75 115 255 / 0.18);
+  border-color: rgb(75 115 255 / 0.3);
+  color: #9db9ff;
+}
+
 /* Connectors pill: icons slide left continuously on hover (marquee).
    Track is duplicated once; -50% shift = one full set = seamless loop. */
 @keyframes dash-pill-marquee {

@@ -1,7 +1,8 @@
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 
 export type ModelSelection = {
-  source: "ollama" | "remote";
+  /** "demo" = built-in offline builder brain (no provider needed). */
+  source: "ollama" | "remote" | "demo";
   providerId?: string;
   model: string;
 };

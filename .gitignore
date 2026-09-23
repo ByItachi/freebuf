@@ -58,3 +58,9 @@ next-env.d.ts
 /.freebuff/
 /graphrag/
 
+# desktop build artifacts (Tauri)
+/src-tauri/target/
+/src-tauri/bin/
+/src-tauri/gen/schemas/
+/.tauri-stub/
+
