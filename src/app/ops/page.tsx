@@ -1,8 +1,8 @@
 import { PersonaPage } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down");
-const BASE = "https://assets.lovable.dev/img/marketing-content/audiences/ops";
+const CD = px("/");
+const BASE = "/";
 
 export default function OpsPage() {
   return (

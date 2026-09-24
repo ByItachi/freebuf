@@ -2,8 +2,8 @@ import { CtaBand, FeatureGrid, InnerHero, Section } from "@/components/site/inne
 import { px } from "@/lib/img";
 
 const PHOTOS = Array.from({ length: 8 }, (_, i) => ({
-  src: `${px("https://lovable.dev/cdn-cgi/image/width=640,f=auto,fit=scale-down")}/https://storage.googleapis.com/lovable-assets/careers/hero/careers-hero-${i + 1}.jpg`,
-  alt: `Life at Lovable ${i + 1}`,
+  src: `${px("/")}/https://storage.googleapis.com/freebuff-assets/careers/hero/careers-hero-${i + 1}.jpg`,
+  alt: `Life at Freebuff ${i + 1}`,
 }));
 
 const BENEFITS = [
@@ -48,7 +48,7 @@ export default function CareersPage() {
         </p>
       </section>
 
-      <Section eyebrow="Why Lovable" title="You'll love it here if…">
+      <Section eyebrow="Why Freebuff" title="You'll love it here if…">
         <FeatureGrid items={BENEFITS} />
       </Section>
 

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180" fill="none">
+  <defs>
+    <linearGradient id="fb-mark-gradient" x1="12" y1="8" x2="168" y2="172" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4ADE80"/>
+      <stop offset="0.55" stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" rx="44" fill="url(#fb-mark-gradient)"/>
+  <path d="M103 22 L52 98 H84 L76 158 L128 78 H95 L103 22 Z" fill="#04121F"/>
+</svg>

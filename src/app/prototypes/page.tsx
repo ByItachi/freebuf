@@ -1,7 +1,7 @@
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
 
-const CD = "https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down";
-const BASE = "https://assets.lovable.dev/img/marketing-content/product/prototypes";
+const CD = "/";
+const BASE = "/";
 
 export default function PrototypesPage() {
   return (

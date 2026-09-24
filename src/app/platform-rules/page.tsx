@@ -6,7 +6,7 @@ export default function PlatformRulesPage() {
       <section>
         <h2>Build, don&apos;t harm</h2>
         <p>
-          Lovable is for creating software. Don&apos;t use it for phishing, malware, spam,
+          Freebuff is for creating software. Don&apos;t use it for phishing, malware, spam,
           harassment, deception or anything illegal — including circumventing usage limits.
         </p>
       </section>

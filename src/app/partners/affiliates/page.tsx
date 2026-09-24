@@ -6,7 +6,7 @@ export default function PartnersAffiliatesPage() {
       <InnerHero
         eyebrow="Partners · Affiliates"
         title="Earn for every builder you bring"
-        sub="Share Lovable with your audience and earn recurring revenue on every paid referral."
+        sub="Share Freebuff with your audience and earn recurring revenue on every paid referral."
         primary={{ label: "Join the program", href: "/enterprise" }}
       />
       <Section eyebrow="How it works" title="Simple, transparent, rewarding">
@@ -20,7 +20,7 @@ export default function PartnersAffiliatesPage() {
         />
       </Section>
       <CtaBand
-        title="Ready to earn with Lovable?"
+        title="Ready to earn with Freebuff?"
         sub="Join hundreds of creators already earning from the building boom."
       />
     </main>

@@ -1,12 +1,12 @@
 import { CtaBand, InnerHero, Section } from "@/components/site/inner";
 
 const COLORS = [
-  { name: "Parchment", hex: "#FCFBF8" },
-  { name: "Charcoal", hex: "#1C1C1C" },
-  { name: "Warm Sand", hex: "#F7F4ED" },
-  { name: "Heart Blue", hex: "#4B73FF" },
-  { name: "Heart Pink", hex: "#FF66F4" },
-  { name: "Heart Orange", hex: "#FE7B02" },
+  { name: "Midnight", hex: "#0B1220" },
+  { name: "Signal Green", hex: "#22C55E" },
+  { name: "Mint Glow", hex: "#4ADE80" },
+  { name: "Pulse Sky", hex: "#38BDF8" },
+  { name: "Slate Card", hex: "#131C2E" },
+  { name: "Slate Line", hex: "#24304A" },
 ];
 
 export default function BrandPage() {
@@ -14,8 +14,8 @@ export default function BrandPage() {
     <main className="bg-parchment">
       <InnerHero
         eyebrow="Brand"
-        title="Lovable Press & Media Resources"
-        sub="Logos, colors and guidance for writing about Lovable."
+        title="Freebuff Press & Media Resources"
+        sub="Logos, colors and guidance for writing about Freebuff."
         primary={{ label: "Download logo kit", href: "/new" }}
       />
       <Section eyebrow="Colors" title="Brand palette">

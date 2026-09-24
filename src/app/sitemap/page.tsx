@@ -41,7 +41,7 @@ const GROUPS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Brand", href: "/brand" },
       { label: "Security", href: "/security" },
       { label: "Support", href: "/support" },
-      { label: "Compare: Bolt", href: "/bolt-vs-lovable" },
+      { label: "Compare: Bolt", href: "/bolt-vs-freebuff" },
     ],
   },
   {

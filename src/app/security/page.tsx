@@ -1,7 +1,7 @@
 import { CtaBand, FeatureGrid, Section } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down");
+const CD = px("/");
 
 const ROWS = [
   {
@@ -23,7 +23,7 @@ const ROWS = [
     desc: "Every publish is scanned for common vulnerabilities before it reaches production — protection that never sleeps.",
   },
   {
-    img: `${CD}/https://storage.googleapis.com/lovable-assets/security/ai-pentest-report.webp`,
+    img: `${CD}/https://storage.googleapis.com/freebuff-assets/security/ai-pentest-report.webp`,
     alt: "AI pentest report",
     title: "Tested like an attacker would",
     desc: "Independent pentests and continuous monitoring mean issues are found and fixed before they matter.",
@@ -49,7 +49,7 @@ export default function SecurityPage() {
           <div className="flex flex-col items-center justify-center gap-8">
             <p className="text-balance text-marketing-foreground mx-auto max-w-xl text-center">Choose where your data lives, enforce SSO and role-based access, control publishing with approvals, and keep your code and prompts out of model training.</p>
             <div className="flex flex-wrap items-center justify-center gap-2.5">
-              <a href="https://trust.lovable.dev/" target="_blank" rel="noopener noreferrer" className="inline-flex h-8 items-center rounded-full bg-charcoal px-5 text-sm font-medium text-white">Trust center</a>
+              <a href="https://trust.freebuff.dev/" target="_blank" rel="noopener noreferrer" className="inline-flex h-8 items-center rounded-full bg-charcoal px-5 text-sm font-medium text-white">Trust center</a>
               <a href="/enterprise" className="inline-flex h-8 items-center rounded-full border border-linen-border bg-white px-5 text-sm font-medium text-charcoal">Talk to sales</a>
             </div>
           </div>
@@ -80,11 +80,11 @@ export default function SecurityPage() {
       <Section eyebrow="Controls" title="Guardrails for building & publishing">
         <FeatureGrid
           items={[
-            { title: "Access and control", desc: "Lovable integrates with SAML and OIDC providers including Okta, Azure AD, and Google. SCIM supports automated provisioning and deprovisioning. Permissions are role-based and enforced server-side across viewing, editing, approving, and publishing." },
+            { title: "Access and control", desc: "Freebuff integrates with SAML and OIDC providers including Okta, Azure AD, and Google. SCIM supports automated provisioning and deprovisioning. Permissions are role-based and enforced server-side across viewing, editing, approving, and publishing." },
             { title: "Guardrails for building & publishing", desc: "Editing, approval, and publishing are separate permissions. Public access is controlled by role and environment settings, so teams can move quickly without risking accidental exposure." },
             { title: "Secrets are handled securely", desc: "Secrets are encrypted at rest and access-controlled by role. They are not exposed in plaintext in logs or interfaces. Access is limited to authorized environments and actions." },
-            { title: "Continuous monitoring & abuse detection", desc: "Lovable continuously monitors platform activity for misuse, anomalous behavior, and compromise. Automated systems enforce rate limits and detect abuse across users and workspaces." },
-            { title: "Protected infrastructure", desc: "Lovable Cloud is protected by web application firewall (WAF) controls, network isolation, encrypted data storage, and adaptive rate limiting at the IP, user, and workspace level." },
+            { title: "Continuous monitoring & abuse detection", desc: "Freebuff continuously monitors platform activity for misuse, anomalous behavior, and compromise. Automated systems enforce rate limits and detect abuse across users and workspaces." },
+            { title: "Protected infrastructure", desc: "Freebuff Cloud is protected by web application firewall (WAF) controls, network isolation, encrypted data storage, and adaptive rate limiting at the IP, user, and workspace level." },
             { title: "Founder security", desc: "Get an audit-ready report for SOC 2, ISO 27001, and investor due diligence. A basic security scan runs automatically before every publish. Run a deep AI-powered scan on demand to analyze your full codebase." },
           ]}
         />
@@ -93,18 +93,18 @@ export default function SecurityPage() {
       <Section narrow eyebrow="FAQ" title="Frequently asked questions">
         <div className="mx-auto max-w-3xl space-y-2">
           {[
-            { q: "Where is customer data stored?", a: "Customer data is hosted in Lovable Cloud in supported regions including the EU, US, and Asia Pacific. Data residency is region-specific and does not move across regions by default." },
-            { q: "Is customer data used to train AI?", a: "On Business and Enterprise plans: No. Customer prompts, code, and workspace data are not used to train Lovable models. If you are on a Free or Pro plan, log in, open Account Settings → Privacy, and turn off \"Use my Lovable content for model training\" to exclude your own data from AI model training. Where third-party AI providers are used, contractual agreements restrict training and retention of customer data." },
-            { q: "Is Lovable multi-tenant, and how is customer data isolated?", a: "Lovable is a multi-tenant platform with logical isolation between workspaces and projects. Customer data is not accessible across accounts. Isolation controls are enforced at both the application and infrastructure layers." },
-            { q: "Which subprocessors does Lovable use?", a: "Lovable works with a limited set of infrastructure and AI subprocessors. All subprocessors are covered under contractual data protection agreements. A current list of subprocessors is available upon request." },
-            { q: "Does Lovable access or clone our source code?", a: "No. Lovable does not clone customer Git repositories, access application code inside your environments, or require internal CI/CD access. Your source code, repositories, and production infrastructure remain inside your organization's existing security perimeter." },
-            { q: "Does Lovable require access to our CI/CD pipelines or production infrastructure?", a: "No. Lovable does not require direct access to customer CI/CD pipelines or production infrastructure. It does not deploy agents inside production environments or introduce inbound network connections. All integrations operate within defined permission boundaries." },
+            { q: "Where is customer data stored?", a: "Customer data is hosted in Freebuff Cloud in supported regions including the EU, US, and Asia Pacific. Data residency is region-specific and does not move across regions by default." },
+            { q: "Is customer data used to train AI?", a: "On Business and Enterprise plans: No. Customer prompts, code, and workspace data are not used to train Freebuff models. If you are on a Free or Pro plan, log in, open Account Settings → Privacy, and turn off \"Use my Freebuff content for model training\" to exclude your own data from AI model training. Where third-party AI providers are used, contractual agreements restrict training and retention of customer data." },
+            { q: "Is Freebuff multi-tenant, and how is customer data isolated?", a: "Freebuff is a multi-tenant platform with logical isolation between workspaces and projects. Customer data is not accessible across accounts. Isolation controls are enforced at both the application and infrastructure layers." },
+            { q: "Which subprocessors does Freebuff use?", a: "Freebuff works with a limited set of infrastructure and AI subprocessors. All subprocessors are covered under contractual data protection agreements. A current list of subprocessors is available upon request." },
+            { q: "Does Freebuff access or clone our source code?", a: "No. Freebuff does not clone customer Git repositories, access application code inside your environments, or require internal CI/CD access. Your source code, repositories, and production infrastructure remain inside your organization's existing security perimeter." },
+            { q: "Does Freebuff require access to our CI/CD pipelines or production infrastructure?", a: "No. Freebuff does not require direct access to customer CI/CD pipelines or production infrastructure. It does not deploy agents inside production environments or introduce inbound network connections. All integrations operate within defined permission boundaries." },
             { q: "How are publishing controls enforced?", a: "Publishing permissions are enforced server-side and cannot be bypassed via client-side requests. Editing, approval, and publishing are separate role-based permissions. Production publishing can require explicit approval, and all publishing events are logged with user attribution." },
-            { q: "How does Lovable enforce role-based access control (RBAC)?", a: "Lovable integrates with SAML and OIDC identity providers and supports SCIM for automated provisioning and deprovisioning. Access is role-based, with permissions explicitly defined for viewing, editing, approving, and publishing. All authorization checks are evaluated server-side at request time." },
-            { q: "Does Lovable support least-privilege access?", a: "Yes. Lovable supports least-privilege access through role-based permissions and integration with enterprise identity providers. Organizations can define granular roles for editing, approving, and publishing, ensuring users receive only the access required for their responsibilities." },
+            { q: "How does Freebuff enforce role-based access control (RBAC)?", a: "Freebuff integrates with SAML and OIDC identity providers and supports SCIM for automated provisioning and deprovisioning. Access is role-based, with permissions explicitly defined for viewing, editing, approving, and publishing. All authorization checks are evaluated server-side at request time." },
+            { q: "Does Freebuff support least-privilege access?", a: "Yes. Freebuff supports least-privilege access through role-based permissions and integration with enterprise identity providers. Organizations can define granular roles for editing, approving, and publishing, ensuring users receive only the access required for their responsibilities." },
             { q: "How are secrets and API credentials managed?", a: "Secrets are encrypted at rest and scoped to specific environments. Access to secrets is role-controlled and auditable. Secrets can be rotated or revoked without requiring full system redeployment. Integrations execute within predefined permission boundaries to reduce unintended credential exposure." },
-            { q: "Does Lovable perform automated security scanning?", a: "Yes. A basic security scan runs automatically every time you publish, covering database configurations, RLS policies, and cloud project settings (~10-15 seconds). A deep security scan is available on demand and analyzes your full codebase (~3 minutes). Workspace admins can enable auto-fix to have the agent resolve non-breaking findings automatically." },
-            { q: "Is Lovable SOC 2 or GDPR compliant?", a: "Lovable supports SOC 2 and GDPR requirements and provides security documentation and data protection agreements for enterprise review." },
+            { q: "Does Freebuff perform automated security scanning?", a: "Yes. A basic security scan runs automatically every time you publish, covering database configurations, RLS policies, and cloud project settings (~10-15 seconds). A deep security scan is available on demand and analyzes your full codebase (~3 minutes). Workspace admins can enable auto-fix to have the agent resolve non-breaking findings automatically." },
+            { q: "Is Freebuff SOC 2 or GDPR compliant?", a: "Freebuff supports SOC 2 and GDPR requirements and provides security documentation and data protection agreements for enterprise review." },
           ].map((faq) => (
             <details key={faq.q} className="group rounded-xl border border-black/10 bg-white open:shadow-sm">
               <summary className="cursor-pointer list-none px-5 py-4 font-medium text-charcoal [&::-webkit-details-marker]:hidden">

@@ -104,19 +104,19 @@ export default function WorkspaceSettingsPage() {
   useEffect(() => {
     const t = setTimeout(() => {
       setCredits(readCredits());
-      if (!name) setName(user?.name ? `${user.name}'s Lovable` : "Gürkan's Lovable");
+      if (!name) setName(user?.name ? `${user.name}'s Freebuff` : "Gürkan's Freebuff");
     }, 0);
     const sync = () => setCredits(readCredits());
-    window.addEventListener("lovable:credits-changed", sync);
+    window.addEventListener("freebuff:credits-changed", sync);
     return () => {
       clearTimeout(t);
-      window.removeEventListener("lovable:credits-changed", sync);
+      window.removeEventListener("freebuff:credits-changed", sync);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- hydrate once from stored identity
   }, []);
 
   const workspaceId = "HzDofeyhBUsAjH4oR1FU";
-  const inviteLink = `https://lovable.dev/invite/${workspaceId}`;
+  const inviteLink = `/signup?ref=${workspaceId}`;
   const remaining = credits ? Math.max(0, CREDITS_LIMIT - credits.used) : CREDITS_LIMIT;
 
   const filteredNav = NAV.map((g) => ({
@@ -198,7 +198,7 @@ export default function WorkspaceSettingsPage() {
             </div>
 
             <h2 className="mt-8 text-[19px] font-medium tracking-tight">Workspace profile</h2>
-            <p className="mt-0.5 text-[13.5px] text-dim-gray">Control how this workspace appears on Lovable.</p>
+            <p className="mt-0.5 text-[13.5px] text-dim-gray">Control how this workspace appears on Freebuff.</p>
 
             <div className="mt-4 rounded-3xl border border-linen-border bg-warm-sand/60 p-5 md:p-6">
               {/* Avatar */}
@@ -282,7 +282,7 @@ export default function WorkspaceSettingsPage() {
                     <p className="mt-0.5 text-[13px] text-dim-gray">Your workspace profile URL.</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <code className="rounded-lg bg-warm-sand px-2.5 py-1.5 font-mono text-[12.5px] text-charcoal">lovable.dev/w/{handle}</code>
+                    <code className="rounded-lg bg-warm-sand px-2.5 py-1.5 font-mono text-[12.5px] text-charcoal">freebuff.dev/w/{handle}</code>
                     <button
                       type="button"
                       onClick={() => setHandleSaved(true)}
@@ -391,7 +391,7 @@ export default function WorkspaceSettingsPage() {
                 <div>
                   <p className="text-[14.5px] font-medium tracking-tight">Transfer primary ownership</p>
                   <p className="mt-0.5 max-w-md text-[13px] text-dim-gray">
-                    Choose an active workspace member, or enter the email of another Lovable account.
+                    Choose an active workspace member, or enter the email of another Freebuff account.
                   </p>
                 </div>
                 <button
@@ -435,18 +435,18 @@ function AppSidebarWrapper() {
   useEffect(() => {
     const t = setTimeout(() => {
       try {
-        setCollapsed(localStorage.getItem("lovable.sidebar-collapsed") === "1");
+        setCollapsed(localStorage.getItem("freebuff.sidebar-collapsed") === "1");
       } catch {}
     }, 0);
     const sync = () => {
       try {
-        setCollapsed(localStorage.getItem("lovable.sidebar-collapsed") === "1");
+        setCollapsed(localStorage.getItem("freebuff.sidebar-collapsed") === "1");
       } catch {}
     };
-    window.addEventListener("lovable:sidebar-changed", sync);
+    window.addEventListener("freebuff:sidebar-changed", sync);
     return () => {
       clearTimeout(t);
-      window.removeEventListener("lovable:sidebar-changed", sync);
+      window.removeEventListener("freebuff:sidebar-changed", sync);
     };
   }, []);
   return <AppSidebar collapsed={collapsed} onToggleCollapsed={() => setCollapsed((c) => !c)} />;

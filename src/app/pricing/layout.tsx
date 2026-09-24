@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing | Lovable",
+  title: "Pricing | Freebuff",
   description: "Start for free. Upgrade to get the capacity that exactly matches your team's needs.",
 };
 

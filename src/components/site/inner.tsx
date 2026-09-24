@@ -138,8 +138,7 @@ function ChevronDownIcon({ className }: { className?: string }) {
 }
 
 export function CtaBand({
-  title = "Ready to bring your idea to life?",
-  sub = "Describe it in words — Lovable designs, builds and ships it with you.",
+  title = "Ready to bring your idea to life?",   sub = "Describe it in words — Freebuff designs, builds and ships it with you.",
 }: {
   title?: string;
   sub?: string;
@@ -315,7 +314,7 @@ export function PersonaPage({
           <FeatureGrid items={points} />
         )}
       </Section>
-      <Section eyebrow="Use cases" title={`What ${role} ship with Lovable`}>
+      <Section eyebrow="Use cases" title={`What ${role} ship with Freebuff`}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {useCases.map((u) => (
             <Link

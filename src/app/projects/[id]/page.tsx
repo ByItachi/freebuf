@@ -75,14 +75,14 @@ export default function ProjectWorkspacePage() {
   useEffect(() => {
     const t = setTimeout(() => {
       try {
-        const modelRaw = localStorage.getItem("lovable.model");
+        const modelRaw = localStorage.getItem("freebuff.model");
         if (modelRaw) {
           const parsed = JSON.parse(modelRaw) as ModelSelection;
           if (parsed && typeof parsed.model === "string") setSelection(parsed);
         }
       } catch {}
       try {
-        const keysRaw = localStorage.getItem("lovable.keys");
+        const keysRaw = localStorage.getItem("freebuff.keys");
         if (keysRaw) setApiKeys(JSON.parse(keysRaw) as Record<string, string>);
       } catch {}
       fetch("/api/models")
@@ -96,12 +96,12 @@ export default function ProjectWorkspacePage() {
   // Persist selection + keys so /new stays in sync
   useEffect(() => {
     try {
-      localStorage.setItem("lovable.model", JSON.stringify(selection));
+      localStorage.setItem("freebuff.model", JSON.stringify(selection));
     } catch {}
   }, [selection]);
   useEffect(() => {
     try {
-      localStorage.setItem("lovable.keys", JSON.stringify(apiKeys));
+      localStorage.setItem("freebuff.keys", JSON.stringify(apiKeys));
     } catch {}
   }, [apiKeys]);
 

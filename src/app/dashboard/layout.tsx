@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { AppSidebar } from "@/components/app/app-sidebar";
 
-const SIDEBAR_COLLAPSED_KEY = "lovable.sidebar-collapsed";
+const SIDEBAR_COLLAPSED_KEY = "freebuff.sidebar-collapsed";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -25,7 +25,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         localStorage.setItem(SIDEBAR_COLLAPSED_KEY, next ? "1" : "0");
       } catch {}
       // settings pages re-render their own sidebar to match
-      window.dispatchEvent(new CustomEvent("lovable:sidebar-changed"));
+      window.dispatchEvent(new CustomEvent("freebuff:sidebar-changed"));
       return next;
     });
   };

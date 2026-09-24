@@ -40,19 +40,19 @@ export const GUIDES: Guide[] = [
     ],
   ),
   g(
-    "lovable-vs-replit-platform-comparison",
-    "Lovable vs Replit",
+    "freebuff-vs-replit-platform-comparison",
+    "Freebuff vs Replit",
     "Comparisons",
     "Prompt-to-app speed versus full IDE power: which fits your project?",
     [
-      "Lovable and Replit approach AI building from opposite ends. Lovable starts from a sentence and generates the whole app; Replit gives you a full IDE where AI assists inside a traditional workflow.",
+      "Freebuff and Replit approach AI building from opposite ends. Freebuff starts from a sentence and generates the whole app; Replit gives you a full IDE where AI assists inside a traditional workflow.",
       "If you want speed and design quality without touching config, prompt-first wins. If you want to live in the code, manage environments and deploy complex backends manually, an IDE-centric tool fits better.",
-      "Many teams use both: prototype in Lovable in an afternoon, then export the code to GitHub for long-term engineering.",
+      "Many teams use both: prototype in Freebuff in an afternoon, then export the code to GitHub for long-term engineering.",
     ],
   ),
   g(
-    "lovable-vs-bolt",
-    "Lovable vs Bolt",
+    "freebuff-vs-bolt",
+    "Freebuff vs Bolt",
     "Comparisons",
     "Two prompt-to-app builders compared on design, backends and iteration.",
     [
@@ -106,12 +106,12 @@ export const GUIDES: Guide[] = [
     ],
   ),
   g(
-    "bubble-vs-lovable-no-code-platform-comparison",
-    "Bubble vs Lovable",
+    "bubble-vs-freebuff-no-code-platform-comparison",
+    "Bubble vs Freebuff",
     "Comparisons",
     "Visual programming depth versus prompt-to-app speed.",
     [
-      "Bubble offers deep visual programming: workflows, database rules and plugin ecosystems you assemble by hand. Lovable generates the whole app — frontend, backend and hosting — from a description.",
+      "Bubble offers deep visual programming: workflows, database rules and plugin ecosystems you assemble by hand. Freebuff generates the whole app — frontend, backend and hosting — from a description.",
       "Choose Bubble when you want pixel-level control over complex logic without code. Choose prompt-first when you want a working product this week and readable code underneath.",
       "Migration paths matter: generated code you can export keeps you independent of any single platform's pricing or limits.",
     ],
@@ -128,12 +128,12 @@ export const GUIDES: Guide[] = [
     ],
   ),
   g(
-    "cursor-vs-bolt-vs-lovable-comparison",
-    "Cursor vs Bolt vs Lovable",
+    "cursor-vs-bolt-vs-freebuff-comparison",
+    "Cursor vs Bolt vs Freebuff",
     "Comparisons",
     "AI IDE, browser builder, or prompt-to-app: mapping the three workflows.",
     [
-      "Cursor supercharges developers inside VS Code. Bolt and Lovable generate whole apps from prompts in the browser. The right choice depends on who is building.",
+      "Cursor supercharges developers inside VS Code. Bolt and Freebuff generate whole apps from prompts in the browser. The right choice depends on who is building.",
       "Developers who live in code get the most from an AI IDE. Everyone else — founders, marketers, PMs — ships faster with a tool that owns the full stack from sentence to URL.",
       "Hybrid teams split the difference: prototype in a prompt-to-app builder, export to GitHub, and finish in the IDE.",
     ],
@@ -161,14 +161,14 @@ export const GUIDES: Guide[] = [
     ],
   ),
   g(
-    "framer-vs-lovable-app-builder-comparison",
-    "Framer vs Lovable",
+    "framer-vs-freebuff-app-builder-comparison",
+    "Framer vs Freebuff",
     "Comparisons",
     "Design-first sites versus full-stack apps from a prompt.",
     [
-      "Framer is a design tool that publishes beautiful sites — unmatched for marketing pages where every pixel matters. Lovable builds full-stack apps with databases and auth behind the design.",
+      "Framer is a design tool that publishes beautiful sites — unmatched for marketing pages where every pixel matters. Freebuff builds full-stack apps with databases and auth behind the design.",
       "Marketing site with CMS content? Framer shines. User accounts, dashboards or anything stateful? You need an app builder.",
-      "Many teams use both: Framer for the marketing site, Lovable for the product behind the login button.",
+      "Many teams use both: Framer for the marketing site, Freebuff for the product behind the login button.",
     ],
   ),
   g(

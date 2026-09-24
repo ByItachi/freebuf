@@ -1,15 +1,15 @@
 import { CtaBand, FeatureGrid, InnerHero, Section } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=1600,f=auto,fit=scale-down");
-const BASE = "https://assets.lovable.dev/img/marketing-content/product/cloud";
+const CD = px("/");
+const BASE = "/";
 
 export default function CloudPage() {
   return (
     <main className="bg-parchment">
       <InnerHero
         eyebrow="Platform"
-        title="Introducing Lovable Cloud & AI"
+        title="Introducing Freebuff Cloud & AI"
         sub="Hosting, data and models in one place — so prompts become production."
         primary={{ label: "Start building", href: "/new" }}
         secondary={{ label: "Talk to sales", href: "/enterprise" }}
@@ -18,7 +18,7 @@ export default function CloudPage() {
         <div className="overflow-hidden rounded-3xl border border-black/10 shadow-sm">
           <img
             src={`${CD}/${BASE}/cloud-hero-light.png`}
-            alt="Lovable Cloud dashboard"
+            alt="Freebuff Cloud dashboard"
             loading="eager"
             decoding="async"
             className="aspect-[16/9] w-full object-cover"
@@ -26,7 +26,7 @@ export default function CloudPage() {
         </div>
       </section>
 
-      <Section eyebrow="Lovable Cloud" title="Backend without the ops">
+      <Section eyebrow="Freebuff Cloud" title="Backend without the ops">
         <FeatureGrid
           items={[
             { title: "Postgres database", desc: "Managed data with auth and row-level security." },
@@ -52,7 +52,7 @@ export default function CloudPage() {
         </div>
       </Section>
 
-      <Section eyebrow="Lovable AI" title="Models, tuned for building">
+      <Section eyebrow="Freebuff AI" title="Models, tuned for building">
         <FeatureGrid
           items={[
             { title: "Every flagship model", desc: "Pick the best brain for each task, switch any time." },

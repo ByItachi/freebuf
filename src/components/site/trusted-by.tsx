@@ -37,7 +37,7 @@ function PlayIcon() {
 
 /**
  * "Trusted by teams at leading companies" — infinite monochrome logo marquee
- * with edge mask fade and a pause/play control (lovable.dev marketers page).
+ * with edge mask fade and a pause/play control (freebuff.dev marketers page).
  */
 export function TrustedBy() {
   const [paused, setPaused] = useState(false);

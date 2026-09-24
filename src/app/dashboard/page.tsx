@@ -23,11 +23,11 @@ import { cn } from "@/lib/utils";
 const tabs = [
   "My projects",
   "Recently viewed",
-  "Lovable templates",
+  "Freebuff templates",
 ] as const;
 type Tab = (typeof tabs)[number];
 
-const PLACEHOLDER_PREFIX = "Ask Lovable to build ";
+const PLACEHOLDER_PREFIX = "Ask Freebuff to build ";
 const PLACEHOLDER_SUGGESTIONS: string[] = [
   "a web app that",
   "generate report on",
@@ -100,7 +100,7 @@ function editedLabel(iso: string, now: number) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "Edited recently";
   const mins = Math.max(1, Math.round((now - d.getTime()) / 60000));
-  // Relative stamp for fresh edits (Lovable-style "2h ago"), date for older.
+  // Relative stamp for fresh edits (Freebuff-style "2h ago"), date for older.
   if (mins < 60) return `Edited ${mins}m ago`;
   const hours = Math.round(mins / 60);
   if (hours < 24) return `Edited ${hours}h ago`;
@@ -150,7 +150,7 @@ export default function DashboardHomePage() {
   const [typedPh, setTypedPh] = useState(PLACEHOLDER_SUGGESTIONS[0]);
   const [now, setNow] = useState(() => Date.now());
 
-  // Theme: applied by the sidebar's control (lovable.theme); nothing to do here.
+  // Theme: applied by the sidebar's control (freebuff.theme); nothing to do here.
 
   const { user, initials } = useUser();
 
@@ -268,7 +268,7 @@ export default function DashboardHomePage() {
     };
   }, [buildOpen, modeOpen]);
 
-  // Typewriter placeholder: "Ask Lovable to build" stays fixed, the suffix
+  // Typewriter placeholder: "Ask Freebuff to build" stays fixed, the suffix
   // types out, pauses, deletes, and cycles through the suggestions.
   useEffect(() => {
     if (prompt.trim()) return;
@@ -394,7 +394,7 @@ export default function DashboardHomePage() {
     if (q) {
       return projects.filter((p) => p.name.toLowerCase().includes(q));
     }
-    if (activeTab === "Lovable templates") {
+    if (activeTab === "Freebuff templates") {
       return projects.filter((p) => p.published);
     }
     if (activeTab === "Recently viewed") {
@@ -415,7 +415,7 @@ export default function DashboardHomePage() {
       title: "Nothing viewed yet",
       body: "Projects you open will appear here for quick access.",
     },
-    "Lovable templates": {
+    "Freebuff templates": {
       title: "No templates yet",
       body: "Publish a project to turn it into a reusable template, or browse the template gallery.",
     },
@@ -687,7 +687,7 @@ export default function DashboardHomePage() {
             <div className="rounded-2xl bg-warm-sand/60 px-6 py-16 text-center">
               <p className="text-[15px] font-medium tracking-tight text-charcoal">{emptyCopy[activeTab].title}</p>
               <p className="mx-auto mt-1.5 max-w-sm text-[13px] leading-relaxed text-dim-gray">{emptyCopy[activeTab].body}</p>
-              {activeTab === "Lovable templates" ? (
+              {activeTab === "Freebuff templates" ? (
                 <Link
                   href="/templates"
                   className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-charcoal px-4 py-2 text-[13px] font-medium text-parchment transition-colors hover:bg-charcoal/90"
@@ -725,7 +725,7 @@ export default function DashboardHomePage() {
                             className="object-cover object-top"
                           />
                         ) : (
-                          <div className="absolute inset-0 bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02]" />
+                          <div className="absolute inset-0 bg-gradient-to-br from-[#4ade80] via-[#22c55e] to-[#0ea5e9]" />
                         )}
                       </div>
                       {p.published ? (

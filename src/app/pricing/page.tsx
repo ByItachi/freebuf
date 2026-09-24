@@ -9,13 +9,13 @@ const plans = [
     monthlyPrice: "$0",
     yearlyPrice: "$0",
     period: "/month",
-    description: "Discover what Lovable can do for you",
+    description: "Discover what Freebuff can do for you",
     popular: false,
     note: "No credit card needed",
     features: [
       "Workspace-private projects",
       "Unlimited collaborators",
-      "5 lovable.app domains",
+      "5 freebuff.app domains",
       "Cloud",
       "Community support",
     ],
@@ -37,11 +37,11 @@ const plans = [
       "100 Pro credits",
       "Credit rollovers",
       "On-demand credit top-ups",
-      "Unlimited lovable.app domains",
+      "Unlimited freebuff.app domains",
       "Custom domains",
       "User roles & permissions",
       "Per-member credit limits",
-      "Remove the Lovable badge",
+      "Remove the Freebuff badge",
       "Email support",
       "Design systems",
     ],
@@ -106,19 +106,19 @@ const plans = [
 
 const audiences = [
   {
-    name: "Lovable for students",
-    description: "Verify student status and get access to up to 50% off Lovable Pro.",
+    name: "Freebuff for students",
+    description: "Verify student status and get access to up to 50% off Freebuff Pro.",
     cta: "Get started",
     href: "/students",
   },
   {
-    name: "Lovable for campus",
+    name: "Freebuff for campus",
     description: "Billing and administrative controls for universities and colleges.",
     cta: "Contact sales",
     href: "/enterprise-form",
   },
   {
-    name: "Lovable for kids",
+    name: "Freebuff for kids",
     description: "Compliant access & curriculum for schools in partnership with imagi.",
     cta: "Learn more",
     href: "/classroom",
@@ -127,16 +127,16 @@ const audiences = [
 
 const faqs = [
   {
-    q: "What is Lovable and how does it work?",
-    a: "Lovable is an AI software engineer, which enables anyone to build for the web. Simply chat to instantly build websites and web apps, with no technical knowledge needed.",
+    q: "What is Freebuff and how does it work?",
+    a: "Freebuff is an AI software engineer, which enables anyone to build for the web. Simply chat to instantly build websites and web apps, with no technical knowledge needed.",
   },
   {
     q: "What is a credit?",
-    a: "Credits are units Lovable uses to measure and pay for usage across your workspace. Credits let you build apps, run deployed apps, and power AI features from one balance. The value of a credit and the rate at which they are consumed for a given action depend on your subscription plan and the feature used, and credits are not necessarily equal in value across different plans.",
+    a: "Credits are units Freebuff uses to measure and pay for usage across your workspace. Credits let you build apps, run deployed apps, and power AI features from one balance. The value of a credit and the rate at which they are consumed for a given action depend on your subscription plan and the feature used, and credits are not necessarily equal in value across different plans.",
   },
   {
-    q: "How do I use credits in Lovable?",
-    a: "Paid plans have access to a credit balance. Credits from your balance can be used in Lovable for building by sending messages to Lovable, hosting with Cloud, and offering AI features to users as part of your app. In addition to your credit balance, Pro and Business subscriptions include grants for building and hosting with Cloud. For building, pricing varies by mode: Default Mode credits vary based on task complexity, while Plan Mode costs 1 credit per message. For example, \"Make the button gray\" costs about 0.50 credits, \"Remove the footer\" about 0.90, \"Add authentication with sign up and login\" about 1.20, and \"Build me a landing page, use images\" about 1.70. You can see the cost of each message in the message history by hovering over the three dots of a message.",
+    q: "How do I use credits in Freebuff?",
+    a: "Paid plans have access to a credit balance. Credits from your balance can be used in Freebuff for building by sending messages to Freebuff, hosting with Cloud, and offering AI features to users as part of your app. In addition to your credit balance, Pro and Business subscriptions include grants for building and hosting with Cloud. For building, pricing varies by mode: Default Mode credits vary based on task complexity, while Plan Mode costs 1 credit per message. For example, \"Make the button gray\" costs about 0.50 credits, \"Remove the footer\" about 0.90, \"Add authentication with sign up and login\" about 1.20, and \"Build me a landing page, use images\" about 1.70. You can see the cost of each message in the message history by hovering over the three dots of a message.",
   },
   {
     q: "Do credits expire?",
@@ -152,19 +152,19 @@ const faqs = [
   },
   {
     q: "What is included in free and paid plans?",
-    a: "Starting to build on Lovable is free. The free plan includes a daily grant of 5 build credits (up to 30 a month), plus monthly grants of 20 Cloud credits. The free plan also grants 4 credits usable by AI features built into user apps, to try the feature before subscribing. Paid subscribers get their plan's credits added to their balance monthly. This balance can be used flexibly to cover building, Cloud, and AI features in user apps. On top, subscriptions include daily grants of 5 build credits and a monthly grant of 20 Cloud credits.",
+    a: "Starting to build on Freebuff is free. The free plan includes a daily grant of 5 build credits (up to 30 a month), plus monthly grants of 20 Cloud credits. The free plan also grants 4 credits usable by AI features built into user apps, to try the feature before subscribing. Paid subscribers get their plan's credits added to their balance monthly. This balance can be used flexibly to cover building, Cloud, and AI features in user apps. On top, subscriptions include daily grants of 5 build credits and a monthly grant of 20 Cloud credits.",
   },
   {
     q: "How do I buy credits for a team, class, or community?",
-    a: "Every Lovable plan belongs to a workspace, and everyone you invite into that workspace shares its credits. To fund a group of people, upgrade one workspace to a plan with enough monthly credits for everyone, then invite the whole group. Everyone builds from the shared credit pool on one subscription and one invoice, and each member can work on as many of their own projects as they want.",
+    a: "Every Freebuff plan belongs to a workspace, and everyone you invite into that workspace shares its credits. To fund a group of people, upgrade one workspace to a plan with enough monthly credits for everyone, then invite the whole group. Everyone builds from the shared credit pool on one subscription and one invoice, and each member can work on as many of their own projects as they want.",
   },
   {
     q: "Do you charge per seat or per user?",
     a: "No. Workspaces support unlimited members on all plans, and plans are priced by the credits they include, not by seats. Inviting more people doesn't change your subscription cost; what changes is how quickly the group uses the workspace's shared credits.",
   },
   {
-    q: "How much does it cost to run my app on Lovable?",
-    a: "For most users with smaller or new apps, hosting (running an app on Lovable) does not cost anything: In most cases, the cost to publish, view, and keep your app running will be minimal and fully covered by the included grant that comes with your subscription. Apps that reach significant visitor traffic and/or size may start incurring cost on top of the included grant, which is covered by your credit balance.",
+    q: "How much does it cost to run my app on Freebuff?",
+    a: "For most users with smaller or new apps, hosting (running an app on Freebuff) does not cost anything: In most cases, the cost to publish, view, and keep your app running will be minimal and fully covered by the included grant that comes with your subscription. Apps that reach significant visitor traffic and/or size may start incurring cost on top of the included grant, which is covered by your credit balance.",
   },
   {
     q: "Why is the Business plan more expensive?",
@@ -172,11 +172,11 @@ const faqs = [
   },
   {
     q: "Who owns the projects and code?",
-    a: "You do. You own your code, which means the apps, websites, and other projects you build with Lovable, customer data stored in Lovable, as well as any AI output you generate in Lovable. (This is subject to any third-party rights in the underlying AI models.)",
+    a: "You do. You own your code, which means the apps, websites, and other projects you build with Freebuff, customer data stored in Freebuff, as well as any AI output you generate in Freebuff. (This is subject to any third-party rights in the underlying AI models.)",
   },
   {
     q: "Do you offer a student discount?",
-    a: "Yes, we offer a student discount for students with a valid student email. You can read more and claim your discount on lovable.dev/students. Make sure you are logged in with your university email address.",
+    a: "Yes, we offer a student discount for students with a valid student email. You can read more and claim your discount on freebuff.dev/students. Make sure you are logged in with your university email address.",
   },
   {
     q: "Where can I find out more?",
@@ -369,7 +369,7 @@ export default function PricingPage() {
             Start building today
           </h2>
           <p className="mt-4 max-w-[420px] mx-auto text-[16px] text-white/60">
-            Join millions of builders who use Lovable to turn ideas into reality.
+            Join millions of builders who use Freebuff to turn ideas into reality.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a

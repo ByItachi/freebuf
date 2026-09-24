@@ -21,11 +21,11 @@ export default function ReviewsPage() {
     <main className="bg-parchment">
       <InnerHero
         eyebrow="Reviews"
-        title="Lovable reviews: What customers are saying"
+        title="Freebuff reviews: What customers are saying"
         sub="Real users, real products, real results."
         primary={{ label: "Try it yourself", href: "/new" }}
       />
-      <Section eyebrow="Lovable in numbers" title="Loved worldwide">
+      <Section eyebrow="Freebuff in numbers" title="Loved worldwide">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {STATS.map((s) => (
             <div key={s.label} className="rounded-2xl border border-black/10 bg-white p-5 text-center">

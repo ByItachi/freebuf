@@ -7,13 +7,13 @@ import { useCallback, useEffect, useState } from "react";
  *
  * Two channels, in priority order:
  * 1. postMessage from the host page when this app runs inside an iframe
- *    (the parent sends `lovable:user` after `lovable:ready`). The host should
- *    call `iframe.contentWindow.postMessage({ type: "lovable:user", user },
+ *    (the parent sends `freebuff:user` after `freebuff:ready`). The host should
+ *    call `iframe.contentWindow.postMessage({ type: "freebuff:user", user },
  *    "*")` — origin checking is done via the handshake origin below.
  * 2. `?user=` URL parameter fallback (`?user=Ad%20Soyad`), so hosts can pass
  *    the name without scripting the iframe.
  *
- * The resolved name is persisted to localStorage (`lovable.user`) so the
+ * The resolved name is persisted to localStorage (`freebuff.user`) so the
  * sidebar shows something meaningful on later standalone loads.
  */
 export type DashboardUser = {
@@ -22,10 +22,10 @@ export type DashboardUser = {
   avatarUrl?: string;
 };
 
-export const USER_STORAGE_KEY = "lovable.user";
+export const USER_STORAGE_KEY = "freebuff.user";
 
-const READY_MESSAGE = "lovable:ready";
-const USER_MESSAGE = "lovable:user";
+const READY_MESSAGE = "freebuff:ready";
+const USER_MESSAGE = "freebuff:user";
 
 export function readStoredUser(): DashboardUser | null {
   if (typeof window === "undefined") return null;
@@ -107,7 +107,7 @@ export function useUser(): {
           avatarUrl: data.user.avatarUrl ? String(data.user.avatarUrl) : undefined,
         };
         storeUser(incoming);
-        window.dispatchEvent(new CustomEvent("lovable:user-changed"));
+        window.dispatchEvent(new CustomEvent("freebuff:user-changed"));
       });
     }
 
@@ -124,11 +124,11 @@ export function useUser(): {
       if (!alive) return;
       setUser(readStoredUser());
     };
-    window.addEventListener("lovable:user-changed", onExternalChange);
+    window.addEventListener("freebuff:user-changed", onExternalChange);
     return () => {
       alive = false;
       clearTimeout(t);
-      window.removeEventListener("lovable:user-changed", onExternalChange);
+      window.removeEventListener("freebuff:user-changed", onExternalChange);
     };
   }, []);
 
@@ -138,7 +138,7 @@ export function useUser(): {
     const next: DashboardUser = { ...(readStoredUser() ?? {}), name: trimmed };
     storeUser(next);
     setUser(next);
-    window.dispatchEvent(new CustomEvent("lovable:user-changed"));
+    window.dispatchEvent(new CustomEvent("freebuff:user-changed"));
   }, []);
 
   const initials = user ? initialsOf(user.name) : "";

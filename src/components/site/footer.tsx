@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LovableLogo } from "@/components/brand";
+import { FreebuffLogo } from "@/components/brand";
 
 type FooterLink = { label: string; href: string; external?: boolean };
 
@@ -12,7 +12,7 @@ const footerLinks: Record<string, FooterLink[]> = {
     { label: "Press & media", href: "/brand" },
     { label: "Enterprise", href: "/enterprise-landing" },
     { label: "Security", href: "/security" },
-    { label: "Trust center", href: "https://trust.lovable.dev/", external: true },
+    { label: "Trust center", href: "https://trust.freebuff.dev/", external: true },
     { label: "Partnerships", href: "/partners" },
   ],
   product: [
@@ -31,12 +31,12 @@ const footerLinks: Record<string, FooterLink[]> = {
     { label: "Download", href: "/download" },
   ],
   resources: [
-    { label: "Docs", href: "https://docs.lovable.dev/introduction/welcome", external: true },
+    { label: "Docs", href: "https://docs.freebuff.dev/introduction/welcome", external: true },
     { label: "Templates", href: "/templates" },
     { label: "Guides", href: "/guides" },
     { label: "Connect", href: "/connect" },
     { label: "MCP server", href: "/mcp" },
-    { label: "Videos", href: "https://www.youtube.com/@lovable", external: true },
+    { label: "Videos", href: "https://www.youtube.com/@freebuff", external: true },
     { label: "Blog", href: "/blog" },
     { label: "Support", href: "/support" },
   ],
@@ -44,7 +44,7 @@ const footerLinks: Record<string, FooterLink[]> = {
     { label: "Privacy policy", href: "/privacy" },
     { label: "Do not sell or share my personal information", href: "/do-not-sell-or-share-my-personal-information" },
     { label: "Cookie policy", href: "/cookie-policy" },
-    { label: "Enterprise terms", href: "https://lovable.dev/legal", external: true },
+    { label: "Enterprise terms", href: "/", external: true },
     { label: "General terms", href: "/terms" },
     { label: "Desktop app terms", href: "/desktop-app-terms" },
     { label: "Domain registration terms", href: "/domain-registration-terms" },
@@ -57,23 +57,23 @@ const footerLinks: Record<string, FooterLink[]> = {
   ],
   community: [
     { label: "Become a partner", href: "/partners" },
-    { label: "Hire a Lovable partner", href: "https://lovable-partner-directory.lovable.app/", external: true },
+    { label: "Hire a Freebuff partner", href: "/partners", external: false },
     { label: "Affiliates", href: "/partners/affiliates" },
     { label: "Code of conduct", href: "/community-code-of-conduct" },
-    { label: "Discord", href: "https://discord.com/invite/lovable-dev", external: true },
-    { label: "Reddit", href: "https://reddit.com/r/lovable", external: true },
-    { label: "X / Twitter", href: "https://twitter.com/Lovable", external: true },
-    { label: "YouTube", href: "https://www.youtube.com/@lovable", external: true },
-    { label: "LinkedIn", href: "https://www.linkedin.com/company/lovable-dev/", external: true },
+    { label: "Discord", href: "https://discord.com/invite/freebuff-dev", external: true },
+    { label: "Reddit", href: "https://reddit.com/r/opensource", external: true },
+    { label: "X / Twitter", href: "https://twitter.com/", external: true },
+    { label: "YouTube", href: "https://www.youtube.com/@freebuff", external: true },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/freebuff-dev/", external: true },
   ],
 };
 
 const SOCIALS = [
-  { label: "Discord", href: "https://discord.com/invite/lovable-dev", icon: "M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.6176-1.2495.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C2.079 10.13 1.007 15.91 2.032 21.52a.083.083 0 00.0316.0569 19.9 19.9 0 005.993 3.03.078.078 0 00.0842-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.0416-.1057 13.11 13.11 0 01-1.872-.892.077.077 0 01-.0077-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.198.3737.2924a.077.077 0 01-.0066.1276 12.3 12.3 0 01-1.873.8914.076.076 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286 19.88 19.88 0 006.002-3.03.077.077 0 00.0316-.0552c1.203-6.561-.466-12.275-1.966-17.12a.07.07 0 00-.0316-.0286zM8.02 15.3312c-1.183 0-2.1569-1.0857-2.1569-2.419 0-1.3332 1.9558-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189zm7.9748 0c-1.183 0-2.157-1.0857-2.157-2.419 0-1.3332 1.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" },
-  { label: "GitHub", href: "https://github.com/lovable-dev", icon: "M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z" },
-  { label: "X (Twitter)", href: "https://twitter.com/Lovable", icon: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
-  { label: "YouTube", href: "https://www.youtube.com/@lovable", icon: "M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/lovable-dev/", icon: "M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z" },
+  { label: "Discord", href: "https://discord.com/invite/freebuff-dev", icon: "M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.6176-1.2495.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C2.079 10.13 1.007 15.91 2.032 21.52a.083.083 0 00.0316.0569 19.9 19.9 0 005.993 3.03.078.078 0 00.0842-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.0416-.1057 13.11 13.11 0 01-1.872-.892.077.077 0 01-.0077-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.198.3737.2924a.077.077 0 01-.0066.1276 12.3 12.3 0 01-1.873.8914.076.076 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286 19.88 19.88 0 006.002-3.03.077.077 0 00.0316-.0552c1.203-6.561-.466-12.275-1.966-17.12a.07.07 0 00-.0316-.0286zM8.02 15.3312c-1.183 0-2.1569-1.0857-2.1569-2.419 0-1.3332 1.9558-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189zm7.9748 0c-1.183 0-2.157-1.0857-2.157-2.419 0-1.3332 1.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" },
+  { label: "GitHub", href: "https://github.com/freebuff-dev", icon: "M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z" },
+  { label: "X (Twitter)", href: "https://twitter.com/", icon: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
+  { label: "YouTube", href: "https://www.youtube.com/@freebuff", icon: "M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/freebuff-dev/", icon: "M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z" },
 ];
 
 function FooterAnchor({ link, className }: { link: FooterLink; className: string }) {
@@ -119,7 +119,7 @@ export function Footer() {
         <nav className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-6 lg:grid-rows-2">
           <div className="col-span-2 flex h-full justify-between sm:col-span-3 lg:col-span-1 lg:flex-col">
             <Link href="/" aria-label="Go to homepage" className="hover-heartbeat w-fit">
-              <LovableLogo />
+              <FreebuffLogo />
             </Link>
             <p className="mt-2 max-w-[32ch] text-[14px] leading-relaxed text-dim-gray">
               Your AI cofounder and dev team. Build, ship, and grow your ideas — from prototype to production.
@@ -168,7 +168,7 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-charcoal/10 pt-8 sm:flex-row">
           <p className="text-[13px] text-dim-gray">
-            &copy; {new Date().getFullYear()} Lovable. All rights reserved.
+            &copy; {new Date().getFullYear()} Freebuff. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <Link
@@ -183,7 +183,7 @@ export function Footer() {
             >
               Terms
             </Link>
-            <span className="text-[13px] text-dim-gray">Built with Lovable</span>
+            <span className="text-[13px] text-dim-gray">Built with Freebuff</span>
           </div>
         </div>
       </footer>

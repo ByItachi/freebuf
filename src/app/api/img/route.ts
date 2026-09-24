@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 
 /**
- * Same-origin image proxy for Lovable CDN assets.
+ * Same-origin image proxy for Freebuff CDN assets.
  * The browser hits /api/img (same host, no hotlink/bot friction) while the
  * server fetches upstream with browser headers and caches aggressively.
  */
 const ALLOW = new Set([
-  "lovable.dev",
-  "assets.lovable.dev",
+  "freebuff.dev",
+  "assets.freebuff.dev",
   "storage.googleapis.com",
   "lh3.googleusercontent.com",
   "cdn.jsdelivr.net",

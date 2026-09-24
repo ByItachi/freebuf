@@ -2,15 +2,12 @@ import Link from "next/link";
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down");
-const CDH = px("https://lovable.dev/cdn-cgi/image/width=2000,f=auto,fit=scale-down");
-
 const STEPS = [
-  { img: `${CD}/https://assets.lovable.dev/img/marketing-content/audiences/founders/describe.jpg`, title: "Describe your idea", desc: "Two or three sentences is enough to get a working first version." },
-  { img: `${CD}/https://assets.lovable.dev/img/marketing-content/audiences/founders/tech-stack.jpg`, title: "Full stack, included", desc: "Frontend, backend, auth and database — generated together." },
-  { img: `${CD}/https://assets.lovable.dev/img/marketing-content/audiences/founders/infra.jpg`, title: "Infra you don't touch", desc: "Hosting, SSL and scaling handled automatically." },
-  { img: `${CD}/https://assets.lovable.dev/img/marketing-content/audiences/founders/polish.jpg`, title: "Polish the design", desc: "Click anything to refine it until it feels like yours." },
-  { img: `${CD}/https://assets.lovable.dev/img/marketing-content/audiences/founders/publish.jpg`, title: "Publish & grow", desc: "Ship to a live URL, then iterate on real feedback daily." },
+  { title: "Describe your idea", desc: "Two or three sentences is enough to get a working first version.", img: px("/refero/card-02.jpg") },
+  { title: "Full stack, included", desc: "Frontend, backend, auth and database — generated together.", img: px("/refero/card-03.jpg") },
+  { title: "Infra you don't touch", desc: "Hosting, SSL and scaling handled automatically.", img: px("/refero/card-04.jpg") },
+  { title: "Polish the design", desc: "Click anything to refine it until it feels like yours.", img: px("/refero/card-05.jpg") },
+  { title: "Publish & grow", desc: "Ship to a live URL, then iterate on real feedback daily.", img: px("/refero/card-06.jpg") },
 ];
 
 const USE_CASES = [
@@ -31,10 +28,10 @@ export default function FoundersPage() {
         primary={{ label: "Start building", href: "/new" }}
       />
       <section className="mx-auto max-w-6xl px-4 md:px-8">
-        <div className="overflow-hidden rounded-3xl border border-black/10 shadow-sm">
+        <div className="overflow-hidden rounded-3xl border border-linen-border shadow-sm">
           <img
-            src={`${CDH}/https://assets.lovable.dev/img/marketing-content/audiences/founders/hero/dream.png`}
-            alt="App built with Lovable"
+            src={px("/refero/card-01.jpg")}
+            alt="App built with Freebuff"
             loading="eager"
             decoding="async"
             className="aspect-[16/8] w-full object-cover"
@@ -45,7 +42,7 @@ export default function FoundersPage() {
       <Section eyebrow="How it works" title="From idea to launched in five steps">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((s) => (
-            <div key={s.title} className="overflow-hidden rounded-2xl border border-black/10 bg-white">
+            <div key={s.title} className="overflow-hidden rounded-2xl border border-linen-border bg-warm-sand">
               <img src={s.img} alt={s.title} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover" />
               <div className="p-5">
                 <h3 className="font-medium text-charcoal">{s.title}</h3>
@@ -69,7 +66,7 @@ export default function FoundersPage() {
             <Link
               key={u.title}
               href={u.href}
-              className="rounded-full border border-black/10 bg-white px-4 py-1.5 text-sm text-steel transition-colors hover:border-stone hover:text-charcoal"
+              className="rounded-full border border-linen-border bg-warm-sand px-4 py-1.5 text-sm text-steel transition-colors hover:border-steel hover:text-charcoal"
             >
               {u.title}
             </Link>

@@ -14,8 +14,8 @@ export default function BillingPage() {
     const t = setTimeout(() => {
       setCredits(readCredits());
       const sync = () => setCredits(readCredits());
-      window.addEventListener("lovable:credits-changed", sync);
-      return () => window.removeEventListener("lovable:credits-changed", sync);
+      window.addEventListener("freebuff:credits-changed", sync);
+      return () => window.removeEventListener("freebuff:credits-changed", sync);
     }, 0);
     return () => clearTimeout(t);
   }, []);
@@ -29,7 +29,7 @@ export default function BillingPage() {
       <main className={`flex w-full flex-1 flex-col transition-[padding] duration-200 ${collapsed ? "md:ml-16" : "md:ml-64"}`}>
     <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 md:px-8 md:py-14">
       <h1 className="text-3xl font-medium tracking-tight text-charcoal md:text-4xl">Billing</h1>
-      <p className="mt-2 text-steel">Plan, credits and invoices for Gürkan&apos;s Lovable.</p>
+      <p className="mt-2 text-steel">Plan, credits and invoices for Gürkan&apos;s Freebuff.</p>
 
       <div className="mt-8 rounded-2xl border border-black/10 bg-white p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">

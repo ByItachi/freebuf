@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CtaBand, InnerHero, Section } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const PX = px("https://lovable.dev/cdn-cgi/image/width=400,f=auto,fit=scale-down/https://assets.lovable.dev/content/customers");
+const PX = px("/");
 const LOGOS = [
   { name: "o3world", src: `${PX}/o3world/customers-o3world-logo-black.png` },
   { name: "exprealty", src: `${PX}/exprealty/customers-exprealty-logo.svg` },
@@ -41,8 +41,8 @@ export default function CustomersPage() {
       <section className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="overflow-hidden rounded-3xl border border-black/10 shadow-sm">
           <img
-            src={px("https://lovable.dev/cdn-cgi/image/width=2000,f=auto,fit=scale-down/https://assets.lovable.dev/content/customers/hero-placeholders/customers-hero-placeholder-1.jpg")}
-            alt="Customer projects built with Lovable"
+            src={px("/")}
+            alt="Customer projects built with Freebuff"
             loading="eager"
             decoding="async"
             className="aspect-[16/8] w-full object-cover"

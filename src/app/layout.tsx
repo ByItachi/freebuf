@@ -1,33 +1,45 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Inter } from "next/font/google";
+import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import { AppChrome } from "@/components/site/app-chrome";
 import "./globals.css";
 
-const camera = Inter({
+const plex = IBM_Plex_Sans({
   variable: "--font-camera-variable",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  variable: "--font-freebuff-mono",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Lovable | Your home to make software with an AI Agent",
+  title: "Freebuff | Your home to build software with an AI Agent",
   description:
-    "Build products, features, and prototypes in minutes. Prompt, iterate, and ship with Lovable.",
+    "Build products, features, and prototypes in minutes. Prompt, iterate, and ship with Freebuff.",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/freebuff.svg",
   },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${camera.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${plex.variable} ${mono.variable} h-full antialiased`}
+    >
       <head>
-        {/* Apply the stored theme before first paint — prevents a light flash
-            and transition-frozen colors when dark mode is active. */}
+        {/* Freebuff ships dark-first (OLED slate + green). Only restore the
+            light parchment variant when the user explicitly picked Light —
+            prevents a dark flash and transition-frozen colors. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem("lovable.theme")==="dark"||(localStorage.getItem("lovable.theme")==="system"&&matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.setAttribute("data-theme","dark")}}catch(e){}`,
+            __html: `try{var t=localStorage.getItem("freebuff.theme");if(t==="light"||(t==="system"&&!matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.setAttribute("data-theme","light")}}catch(e){}`,
           }}
         />
       </head>

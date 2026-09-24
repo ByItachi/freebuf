@@ -262,7 +262,7 @@ export default function TemplatesPage() {
             <span className="pt-0.5 tracking-tight">Built with AI</span>
           </h1>
           <p className="mx-auto mb-6 max-w-[50ch] text-center text-lg leading-tight text-charcoal/65 md:max-w-full md:text-xl">
-            Production-ready apps from the Lovable community
+            Production-ready apps from the Freebuff community
           </p>
 
           {/* Search */}

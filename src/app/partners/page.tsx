@@ -4,7 +4,7 @@ import { px } from "@/lib/img";
 
 const TYPES = [
   { title: "Experts", desc: "Ship faster, build credibility through certification, and deliver broader solutions to clients.", href: "/partners/experts" },
-  { title: "Solution partners", desc: "Deliver transformation at scale. Help companies design, build, and ship with Lovable.", href: "/partners/solution" },
+  { title: "Solution partners", desc: "Deliver transformation at scale. Help companies design, build, and ship with Freebuff.", href: "/partners/solution" },
 ];
 
 export default function PartnersPage() {
@@ -26,14 +26,14 @@ export default function PartnersPage() {
               <defs><filter id="_r_fh_-blur" x="1.63281" y="0.779297" width="715.945" height="464.955" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"><feFlood floodOpacity="0" result="BackgroundImageFix" /><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" /><feGaussianBlur stdDeviation="3.5" result="effect1_foregroundBlur" /></filter><linearGradient id="_r_fh_-linear0" x1="1154.12" y1="648.351" x2="-45.6943" y2="145.31" gradientUnits="userSpaceOnUse"><stop stopColor="#4F88FF" /><stop offset="0.047619" stopColor="#5185FF" /><stop offset="0.0952381" stopColor="#5885FF" /><stop offset="0.142857" stopColor="#6289FF" /><stop offset="0.190476" stopColor="#7491FF" /><stop offset="0.238095" stopColor="#91A0FF" /><stop offset="0.285714" stopColor="#B0ACFE" /><stop offset="0.333333" stopColor="#CEAFFB" /><stop offset="0.380952" stopColor="#E2A5F2" /><stop offset="0.428571" stopColor="#F388DE" /><stop offset="0.47619" stopColor="#FB65C2" /><stop offset="0.52381" stopColor="#FD49A8" /><stop offset="0.571429" stopColor="#FD2980" /><stop offset="0.619048" stopColor="#FC1A58" /><stop offset="0.666667" stopColor="#FA1F41" /><stop offset="0.714286" stopColor="#FA2733" /><stop offset="0.761905" stopColor="#FB3D26" /><stop offset="0.809524" stopColor="#FC541F" /><stop offset="0.857143" stopColor="#FE6A1E" /><stop offset="0.904762" stopColor="#FE771D" /><stop offset="0.952381" stopColor="#FF861B" /><stop offset="1" stopColor="#FF8F1B" /></linearGradient><linearGradient id="_r_fh_-linear1" x1="378.617" y1="453" x2="717.617" y2="389" gradientUnits="userSpaceOnUse"><stop offset="0.724947" stopColor="white" /><stop offset="0.967652" stopColor="white" stopOpacity="0" /></linearGradient><linearGradient id="_r_fh_-linear2" x1="597.41" y1="432.001" x2="603.442" y2="445.138" gradientUnits="userSpaceOnUse"><stop stopColor="#666666" stopOpacity="0" /><stop offset="1" /></linearGradient></defs>
             </svg>
             <div className="relative w-fit md:flex md:flex-col md:items-center">
-              <h1 className="text-charcoal font-bold whitespace-pre-wrap text-[40px]/11 -tracking-[1.6px] md:text-center md:text-[80px]/20 md:-tracking-[3.2px]">Become a<br />Lovable Partner</h1>
-              <p className="mt-4 max-w-[540px] text-charcoal/80 font-medium text-base/6 -tracking-[0.32px] md:text-center md:text-lg/6.5 md:-tracking-[0.36px]">800,000 people and agencies of all sizes already build for clients with Lovable. Join the Lovable Partner program to get certified on your work, get discovered by clients, and earn on the business you bring.</p>
+              <h1 className="text-charcoal font-bold whitespace-pre-wrap text-[40px]/11 -tracking-[1.6px] md:text-center md:text-[80px]/20 md:-tracking-[3.2px]">Become a<br />Freebuff Partner</h1>
+              <p className="mt-4 max-w-[540px] text-charcoal/80 font-medium text-base/6 -tracking-[0.32px] md:text-center md:text-lg/6.5 md:-tracking-[0.36px]">800,000 people and agencies of all sizes already build for clients with Freebuff. Join the Freebuff Partner program to get certified on your work, get discovered by clients, and earn on the business you bring.</p>
               <div className="mt-6 flex flex-col items-start gap-y-4 md:items-center">
                 <div className="flex flex-wrap items-center gap-3">
                   <a className="group/partners-button inline-flex items-center gap-x-1.25 rounded-full bg-charcoal px-4 py-3 text-sm/5 font-medium text-white shadow-[0_1px_3px_0_rgba(0,0,0,0.10),0_1px_2px_0_rgba(0,0,0,0.06)] transition-colors hover:bg-charcoal/90" href="#partner-types">Become a partner</a>
                   <a href="/work-with-a-partner" className="group/partners-button inline-flex items-center gap-x-1.25 rounded-full bg-white px-4 py-3 text-sm/5 font-medium text-charcoal shadow-[0_0_0_1px_#ECEAE3] hover:bg-[#F4F3F1]">Work with a partner</a>
                 </div>
-                <a className="group/partners-button inline-flex items-center gap-x-1.25 rounded-full px-0 py-2 text-sm/5 font-medium text-charcoal" href="https://partner-tools.lovable.app/" target="_blank" rel="noopener noreferrer">Already a partner? Log in<div className="pt-px"><svg className="transition-[translate,opacity] group-hover/partners-button:translate-x-[2.5px] opacity-60 group-hover/partners-button:opacity-100" width="16" height="16" fill="none"><path d="M6.5 5L9.5 8L6.5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path className="[stroke-dashoffset:1] group-hover/partners-button:[stroke-dashoffset:0] transition-[stroke-dashoffset]" d="M9.5 8L2.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1" strokeDasharray="1 1" /></svg></div></a>
+                <a className="group/partners-button inline-flex items-center gap-x-1.25 rounded-full px-0 py-2 text-sm/5 font-medium text-charcoal" href="https://partner-tools.freebuff.app/" target="_blank" rel="noopener noreferrer">Already a partner? Log in<div className="pt-px"><svg className="transition-[translate,opacity] group-hover/partners-button:translate-x-[2.5px] opacity-60 group-hover/partners-button:opacity-100" width="16" height="16" fill="none"><path d="M6.5 5L9.5 8L6.5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path className="[stroke-dashoffset:1] group-hover/partners-button:[stroke-dashoffset:0] transition-[stroke-dashoffset]" d="M9.5 8L2.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1" strokeDasharray="1 1" /></svg></div></a>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@ export default function PartnersPage() {
       </section>
       <section className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="overflow-hidden rounded-3xl border border-black/10 shadow-sm">
-          <img src={px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down/https://assets.lovable.dev/content/partners/types/partners-types-primary.jpg")} alt="Lovable partners" loading="eager" decoding="async" className="aspect-[16/8] w-full object-cover" />
+          <img src={px("/")} alt="Freebuff partners" loading="eager" decoding="async" className="aspect-[16/8] w-full object-cover" />
         </div>
       </section>
       <Section eyebrow="Programs" title="Discover partnership opportunities" sub="Find the right partnership to grow your business.">
@@ -55,13 +55,13 @@ export default function PartnersPage() {
           ))}
         </div>
         <p className="mt-6 text-sm text-steel">
-          <a href="https://partner-program-rules.lovable.app/#compare" target="_blank" rel="noopener noreferrer" className="underline hover:text-charcoal">See the full head-to-head comparison</a>
+          <a href="https://partner-program-rules.freebuff.app/#compare" target="_blank" rel="noopener noreferrer" className="underline hover:text-charcoal">See the full head-to-head comparison</a>
         </p>
       </Section>
       <Section>
         <figure className="mx-auto max-w-2xl text-center">
           <blockquote className="text-xl font-medium text-charcoal md:text-2xl">
-            &ldquo;We run an agency with 300+ clients and $600K ARR using Lovable. What used to take weeks of design and dev now takes hours or days, and clients get a real, full-stack website: forms, payments, integrations, all of it.&rdquo;
+            &ldquo;We run an agency with 300+ clients and $600K ARR using Freebuff. What used to take weeks of design and dev now takes hours or days, and clients get a real, full-stack website: forms, payments, integrations, all of it.&rdquo;
           </blockquote>
           <figcaption className="mt-4 text-sm text-steel">Jonathan Tembo, Co-founder of J&amp;T Promotions</figcaption>
         </figure>

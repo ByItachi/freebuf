@@ -6,7 +6,7 @@ const CATS = [
   { label: "Latest", href: "/blog", active: true },
   { label: "Announcements", href: "/blog?category=announcements" },
   { label: "Changelog", href: "/blog?category=changelog" },
-  { label: "Inside Lovable", href: "/blog?category=inside+lovable" },
+  { label: "Inside Freebuff", href: "/blog?category=inside+freebuff" },
   { label: "Development 101", href: "/blog?category=development+101" },
   { label: "Reports", href: "/blog?category=reports" },
   { label: "Tutorials", href: "/blog?category=tutorials" },
@@ -23,7 +23,7 @@ export default function BlogPage() {
               <div className="flex flex-col gap-8">
                 <div className="w-full md:w-3/4">
                   <h1 className="mb-4 text-5xl font-medium md:text-4xl">Blog</h1>
-                  <p className="text-marketing-muted-foreground mt-1 md:text-sm">Compiled notes from the Lovable team</p>
+                  <p className="text-marketing-muted-foreground mt-1 md:text-sm">Compiled notes from the Freebuff team</p>
                   <div className="border-marketing-border mt-8 w-full border-b md:w-1/2" />
                 </div>
                 <nav className="scrollbar-hide flex gap-4 overflow-x-auto whitespace-nowrap pb-4 md:mx-0 md:flex-col md:pb-0">
@@ -53,8 +53,8 @@ export default function BlogPage() {
                       loading="lazy"
                       decoding="async"
                       sizes="(max-width: 768px) 100vw, (max-width: 1500px) 50vw, 33vw"
-                      srcSet={`${px(`https://lovable.dev/cdn-cgi/image/width=640,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${p.cover}`)} 640w, ${px(`https://lovable.dev/cdn-cgi/image/width=750,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${p.cover}`)} 750w, ${px(`https://lovable.dev/cdn-cgi/image/width=828,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${p.cover}`)} 828w, ${px(`https://lovable.dev/cdn-cgi/image/width=1080,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${p.cover}`)} 1080w, ${px(`https://lovable.dev/cdn-cgi/image/width=1920,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${p.cover}`)} 1920w, ${px(`https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${p.cover}`)} 3840w`}
-                      src={px(`https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${p.cover}`)}
+                      srcSet={`${px(p.cover)} 640w, ${px(p.cover)} 1920w`}
+                      src={px(p.cover)}
                     />
                   </div>
                   <div className="flex flex-col gap-2 px-1">

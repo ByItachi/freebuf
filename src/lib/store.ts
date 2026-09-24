@@ -195,7 +195,7 @@ export function demoAssistantReply(userText: string, projectName: string) {
   return `I updated **${projectName}** as a ${focus}.
 
 ### What I built
-- Warm parchment canvas with Lovable-style typography
+- Warm parchment canvas with Freebuff-style typography
 - Hero + primary CTA wired to your prompt
 - Responsive card layout and subtle prism accent
 

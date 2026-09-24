@@ -21,12 +21,12 @@ export default function EnterprisePage() {
             fetchPriority="high"
             decoding="sync"
             sizes="100vw"
-            srcSet={`${px("https://lovable.dev/cdn-cgi/image/width=640,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/gradient-bg.webp")} 640w, ${px("https://lovable.dev/cdn-cgi/image/width=750,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/gradient-bg.webp")} 750w, ${px("https://lovable.dev/cdn-cgi/image/width=828,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/gradient-bg.webp")} 828w, ${px("https://lovable.dev/cdn-cgi/image/width=1080,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/gradient-bg.webp")} 1080w, ${px("https://lovable.dev/cdn-cgi/image/width=1920,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/gradient-bg.webp")} 1920w, ${px("https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/gradient-bg.webp")} 3840w`}
-            src={px("https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/gradient-bg.webp")}
+            srcSet={`${px("/")} 640w, ${px("/")} 750w, ${px("/")} 828w, ${px("/")} 1080w, ${px("/")} 1920w, ${px("/")} 3840w`}
+            src={px("/")}
           />
         </div>
         <div className="relative mt-[180px] flex w-full flex-col items-center gap-6 px-4">
-          <div className="font-medium text-xl leading-tight tracking-tight">Lovable for enterprises</div>
+          <div className="font-medium text-xl leading-tight tracking-tight">Freebuff for enterprises</div>
           <div className="py-5">
             <h1 className="leading-tighter inline-flex text-center text-7xl font-bold tracking-tighter md:text-[120px] lg:text-[160px]">
               <span className="inline-block">Ship</span>{" "}
@@ -40,8 +40,8 @@ export default function EnterprisePage() {
                       fetchPriority="high"
                       decoding="sync"
                       sizes="100vw"
-                      srcSet={`${px("https://lovable.dev/cdn-cgi/image/width=640,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/cursor-trail.png")} 640w, ${px("https://lovable.dev/cdn-cgi/image/width=1920,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/cursor-trail.png")} 1920w, ${px("https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/cursor-trail.png")} 3840w`}
-                      src={px("https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/cursor-trail.png")}
+                      srcSet={`${px("/")} 640w, ${px("/")} 1920w, ${px("/")} 3840w`}
+                      src={px("/")}
                     />
                   </span>
                   <span className="absolute -top-5 -left-5 inline-block h-[90px] w-[90px] md:-top-8 md:-left-10 md:h-[181px] md:w-[179px]">
@@ -52,8 +52,8 @@ export default function EnterprisePage() {
                       fetchPriority="high"
                       decoding="sync"
                       sizes="100vw"
-                      srcSet={`${px("https://lovable.dev/cdn-cgi/image/width=640,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/hero-cursor.png")} 640w, ${px("https://lovable.dev/cdn-cgi/image/width=1920,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/hero-cursor.png")} 1920w, ${px("https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/hero-cursor.png")} 3840w`}
-                      src={px("https://lovable.dev/cdn-cgi/image/width=3840,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/landing/enterprise-landing/hero/hero-cursor.png")}
+                      srcSet={`${px("/")} 640w, ${px("/")} 1920w, ${px("/")} 3840w`}
+                      src={px("/")}
                     />
                   </span>
                 </span>
@@ -75,11 +75,11 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      <Section eyebrow="Trusted in production" title="Join other companies building with Lovable">
+      <Section eyebrow="Trusted in production" title="Join other companies building with Freebuff">
         <div className="overflow-hidden rounded-2xl border border-black/10 bg-white">
           <img
-            src={px("https://lovable.dev/cdn-cgi/image/width=2000,f=auto,fit=scale-down/img/marketing-content/landing/enterprise/logo-wall-logos.webp")}
-            alt="Companies building with Lovable"
+            src={px("/")}
+            alt="Companies building with Freebuff"
             loading="lazy"
             decoding="async"
             className="w-full object-cover"
@@ -157,7 +157,7 @@ export default function EnterprisePage() {
               </label>
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-charcoal">
-                  What problems are you trying to solve with Lovable?
+                  What problems are you trying to solve with Freebuff?
                 </span>
                 <textarea
                   rows={4}
@@ -172,7 +172,7 @@ export default function EnterprisePage() {
                 Submit
               </button>
               <p className="text-center text-[13px] text-steel">
-                We&apos;ll use the information you share to reach out about lovable.dev products and services. You can unsubscribe at any time. For details on how we protect your data, check out our{" "}
+                We&apos;ll use the information you share to reach out about freebuff.dev products and services. You can unsubscribe at any time. For details on how we protect your data, check out our{" "}
                 <Link href="/privacy" className="underline">
                   Privacy policy
                 </Link>

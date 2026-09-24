@@ -61,70 +61,71 @@
   palette above; the dashboard uses these.
 */
 :root {
-  --bg-depth: oklch(95.49% 0 107);
-  --bg-base: oklch(96.99% 0 107);
-  --bg-primary: oklch(98.51% 0 107);
-  --bg-secondary: oklch(99.99% 0 107);
-  --bg-tertiary: oklch(99.99% 0 107);
-  --bg-quaternary: oklch(99.99% 0 107);
-  --bg-accent: oklch(52.43% 0.2396 264.41);
-  --bg-accent-translucent: oklch(52.43% 0.2396 264.41 / 0.16);
+  --bg-depth: #0a101c;
+  --bg-base: #0b1220;
+  --bg-primary: #101a2c;
+  --bg-secondary: #131c2e;
+  --bg-tertiary: #17223a;
+  --bg-quaternary: #1c2942;
+  --bg-accent: #22c55e;
+  --bg-accent-translucent: rgb(34 197 94 / 0.16);
   --bg-destructive: oklch(58.53% 0.2203 26.56);
   --bg-destructive-translucent: oklch(58.53% 0.2203 26.56 / 0.16);
   --bg-special: oklch(58.99% 0.2523 294.88);
   --bg-special-translucent: oklch(58.99% 0.2523 294.88 / 0.16);
-  --bg-positive: oklch(54.42% 0.1689 138.23);
-  --bg-positive-translucent: oklch(54.42% 0.1689 138.23 / 0.16);
+  --bg-positive: #22c55e;
+  --bg-positive-translucent: rgb(34 197 94 / 0.16);
   --bg-attention: oklch(58.01% 0.1819 40.04);
   --bg-attention-translucent: oklch(58.01% 0.1819 40.04 / 0.16);
   --bg-highlight: oklch(59.06% 0.2244 359.16);
   --bg-highlight-translucent: oklch(59.06% 0.2244 359.16 / 0.16);
-  --bg-translucent: oklch(100% 0 0 / 0.8);
-  --bg-scrim: oklch(100% 0 0 / 0.8);
+  --bg-translucent: rgb(16 26 44 / 0.8);
+  --bg-scrim: rgb(10 16 28 / 0.8);
   --bg-scrim-inverse: oklch(0% 0 0 / 0.8);
-  --bg-muted: oklch(56.74% 0.009 106.68 / 0.16);
-  --bg-inverse: oklch(0% 0 0 / 0.88);
+  --bg-muted: rgb(148 163 184 / 0.14);
+  --bg-inverse: rgb(241 245 249 / 0.92);
 
-  --fg-primary: oklch(10% 0 0);
-  --fg-secondary: oklch(30% 0.001 107);
-  --fg-tertiary: oklch(50% 0.001 107);
-  --fg-quaternary: oklch(72.34% 0.002 107);
-  --fg-inverse: oklch(98.51% 0 89.88);
+  --fg-primary: #f1f5f9;
+  --fg-secondary: #cbd5e1;
+  --fg-tertiary: #94a3b8;
+  --fg-quaternary: #64748b;
+  --fg-inverse: #0b1220;
 
-  --border-translucent: oklch(55% 0.002 107 / 0.16);
-  --border-glow-on-surface-hover: oklch(56.74% 0.009 106.68 / 0.24);
+  --border-translucent: rgb(148 163 184 / 0.18);
+  --border-glow-on-surface-hover: rgb(148 163 184 / 0.26);
   --border-glow-on-accent: oklch(0% 0 0 / 0.064);
 
-  --glow-neutral-hover: oklch(0% 0 0 / 0.04);
-  --glow-neutral-pressed: oklch(0% 0 0 / 0.08);
+  --glow-neutral-hover: rgb(148 163 184 / 0.08);
+  --glow-neutral-pressed: rgb(148 163 184 / 0.14);
   --glow-on-inverse-hover: oklch(0% 0 0 / 0.88);
 
-  --color-gray-550: oklch(56.74% 0.009 106.68);
-  --color-gray-600: oklch(51.89% 0.009 106.72);
+  --color-gray-550: #7c8ba1;
+  --color-gray-600: #64748b;
 
   /* Prismatic accent ramp used by the composer halo, tab indicator and
      upgrade cards. */
   --pulse-prism: linear-gradient(
     90deg,
-    #5e89f2 0%,
-    #ff66f4 50%,
-    #fe7b02 100%
+    #34d399 0%,
+    #22c55e 45%,
+    #38bdf8 100%
   );
 }
 
 /* Live-site build-mode switcher tokens (verbatim from lovable.dev) */
 :root {
   --border-default: 0.5px;
-  --lov-bg-switcher-pill: linear-gradient(180deg, #0000 0%, #0000000a 100%),
-    linear-gradient(0deg, #1f55f129 0%, #1f55f129 100%), #fff;
+  --lov-bg-switcher-pill: linear-gradient(180deg, #0000 0%, #ffffff0a 100%),
+    linear-gradient(0deg, rgb(34 197 94 / 0.16) 0%, rgb(34 197 94 / 0.16) 100%), #101a2c;
   --lov-shadow-switcher-track: 0 0 0 var(--border-default)
-      var(--border-depth, #d2d2d0) inset,
-    0 2px 2px -1px #00000005 inset, 0 4px 4px -2px #00000005 inset,
-    0 var(--border-default) var(--border-default) 0 #fffc;
-  --lov-shadow-switcher-pill-soft: 0 0 0 var(--border-default) #5e89f2 inset,
-    0 1px 1px 0 #ffffff7a inset, 0 -1px 1px 0 #ffffff29 inset,
-    0 0 1px 1px #ffffff8f inset, 0 2px 2px -1px #1f55f114,
-    0 4px 4px -2px #1f55f114;
+      var(--border-depth, #24304a) inset,
+    0 2px 2px -1px #ffffff08 inset, 0 4px 4px -2px #ffffff08 inset,
+    0 var(--border-default) var(--border-default) 0 rgb(16 26 44 / 0.8);
+  --lov-shadow-switcher-pill-soft: 0 0 0 var(--border-default) #22c55e inset,
+    0 1px 1px 0 rgb(255 255 255 / 0.18) inset,
+    0 -1px 1px 0 rgb(255 255 255 / 0.08) inset,
+    0 0 1px 1px rgb(255 255 255 / 0.28) inset,
+    0 2px 2px -1px rgb(34 197 94 / 0.12), 0 4px 4px -2px rgb(34 197 94 / 0.12);
 }
 
 /*
@@ -135,26 +136,26 @@
    even when a utility doesn't reference it yet */
 @theme static {
   /* Colors â€” 1:1 from the Lovable parchment style reference */
-  --color-parchment: #fcfbf8;
-  --color-warm-sand: #f7f4ed;
-  --color-linen-border: #eceae4;
-  --color-stone: #d4d3d0;
-  --color-dim-gray: #5f5f5d;
-  --color-steel: #5f5f5d;
-  --color-smoke: #8f8e8a;
-  --color-charcoal: #1c1c1c;
-  --color-ink: #030303;
-  --color-hero-gradient: oklch(52.43% 0.2396 264.41);
-  --color-indigo-accent: oklch(52.43% 0.2396 264.41);
+  --color-parchment: #0b1220;
+  --color-warm-sand: #131c2e;
+  --color-linen-border: #24304a;
+  --color-stone: #334155;
+  --color-dim-gray: #94a3b8;
+  --color-steel: #94a3b8;
+  --color-smoke: #7c8ba1;
+  --color-charcoal: #f1f5f9;
+  --color-ink: #ffffff;
+  --color-hero-gradient: #22c55e;
+  --color-indigo-accent: #22c55e;
   --gradient-hero-gradient: linear-gradient(
     90deg,
-    rgb(28 28 28) 0%,
-    rgb(28 28 28) 33.33%,
-    rgb(130 188 255) 40%,
-    rgb(36 131 255) 45%,
-    rgb(255 102 244) 50%,
-    rgb(255 48 41) 55%,
-    rgb(254 123 2) 60%,
+    rgb(241 245 249) 0%,
+    rgb(241 245 249) 33.33%,
+    rgb(134 239 172) 40%,
+    rgb(74 222 128) 45%,
+    rgb(34 197 94) 50%,
+    rgb(56 189 248) 55%,
+    rgb(14 165 233) 60%,
     rgb(0 0 0 / 0) 66.67%,
     rgb(0 0 0 / 0) 100%
   );
@@ -224,25 +225,29 @@
   --shadow-subtle-3: oklch(0 0 0 / 0.16) 0px 0px 0px 0.5px inset;
 
   /* Surfaces â€” lovable.dev */
-  --surface-canvas: #fcfbf8;
-  --surface-card: #f7f4ed;
-  --surface-inverse: #1c1c1c;
+  --surface-canvas: #0b1220;
+  --surface-card: #131c2e;
+  --surface-inverse: #f1f5f9;
 
   /* Marketing tokens â€” lovable.dev/home */
-  --marketing-background: 45 40% 98%;
-  --marketing-foreground: 0 0% 11%;
-  --marketing-card: 45 40% 98%;
-  --marketing-card-foreground: 0 0% 5%;
-  --marketing-muted: 42 38% 95%;
-  --marketing-muted-foreground: 60 1% 37%;
-  --marketing-border: 45 17% 91%;
-  --marketing-accent: 216 73% 91%;
+  --marketing-background: 222 47% 5%;
+  --marketing-foreground: 210 40% 98%;
+  --marketing-card: 222 47% 7%;
+  --marketing-card-foreground: 210 40% 98%;
+  --marketing-muted: 222 32% 12%;
+  --marketing-muted-foreground: 215 20% 65%;
+  --marketing-border: 217 33% 18%;
+  --marketing-accent: 158 64% 52%;
 }
 
 @theme inline {
   --font-camera-plain-variable: "Camera Plain Variable",
     var(--font-camera-variable), "Inter", ui-sans-serif, system-ui,
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Developer-tool identity: JetBrains Mono for headings/labels (loaded via
+     next/font as --font-freebuff-mono), IBM Plex Sans for body text. */
+  --font-mono-code: var(--font-freebuff-mono), ui-monospace, SFMono-Regular,
+    Menlo, monospace;
 }
 
 /*
@@ -276,7 +281,7 @@
 
   html {
     scroll-behavior: smooth;
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {
@@ -292,7 +297,7 @@
 
   ::selection {
     background-color: var(--color-hero-gradient);
-    color: var(--color-parchment);
+    color: #04121f;
   }
 }
 
@@ -314,7 +319,7 @@
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    background-color: #f3b3d8;
+    background-color: #0b1220;
   }
 
   .hero-gradient::before {
@@ -323,11 +328,11 @@
     z-index: -1;
     inset: -25% -15%;
     background:
-      radial-gradient(46% 42% at 4% 0%, rgb(75 115 255 / 0.88) 0%, rgb(75 115 255 / 0) 100%),
-      radial-gradient(46% 42% at 96% 0%, rgb(75 115 255 / 0.88) 0%, rgb(75 115 255 / 0) 100%),
-      radial-gradient(64% 56% at 50% 6%, #fcfbf8 0%, rgb(252 251 248 / 0.92) 38%, rgb(252 251 248 / 0) 100%),
-      linear-gradient(180deg, rgb(255 1 5 / 0) 58%, rgb(255 1 5 / 0.4) 80%, rgb(254 123 2 / 0.92) 97%),
-      radial-gradient(72% 46% at 50% 76%, rgb(255 102 244 / 0.9) 0%, rgb(255 102 244 / 0.45) 45%, rgb(255 102 244 / 0) 100%);
+      radial-gradient(46% 42% at 4% 0%, rgb(34 197 94 / 0.55) 0%, rgb(34 197 94 / 0) 100%),
+      radial-gradient(46% 42% at 96% 0%, rgb(14 165 233 / 0.45) 0%, rgb(14 165 233 / 0) 100%),
+      radial-gradient(64% 56% at 50% 6%, rgb(11 18 32 / 0.95) 0%, rgb(11 18 32 / 0.82) 38%, rgb(11 18 32 / 0) 100%),
+      linear-gradient(180deg, rgb(56 189 248 / 0) 58%, rgb(56 189 248 / 0.22) 80%, rgb(16 185 129 / 0.4) 97%),
+      radial-gradient(72% 46% at 50% 76%, rgb(74 222 128 / 0.32) 0%, rgb(74 222 128 / 0.16) 45%, rgb(74 222 128 / 0) 100%);
     filter: blur(48px);
     pointer-events: none;
   }
@@ -359,13 +364,13 @@
   .gradient-text-sweep {
     background-image: linear-gradient(
       90deg,
-      #1c1c1c 0%,
-      #1c1c1c 33.33%,
-      #82bcff 40%,
-      #2483ff 45%,
-      #ff66f4 50%,
-      #ff3029 55%,
-      #fe7b02 60%,
+      #f1f5f9 0%,
+      #f1f5f9 33.33%,
+      #86efac 40%,
+      #4ade80 45%,
+      #22c55e 50%,
+      #38bdf8 55%,
+      #0ea5e9 60%,
       transparent 66.67%,
       transparent 100%
     );
@@ -386,17 +391,17 @@
     }
   }
 
-  /* Light variant for dark sections (live "and beyond" treatment) */
+  /* Light variant used on top of brighter panels */
   .gradient-text-sweep-light {
     background-image: linear-gradient(
       90deg,
       #ffffff 0%,
       #ffffff 33.33%,
-      #82bcff 40%,
-      #2483ff 45%,
-      #ff66f4 50%,
-      #ff3029 55%,
-      #fe7b02 60%,
+      #86efac 40%,
+      #4ade80 45%,
+      #22c55e 50%,
+      #38bdf8 55%,
+      #0ea5e9 60%,
       transparent 66.67%,
       transparent 100%
     );
@@ -458,28 +463,28 @@
   .lov-prism-bar {
     background: linear-gradient(
       to right,
-      #4f88ff 0%,
-      #5185ff 4.76%,
-      #5885ff 9.52%,
-      #6289ff 14.29%,
-      #7491ff 19.05%,
-      #91a0ff 23.81%,
-      #b0acfe 28.57%,
-      #ceaffb 33.33%,
-      #e2a5f2 38.1%,
-      #f388de 42.86%,
-      #fb65c2 47.62%,
-      #fd49a8 52.38%,
-      #fd2980 57.14%,
-      #fc1a58 61.9%,
-      #fa1f41 66.67%,
-      #fa2733 71.43%,
-      #fb3d26 76.19%,
-      #fc541f 80.95%,
-      #fe6a1e 85.71%,
-      #fe771d 90.48%,
-      #ff861b 95.24%,
-      #ff8f1b 100%
+      #34d399 0%,
+      #2fd08f 4.76%,
+      #2ac986 9.52%,
+      #26c37d 14.29%,
+      #23bd75 19.05%,
+      #21b76e 23.81%,
+      #1fb168 28.57%,
+      #1eab63 33.33%,
+      #1da75f 38.1%,
+      #1ca35c 42.86%,
+      #1ba05a 47.62%,
+      #1a9e58 52.38%,
+      #1a9c57 57.14%,
+      #199a56 61.9%,
+      #22a765 66.67%,
+      #2cb87c 71.43%,
+      #38c996 76.19%,
+      #45d9b0 80.95%,
+      #4fe3c2 85.71%,
+      #4fd8dd 90.48%,
+      #3fc4e8 95.24%,
+      #38bdf8 100%
     );
   }
 
@@ -495,14 +500,7 @@
 
   /* The one exception to "gradient never on components": the chat send button */
   .hero-gradient-btn {
-    background-image: linear-gradient(
-      135deg,
-      rgb(75 115 255) 0%,
-      rgb(75 115 255) 18%,
-      rgb(255 102 244) 55%,
-      rgb(255 1 5) 78%,
-      rgb(254 123 2) 100%
-    );
+    background-image: linear-gradient(135deg, #22c55e 0%, #16a34a 45%, #0ea5e9 100%);
   }
 
   @keyframes marquee-scroll {
@@ -620,7 +618,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #FF8E2A;
+    background: #22C55E;
     top: 480px;
     left: 716px;
     animation: impact-glow 3s ease-in-out infinite;
@@ -693,7 +691,7 @@
 
   .view-switcher button[aria-selected="true"] {
     color: var(--color-charcoal);
-    background: white;
+    background: var(--bg-primary);
     box-shadow: var(--lov-shadow-switcher-pill-soft);
   }
 
@@ -742,7 +740,7 @@
   }
 
   .switch-track[data-state="checked"] {
-    background: #4B73FF;
+    background: #22c55e;
   }
 
   .switch-thumb {
@@ -768,9 +766,9 @@
     gap: 4px;
     padding: 2px 8px;
     border-radius: 8px;
-    background: rgba(75, 115, 255, 0.1);
-    border: 0.5px solid rgba(75, 115, 255, 0.2);
-    color: #4B73FF;
+    background: rgb(34 197 94 / 0.12);
+    border: 0.5px solid rgb(34 197 94 / 0.25);
+    color: #4ade80;
     font-size: 12px;
     font-weight: 500;
     line-height: 1.35;
@@ -997,7 +995,7 @@
   --dash-muted: var(--color-dim-gray, #5f5f5d);
   --dash-text: var(--color-charcoal, #1c1c1c);
   --dash-ink: var(--color-ink, #030303);
-  --dash-prism: var(--pulse-prism, linear-gradient(90deg, #5e89f2 0%, #ff66f4 50%, #fe7b02 100%));
+  --dash-prism: var(--pulse-prism, linear-gradient(90deg, #34d399 0%, #22c55e 50%, #38bdf8 100%));
 }
 
 [data-dashboard] .dash-anim-in {
@@ -1027,107 +1025,147 @@
   [data-dashboard] .dash-menu-pop { animation: none; }
 }
 
-/* Appearance: the sidebar account menu writes data-theme="dark" on <html>.
-   Overrides the Tailwind v4 color tokens (emitted at :root) so every
-   parchment/sand/charcoal utility flips together. */
-[data-theme="dark"] {
-  --color-parchment: #17161b;
-  --color-warm-sand: #201f25;
-  --color-linen-border: #2e2d34;
-  --color-stone: #3b3a42;
-  --color-dim-gray: #a5a4aa;
-  --color-steel: #a5a4aa;
-  --color-smoke: #7f7e85;
-  --color-charcoal: #f2f1ee;
-  --color-ink: #ffffff;
-}
-/* Tone down the pastel aurora on dark surfaces */
-[data-theme="dark"] .dash-hero-aurora {
-  opacity: 0.45;
-}
-
-/* Dark-mode compatibility layer: utility classes that bake in literal
-   white/black values must flip together with the token flips above, or
-   text rendered in --color-charcoal (near-white in dark) disappears on
-   white cards. Kept as CSS overrides so JSX stays on plain utilities. */
-[data-theme="dark"] {
-  color-scheme: dark;
-}
-[data-theme="dark"] .bg-white {
+/* Dark-default compatibility layer: utilities that bake in literal white
+   must map onto the dark surfaces because dark is the default theme. The
+   [data-theme="light"] block below restores the literal light values. */
+.bg-white {
   background-color: var(--color-warm-sand);
 }
-[data-theme="dark"] .bg-white\/80 {
-  background-color: rgb(32 31 37 / 0.8);
+.bg-white\/80 {
+  background-color: rgb(19 28 46 / 0.8);
 }
-[data-theme="dark"] .bg-white\/85 {
-  background-color: rgb(32 31 37 / 0.85);
+.bg-white\/85 {
+  background-color: rgb(19 28 46 / 0.85);
 }
-[data-theme="dark"] .bg-white\/60 {
-  background-color: rgb(32 31 37 / 0.6);
+.bg-white\/60 {
+  background-color: rgb(19 28 46 / 0.6);
 }
-[data-theme="dark"] .bg-white\/40 {
-  background-color: rgb(32 31 37 / 0.4);
+.bg-white\/40 {
+  background-color: rgb(19 28 46 / 0.4);
 }
-[data-theme="dark"] .border-black\/10,
-[data-theme="dark"] .border-black\/5 {
-  border-color: var(--color-linen-border);
+
+/* Appearance: the sidebar account menu writes data-theme="light" on <html>.
+   Freebuff ships dark-first (OLED slate + green); this variant restores the
+   warm parchment palette for users who pick Light. Overrides the Tailwind v4
+   color tokens (emitted at :root) so every utility flips together. */
+[data-theme="light"] {
+  --color-parchment: #fcfbf8;
+  --color-warm-sand: #f7f4ed;
+  --color-linen-border: #eceae4;
+  --color-stone: #d4d3d0;
+  --color-dim-gray: #5f5f5d;
+  --color-steel: #5f5f5d;
+  --color-smoke: #8f8e8a;
+  --color-charcoal: #1c1c1c;
+  --color-ink: #030303;
+  --fg-primary: #1c1c1c;
+  --fg-secondary: #3a3a38;
+  --fg-tertiary: #5f5f5d;
+  --fg-quaternary: #8f8e8a;
+  --fg-inverse: #fcfbf8;
+  --bg-depth: #f2efe7;
+  --bg-base: #f7f4ed;
+  --bg-primary: #fcfbf8;
+  --bg-secondary: #ffffff;
+  --bg-translucent: rgb(255 255 255 / 0.8);
+  --bg-scrim: rgb(255 255 255 / 0.8);
+  --bg-scrim-inverse: rgb(28 28 28 / 0.8);
+  --bg-inverse: rgb(28 28 28 / 0.88);
+  --bg-muted: rgb(95 95 93 / 0.16);
+  --border-translucent: rgb(95 95 93 / 0.16);
+  --glow-neutral-hover: rgb(28 28 28 / 0.04);
+  --glow-neutral-pressed: rgb(28 28 28 / 0.08);
+  --lov-bg-switcher-pill: linear-gradient(180deg, #0000 0%, #0000000a 100%),
+    linear-gradient(0deg, rgb(75 115 255 / 0.16) 0%, rgb(75 115 255 / 0.16) 100%), #fff;
+  --lov-shadow-switcher-track: 0 0 0 var(--border-default)
+      var(--border-depth, #d2d2d0) inset,
+    0 2px 2px -1px #00000005 inset, 0 4px 4px -2px #00000005 inset,
+    0 var(--border-default) var(--border-default) 0 #fffc;
+  --lov-shadow-switcher-pill-soft: 0 0 0 var(--border-default) #16a34a inset,
+    0 1px 1px 0 #ffffff7a inset, 0 -1px 1px 0 #ffffff29 inset,
+    0 0 1px 1px #ffffff8f inset, 0 2px 2px -1px #1f55f114,
+    0 4px 4px -2px #1f55f114;
+  color-scheme: light;
 }
-[data-theme="dark"] .bg-black\/\[0\.02\],
-[data-theme="dark"] .bg-black\/\[0\.03\],
-[data-theme="dark"] .bg-black\/\[0\.04\],
-[data-theme="dark"] .bg-black\/\[0\.05\],
-[data-theme="dark"] .bg-black\/\[0\.06\],
-[data-theme="dark"] .bg-black\/\[0\.08\] {
-  background-color: rgb(255 255 255 / 0.07);
+
+/* Light-variant compatibility layer: restore the literal light values that
+   the dark-default layer above remapped. Kept as CSS overrides so JSX stays
+   on plain utilities. */
+[data-theme="light"] .bg-white {
+  background-color: #ffffff;
 }
-[data-theme="dark"] .hover\:bg-black\/\[0\.03\]:hover,
-[data-theme="dark"] .hover\:bg-black\/\[0\.04\]:hover,
-[data-theme="dark"] .hover\:bg-black\/\[0\.05\]:hover,
-[data-theme="dark"] .hover\:bg-black\/\[0\.06\]:hover {
-  background-color: rgb(255 255 255 / 0.07);
+[data-theme="light"] .bg-white\/80 {
+  background-color: rgb(255 255 255 / 0.8);
 }
-[data-theme="dark"] .focus\:bg-black\/\[0\.05\]:focus {
-  background-color: rgb(255 255 255 / 0.07);
+[data-theme="light"] .bg-white\/85 {
+  background-color: rgb(255 255 255 / 0.85);
 }
-[data-theme="dark"] .hover\:bg-black\/\[0\.02\]:hover {
-  background-color: rgb(255 255 255 / 0.04);
+[data-theme="light"] .bg-white\/60 {
+  background-color: rgb(255 255 255 / 0.6);
 }
-[data-theme="dark"] .bg-black {
-  background-color: #000000;
+[data-theme="light"] .bg-white\/40 {
+  background-color: rgb(255 255 255 / 0.4);
 }
-/* Business/Enterprise badges: lavender chip readable on dark */
-[data-theme="dark"] .bg-\[\#efedfb\] {
-  background-color: #322e59;
+[data-theme="light"] .border-black\/10,
+[data-theme="light"] .border-black\/5 {
+  border-color: rgb(28 28 28 / 0.1);
 }
-[data-theme="dark"] .text-\[\#5b4fc4\] {
-  color: #b9b2f2;
+[data-theme="light"] .bg-black\/\[0\.02\],
+[data-theme="light"] .bg-black\/\[0\.03\],
+[data-theme="light"] .bg-black\/\[0\.04\],
+[data-theme="light"] .bg-black\/\[0\.05\],
+[data-theme="light"] .bg-black\/\[0\.06\],
+[data-theme="light"] .bg-black\/\[0\.08\] {
+  background-color: rgb(28 28 28 / 0.05);
 }
-[data-theme="dark"] .border-\[\#c9c4f2\] {
-  border-color: #4a4390;
+[data-theme="light"] .hover\:bg-black\/\[0\.03\]:hover,
+[data-theme="light"] .hover\:bg-black\/\[0\.04\]:hover,
+[data-theme="light"] .hover\:bg-black\/\[0\.05\]:hover,
+[data-theme="light"] .hover\:bg-black\/\[0\.06\]:hover {
+  background-color: rgb(28 28 28 / 0.05);
+}
+[data-theme="light"] .focus\:bg-black\/\[0\.05\]:focus {
+  background-color: rgb(28 28 28 / 0.05);
+}
+[data-theme="light"] .hover\:bg-black\/\[0\.02\]:hover {
+  background-color: rgb(28 28 28 / 0.03);
+}
+[data-theme="light"] .bg-black {
+  background-color: #1c1c1c;
+}
+/* Business/Enterprise badges keep the lavender chip on light */
+[data-theme="light"] .bg-\[\#efedfb\] {
+  background-color: #efedfb;
+}
+[data-theme="light"] .text-\[\#5b4fc4\] {
+  color: #5b4fc4;
+}
+[data-theme="light"] .border-\[\#c9c4f2\] {
+  border-color: #c9c4f2;
 }
 /* Dashboard primitives with fixed light backgrounds */
-[data-theme="dark"] .view-switcher {
-  background: rgb(255 255 255 / 0.06);
-  border-color: rgb(255 255 255 / 0.1);
+[data-theme="light"] .view-switcher {
+  background: rgb(28 28 28 / 0.04);
+  border-color: rgb(28 28 28 / 0.08);
 }
-[data-theme="dark"] .view-switcher button[aria-selected="true"] {
-  background: #2a2930;
+[data-theme="light"] .view-switcher button[aria-selected="true"] {
+  background: #ffffff;
 }
-[data-theme="dark"] .lov-switcher-track {
-  background: #201f25;
+[data-theme="light"] .lov-switcher-track {
+  background: #ffffff;
 }
-[data-theme="dark"] .select-field-content {
-  background: rgb(255 255 255 / 0.07);
-  border-color: rgb(255 255 255 / 0.1);
+[data-theme="light"] .select-field-content {
+  background: rgb(28 28 28 / 0.05);
+  border-color: rgb(28 28 28 / 0.08);
 }
-[data-theme="dark"] .switch-track {
-  background: #3b3a42;
-  border-color: rgb(255 255 255 / 0.12);
+[data-theme="light"] .switch-track {
+  background: #e5e5e5;
+  border-color: rgb(28 28 28 / 0.12);
 }
-[data-theme="dark"] .mention-pill {
-  background: rgb(75 115 255 / 0.18);
-  border-color: rgb(75 115 255 / 0.3);
-  color: #9db9ff;
+[data-theme="light"] .mention-pill {
+  background: rgb(22 163 74 / 0.1);
+  border-color: rgb(22 163 74 / 0.22);
+  color: #16a34a;
 }
 
 /* Connectors pill: icons slide left continuously on hover (marquee).
@@ -1155,7 +1193,7 @@
 }
 [data-dashboard] .dash-invite-frame {
   background: var(--dash-prism,
-    linear-gradient(90deg, #5e89f2, #ff66f4, #fe7b02));
+    linear-gradient(90deg, #34d399, #22c55e, #38bdf8));
   opacity: 0;
   transition: opacity 0.25s ease;
 }
@@ -1163,7 +1201,7 @@
   opacity: 1;
   background: conic-gradient(
     from var(--dash-invite-angle),
-    #5e89f2, #ff66f4, #fe7b02, #5e89f2);
+    #34d399, #22c55e, #38bdf8, #34d399);
   animation: dash-invite-spin 3s linear infinite;
 }
 @keyframes dash-invite-spin {
@@ -1179,35 +1217,35 @@
 [data-dashboard] .dash-anim-in-delay-5 { animation-delay: 0.3s; }
 
 [data-dashboard] .dash-hero-aurora {
-  /* Reference-style pastel aurora: heavily blurred corner blobs on a near-white
-     base — periwinkle blue top corners, violet side edges, pink/red bottom
-     corners. NO hard color bands; blur(40px) melts everything together. */
+  /* Reference-style dark nebula: heavily blurred corner glows on a deep slate
+     base — emerald top corners, sky side edges, teal bloom at the bottom.
+     blur(40px) melts everything together. */
   background:
-    radial-gradient(42% 46% at 8% -6%, rgba(93, 148, 246, 0.66) 0%, rgba(93, 148, 246, 0) 70%),
-    radial-gradient(42% 46% at 92% -6%, rgba(93, 148, 246, 0.66) 0%, rgba(93, 148, 246, 0) 70%),
-    radial-gradient(60% 50% at 50% -10%, rgba(147, 183, 250, 0.5) 0%, rgba(147, 183, 250, 0) 72%),
-    radial-gradient(30% 40% at -4% 40%, rgba(139, 132, 248, 0.34) 0%, rgba(139, 132, 248, 0) 72%),
-    radial-gradient(30% 40% at 104% 40%, rgba(139, 132, 248, 0.34) 0%, rgba(139, 132, 248, 0) 72%),
-    radial-gradient(40% 44% at 6% 108%, rgba(246, 108, 168, 0.58) 0%, rgba(246, 108, 168, 0) 70%),
-    radial-gradient(40% 44% at 94% 108%, rgba(246, 108, 168, 0.58) 0%, rgba(246, 108, 168, 0) 70%),
-    radial-gradient(26% 30% at 0% 100%, rgba(250, 112, 90, 0.55) 0%, rgba(250, 112, 90, 0) 68%),
-    radial-gradient(26% 30% at 100% 100%, rgba(250, 112, 90, 0.55) 0%, rgba(250, 112, 90, 0) 68%),
-    radial-gradient(46% 40% at 50% 112%, rgba(160, 190, 250, 0.35) 0%, rgba(160, 190, 250, 0) 70%),
-    linear-gradient(180deg, #eaf0fb 0%, #f3f4fa 48%, #f6eff4 100%);
+    radial-gradient(42% 46% at 8% -6%, rgba(34, 197, 94, 0.4) 0%, rgba(34, 197, 94, 0) 70%),
+    radial-gradient(42% 46% at 92% -6%, rgba(14, 165, 233, 0.32) 0%, rgba(14, 165, 233, 0) 70%),
+    radial-gradient(60% 50% at 50% -10%, rgba(74, 222, 128, 0.2) 0%, rgba(74, 222, 128, 0) 72%),
+    radial-gradient(30% 40% at -4% 40%, rgba(56, 189, 248, 0.16) 0%, rgba(56, 189, 248, 0) 72%),
+    radial-gradient(30% 40% at 104% 40%, rgba(56, 189, 248, 0.16) 0%, rgba(56, 189, 248, 0) 72%),
+    radial-gradient(40% 44% at 6% 108%, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0) 70%),
+    radial-gradient(40% 44% at 94% 108%, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0) 70%),
+    radial-gradient(26% 30% at 0% 100%, rgba(20, 184, 166, 0.22) 0%, rgba(20, 184, 166, 0) 68%),
+    radial-gradient(26% 30% at 100% 100%, rgba(20, 184, 166, 0.22) 0%, rgba(20, 184, 166, 0) 68%),
+    radial-gradient(46% 40% at 50% 112%, rgba(34, 197, 94, 0.16) 0%, rgba(34, 197, 94, 0) 70%),
+    linear-gradient(180deg, #0e1626 0%, #0b1220 48%, #0a101c 100%);
   filter: blur(40px);
   transform: scale(1.08);
   transform-origin: 50% 42%;
   animation: dash-aurora-breathe 26s ease-in-out infinite;
 }
 
-/* Burned-out white bloom in the vertical center around the greeting area */
+/* Soft deep-green bloom in the vertical center around the greeting area */
 [data-dashboard] .dash-hero-aurora::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(38% 44% at 50% 34%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0) 66%),
-    radial-gradient(72% 64% at 50% 40%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 76%);
+    radial-gradient(38% 44% at 50% 34%, rgba(20, 30, 48, 0.9) 0%, rgba(20, 30, 48, 0) 66%),
+    radial-gradient(72% 64% at 50% 40%, rgba(16, 26, 44, 0.55) 0%, rgba(16, 26, 44, 0) 76%);
 }
 
 [data-dashboard] .dash-prompt-shell {
@@ -1255,8 +1293,8 @@
 }
 [data-dashboard] .dash-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 40px -24px rgba(28,28,28,0.28);
-  border-color: color-mix(in srgb, var(--dash-border) 40%, #1c1c1c);
+  box-shadow: 0 18px 40px -24px rgba(0,0,0,0.5);
+  border-color: color-mix(in srgb, var(--dash-border) 55%, #38bdf8);
 }
 [data-dashboard] .dash-card-thumb {
   transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
@@ -1272,7 +1310,19 @@
   transform: translateX(2px);
 }
 [data-dashboard] .dash-nav-item[data-active="true"] {
-  box-shadow: inset 0 0 0 0.5px rgba(28,28,28,0.06);
+  box-shadow: inset 0 0 0 0.5px rgba(148,163,184,0.14);
+}
+
+/* Light theme: soften the dark nebula so the parchment canvas shows through.
+   Rebuilds the aurora from soft pastels (periwinkle top, mint/sky bottom). */
+[data-theme="light"] [data-dashboard] .dash-hero-aurora {
+  background:
+    radial-gradient(42% 46% at 8% -6%, rgba(93, 148, 246, 0.5) 0%, rgba(93, 148, 246, 0) 70%),
+    radial-gradient(42% 46% at 92% -6%, rgba(147, 183, 250, 0.45) 0%, rgba(147, 183, 250, 0) 70%),
+    radial-gradient(40% 44% at 6% 108%, rgba(134, 239, 172, 0.5) 0%, rgba(134, 239, 172, 0) 70%),
+    radial-gradient(40% 44% at 94% 108%, rgba(125, 211, 252, 0.4) 0%, rgba(125, 211, 252, 0) 70%),
+    linear-gradient(180deg, #eaf0fb 0%, #f3f4fa 48%, #eef7f0 100%);
+  opacity: 0.6;
 }
 
 [data-dashboard] .dash-promo {

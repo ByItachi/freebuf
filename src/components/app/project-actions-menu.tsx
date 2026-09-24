@@ -32,7 +32,7 @@ const MENU_W = 208; // w-52
 const MENU_H_ESTIMATE = 360;
 
 /**
- * Three-dot "…" button opening a Lovable-style project menu:
+ * Three-dot "…" button opening a Freebuff-style project menu:
  * Open in new tab · Star · Remix │ Copy link · Hide from recents ·
  * Settings · Publish/Unpublish │ Delete.
  *

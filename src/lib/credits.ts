@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * Daily build-credit meter for the workspace menu (Lovable shows "Credits
+ * Daily build-credit meter for the workspace menu (Freebuff shows "Credits
  * N left >" with a reset-at-midnight-UTC note). Kept honest: real counter of
  * model calls sent from this browser, no fake usage data.
  */
 
-const KEY = "lovable.credits";
+const KEY = "freebuff.credits";
 const LIMIT = 30;
 
 export type CreditState = {
@@ -35,7 +35,7 @@ function writeCredits(state: CreditState) {
   try {
     localStorage.setItem(KEY, JSON.stringify(state));
   } catch {}
-  window.dispatchEvent(new CustomEvent("lovable:credits-changed"));
+  window.dispatchEvent(new CustomEvent("freebuff:credits-changed"));
 }
 
 /** Records one model call. Returns the updated state. */

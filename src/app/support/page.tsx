@@ -1,12 +1,21 @@
 import Link from "next/link";
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
+import { FreebuffMark } from "@/components/brand";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down");
-
 const CARDS = [
-  { img: `${CD}/https://assets.lovable.dev/img/marketing-content/support/card-docs.png`, title: "Documentation", desc: "Guides from first prompt to production deploy.", href: "/guides" },
-  { img: `${CD}/https://assets.lovable.dev/img/marketing-content/support/card-academy.png`, title: "Video tutorials", desc: "Watch real builds, step by step.", href: "/community" },
+  {
+    title: "Documentation",
+    desc: "Guides from first prompt to production deploy.",
+    href: "/guides",
+    img: px("/refero/card-07.jpg"),
+  },
+  {
+    title: "Video tutorials",
+    desc: "Watch real builds, step by step.",
+    href: "/community",
+    img: px("/refero/card-08.jpg"),
+  },
 ];
 
 export default function SupportPage() {
@@ -19,16 +28,16 @@ export default function SupportPage() {
         primary={{ label: "Ask the community", href: "/community" }}
       />
       <section className="mx-auto flex max-w-3xl justify-center px-4" aria-hidden="true">
-        <img
-          src={px("https://lovable.dev/cdn-cgi/image/width=400,f=auto,fit=scale-down/https://assets.lovable.dev/img/marketing-content/support/hero-decoration.svg")}
-          alt=""
-          className="h-24 w-auto opacity-90"
-        />
+        <FreebuffMark className="h-24 w-auto" />
       </section>
       <Section eyebrow="Start here" title="Explore resources">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {CARDS.map((c) => (
-            <Link key={c.title} href={c.href} className="group overflow-hidden rounded-2xl border border-black/10 bg-white transition-colors hover:border-stone">
+            <Link
+              key={c.title}
+              href={c.href}
+              className="group overflow-hidden rounded-2xl border border-linen-border bg-warm-sand transition-colors hover:border-steel"
+            >
               <img src={c.img} alt={c.title} loading="lazy" decoding="async" className="aspect-[16/9] w-full object-cover" />
               <div className="p-5">
                 <h3 className="font-medium text-charcoal group-hover:underline">{c.title}</h3>

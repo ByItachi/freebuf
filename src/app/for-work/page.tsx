@@ -6,14 +6,14 @@ import { px } from "@/lib/img";
 
 /* ── Data ──────────────────────────────────────────────────────────── */
 
-const SHOWCASE_IMAGES = ["hero-beacon.webp", "hero-northstar.webp", "hero-polaris.webp"].map(
-  (f) => `${px("https://lovable.dev/cdn-cgi/image/width=2432,f=auto,fit=scale-down")}/https://assets.lovable.dev/content/for-work/${f}`,
+const SHOWCASE_IMAGES = ["/templates/t2.jpg", "/templates/t4.jpg", "/templates/t6.jpg"].map((f) =>
+  px(f)
 );
 
 const TEAM_LOGOS = [
-  { name: "sciongroup", src: `${px("https://lovable.dev/cdn-cgi/image/width=400,f=auto,fit=scale-down/https://assets.lovable.dev/content/customers")}/sciongroup/customers-sciongroup-logo.svg` },
-  { name: "nursa", src: `${px("https://lovable.dev/cdn-cgi/image/width=400,f=auto,fit=scale-down/https://assets.lovable.dev/content/customers")}/nursa/customers-nursa-logo.svg` },
-  { name: "exprealty", src: `${px("https://lovable.dev/cdn-cgi/image/width=400,f=auto,fit=scale-down/https://assets.lovable.dev/content/customers")}/exprealty/customers-exprealty-logo.svg` },
+  { name: "Scion Group", short: "SG" },
+  { name: "Nursa", short: "NU" },
+  { name: "eXp Realty", short: "XP" },
 ];
 
 const ARC_ITEMS = [
@@ -22,7 +22,7 @@ const ARC_ITEMS = [
   { angle: -7, scale: 1, tileRotate: 5.75, delay: -3.4, icon: "notion" },
   { angle: 7, scale: 1, tileRotate: -2.805, delay: -5.1, icon: "linear" },
   { angle: 21, scale: 0.92, tileRotate: 1.785, delay: -6.8, icon: "slack" },
-  { angle: 35, scale: 0.85, tileRotate: -2.735, delay: -8.5, icon: "lovable" },
+  { angle: 35, scale: 0.85, tileRotate: -2.735, delay: -8.5, icon: "freebuff" },
 ];
 
 const DESKTOP_TILES = [
@@ -31,7 +31,7 @@ const DESKTOP_TILES = [
   { left: 283, top: 260, rotate: 11.5, delay: -3.6, icon: "notion" },
   { left: 1126, top: 134, rotate: -5.61, delay: -2.3, icon: "linear" },
   { left: 1076, top: 194, rotate: 3.57, delay: -0.8, icon: "slack" },
-  { left: 1163, top: 247, rotate: -5.47, delay: 0, icon: "lovable" },
+  { left: 1163, top: 247, rotate: -5.47, delay: 0, icon: "freebuff" },
 ];
 
 const CONNECTOR_PATHS = [
@@ -147,7 +147,7 @@ const ICON_SVGS: Record<string, React.ReactNode> = {
       </g>
     </svg>
   ),
-  lovable: (
+  freebuff: (
     <svg width="36.299" height="38" viewBox="109.85 115 36.299 38" xmlns="http://www.w3.org/2000/svg">
       <path d="M112.263 116.636L133.075 115.086c2.556-0.221 3.213-0.072 4.821 1.106l6.644 4.719C145.636 121.723 146 121.944 146 122.828l0 25.88c0 1.622-0.584 2.581-2.629 2.729L119.203 152.912c-1.535 0.073-2.265-0.148-3.069-1.181L111.241 145.317C110.364 144.136 110 143.252 110 142.22L110 119.215c0-1.326 0.584-2.432 2.263-2.579Z" fill="#FFF" />
       <path d="M133.075 115.086L112.263 116.636C110.585 116.783 110 117.889 110 119.215l0 23.005c0 1.033 0.364 1.916 1.241 3.097l4.893 6.414c0.804 1.033 1.535 1.254 3.069 1.181l24.168-1.475c2.044-0.147 2.629-1.106 2.629-2.729L146 122.828c0-0.838-0.329-1.08-1.295-1.795l-0.166-0.122L137.896 116.192C136.289 115.014 135.632 114.865 133.075 115.086ZM119.749 122.404c-1.973 0.134-2.421 0.164-3.541-0.755L113.358 119.364c-0.29-0.296-0.144-0.665 0.585-0.738l20.008-1.474c1.68-0.148 2.555 0.442 3.212 0.958l3.431 2.507c0.147 0.074 0.512 0.516 0.073 0.516L120.005 122.387l-0.256 0.017Zm-2.3 26.083L117.449 126.516c0-0.96 0.292-1.402 1.167-1.476L142.347 123.639c0.805-0.073 1.169 0.442 1.168 1.401l0 21.824c0 0.96-0.147 1.771-1.46 1.844l-22.709 1.328c-1.314 0.073-1.897-0.368-1.897-1.549ZM139.866 127.694c0.145 0.664 0 1.327-0.658 1.404l-1.095 0.218 0 16.222c-0.95 0.516-1.825 0.81-2.556 0.81-1.168 0-1.461-0.369-2.336-1.474l-7.158-11.354 0 10.985 2.264 0.517s0 1.327-1.826 1.327l-5.037 0.295c-0.147-0.296 0-1.033 0.511-1.179l1.315-0.368L123.29 130.572l-1.825-0.149c-0.147-0.664 0.218-1.622 1.241-1.697l5.403-0.366 7.448 11.501 0-10.175-1.898-0.22c-0.147-0.813 0.437-1.403 1.167-1.475l5.04-0.296Z" fill="#000" />
@@ -179,19 +179,19 @@ export default function ForWorkPage() {
         <div className="pointer-events-none absolute top-0 left-1/2 hidden w-360 -translate-x-1/2 xl:block" aria-hidden="true">
           <svg className="absolute top-0 left-0" width="1440" height="620" viewBox="0 0 1440 620" fill="none" xmlns="http://www.w3.org/2000/svg">
             {/* Static connector paths */}
-            <path d="M270 174 C450 198.64 720 235.6 720 482" stroke="#E8E8E8" />
-            <path d="M380 228 C516 248.32 720 278.79999999999995 720 482" stroke="#E8E8E8" />
-            <path d="M339 288 C491.4 303.52 720 326.79999999999995 720 482" stroke="#E8E8E8" />
-            <path d="M1126 162 C963.6 187.6 720 226 720 482" stroke="#E8E8E8" />
-            <path d="M1076 222 C933.6 242.8 720 274 720 482" stroke="#E8E8E8" />
-            <path d="M1163 275 C985.8 291.56 720 316.4 720 482" stroke="#E8E8E8" />
+            <path d="M270 174 C450 198.64 720 235.6 720 482" stroke="var(--color-linen-border)" />
+            <path d="M380 228 C516 248.32 720 278.79999999999995 720 482" stroke="var(--color-linen-border)" />
+            <path d="M339 288 C491.4 303.52 720 326.79999999999995 720 482" stroke="var(--color-linen-border)" />
+            <path d="M1126 162 C963.6 187.6 720 226 720 482" stroke="var(--color-linen-border)" />
+            <path d="M1076 222 C933.6 242.8 720 274 720 482" stroke="var(--color-linen-border)" />
+            <path d="M1163 275 C985.8 291.56 720 316.4 720 482" stroke="var(--color-linen-border)" />
             {/* Animated dashed connector paths */}
             {CONNECTOR_PATHS.map((p, i) => (
               <path
                 key={i}
                 className="for-work-connector-dash"
                 d={p.d}
-                stroke="#FF8E2A"
+                stroke="#22C55E"
                 strokeOpacity="0.5"
                 pathLength="1"
                 style={{ "--dash-len": `${p.len}px`, "--dash-d": `${p.dash}px`, animationDelay: `${p.delay}s, ${p.delay}s` } as React.CSSProperties}
@@ -256,7 +256,7 @@ export default function ForWorkPage() {
                 className="text-center font-[500] [text-wrap:pretty] text-base/6 tracking-[-0.32px] md:text-xl/[25px] md:tracking-[-0.5px]"
                 style={{ transform: "none", opacity: 1, color: "var(--color-charcoal)" }}
               >
-                Describe what your team needs and build it with Lovable: full-stack software on your data, behind a login, connected to the tools you already run.
+                Describe what your team needs and build it with Freebuff: full-stack software on your data, behind a login, connected to the tools you already run.
               </p>
               <Link
                 href="/enterprise"
@@ -269,7 +269,7 @@ export default function ForWorkPage() {
 
             {/* Showcase frame with image slideshow */}
             <div className="relative w-full mt-4 md:mt-16">
-              <div aria-hidden="true" className="rounded-3 relative aspect-[1216/784] w-full overflow-clip md:rounded-5" style={{ backgroundColor: "#F7F7F7" }}>
+              <div aria-hidden="true" className="rounded-3 relative aspect-[1216/784] w-full overflow-clip border border-linen-border md:rounded-5" style={{ backgroundColor: "var(--color-warm-sand)" }}>
                 {SHOWCASE_IMAGES.map((src, i) => (
                   <img
                     key={src}
@@ -325,7 +325,15 @@ export default function ForWorkPage() {
       <section className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
           {TEAM_LOGOS.map((l) => (
-            <img key={l.name} src={l.src} alt={l.name} loading="lazy" className="h-7 w-auto opacity-70 transition-opacity hover:opacity-100" />
+            <span
+              key={l.short}
+              className="inline-flex items-center gap-2 font-mono-code text-sm font-semibold tracking-tight text-charcoal/50 transition-colors hover:text-charcoal"
+            >
+              <span className="flex size-6 items-center justify-center rounded-full border border-linen-border bg-warm-sand text-[10px] text-charcoal/70">
+                {l.short}
+              </span>
+              {l.name}
+            </span>
           ))}
         </div>
       </section>
@@ -338,7 +346,7 @@ export default function ForWorkPage() {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { title: "The proof is in production", desc: "Thousands of teams run Lovable-built tools every day — CRMs, dashboards, portals and more." },
+            { title: "The proof is in production", desc: "Thousands of teams run Freebuff-built tools every day — CRMs, dashboards, portals and more." },
             { title: "Connect your stack", desc: "Supabase, Stripe, GitHub and 100+ integrations keep data flowing." },
             { title: "Safe and secure, as standard", desc: "SSO, roles, scanning and audit logs come built in." },
           ].map((f) => (
@@ -354,8 +362,8 @@ export default function ForWorkPage() {
       <section className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="overflow-hidden rounded-3xl border border-black/10 shadow-sm">
           <img
-            src={`${px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down")}/https://assets.lovable.dev/content/for-work/plans-enterprise.jpg`}
-            alt="Lovable for enterprise teams"
+            src={px("/templates/t5.jpg")}
+            alt="Freebuff for enterprise teams"
             loading="lazy"
             decoding="async"
             className="aspect-[16/8] w-full object-cover"

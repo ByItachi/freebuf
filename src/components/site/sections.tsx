@@ -54,7 +54,7 @@ export function Reveal({
 }
 
 /**
- * Prompt composer — 1:1 with the live lovable.dev hero markup:
+ * Prompt composer — 1:1 with the live freebuff.dev hero markup:
  * 28px-radius warm-sand card, white border + black/8 ring, min-40px input,
  * real +/Build/mic icons; the gradient send button appears only with text.
  */
@@ -63,10 +63,10 @@ const BUILD_MODE_KEY = "lov-build-mode";
 type BuildMode = "agent" | "chat";
 
 const TYPEWRITER_SUGGESTIONS = [
-  "Ask Lovable to create a prototype...",
-  "Build a CRM for my startup...",
-  "Create a portfolio for a photographer...",
-  "Make a dashboard for our support team...",
+  "Build a full-stack app from one prompt...",
+  "Ship a SaaS dashboard in minutes...",
+  "Create a portfolio that lands clients...",
+  "Prototype an AI agent workspace...",
 ];
 
 /**
@@ -259,7 +259,7 @@ export function PromptComposer() {
     <form
       data-testid="chat-composer"
       onSubmit={submit}
-      className="relative z-10 w-full rounded-[28px] border border-white bg-white p-3 shadow-xl ring-1 ring-black/5 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:ring-black/10 focus-within:ring-black/15"
+      className="relative z-10 w-full rounded-[28px] border border-linen-border bg-warm-sand p-3 shadow-xl ring-1 ring-white/5 transition-[background-color,border-color,box-shadow] duration-300 ease-out hover:border-stone focus-within:border-[#22C55E]/40 focus-within:shadow-[0_0_0_1px_rgba(34,197,94,0.25),0_0_40px_-12px_rgba(34,197,94,0.35)]"
     >
       <textarea
         rows={1}
@@ -267,7 +267,7 @@ export function PromptComposer() {
         onChange={(e) => setPrompt(e.target.value)}
         placeholder={hasText ? "" : typedPh}
         aria-label="Chat input"
-        className="max-h-[5rem] min-h-[40px] w-full resize-none overflow-y-auto bg-transparent px-2 pb-1 pt-2 text-[16px] leading-snug text-charcoal outline-none placeholder:text-charcoal/50"
+        className="max-h-[5rem] min-h-[40px] w-full resize-none overflow-y-auto bg-transparent px-2 pb-1 pt-2 font-mono-code text-[15px] leading-snug text-charcoal outline-none placeholder:text-smoke/70"
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -279,7 +279,7 @@ export function PromptComposer() {
         <button
           type="button"
           aria-label="Additional actions"
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-charcoal/5 text-charcoal transition-colors hover:bg-charcoal/10"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-charcoal transition-colors hover:bg-white/10"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
             <path d="M11.25 20V12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H11.25V4C11.25 3.58579 11.5858 3.25 12 3.25C12.4142 3.25 12.75 3.58579 12.75 4V11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H12.75V20C12.75 20.4142 12.4142 20.75 12 20.75C11.5858 20.75 11.25 20.4142 11.25 20Z" />
@@ -294,7 +294,7 @@ export function PromptComposer() {
               data-testid="create-form-chat-mode"
               onClick={() => setMenuOpen((v) => !v)}
               className={`flex h-8 items-center gap-0.5 rounded-full text-sm transition-colors ${
-                menuOpen ? "bg-charcoal/5 text-charcoal" : "text-charcoal hover:bg-charcoal/5"
+                menuOpen ? "bg-white/5 text-charcoal" : "text-charcoal hover:bg-white/5"
               }`}
             >
               <span className="px-0.5">{mode === "agent" ? "Agent" : "Chat"}</span>
@@ -312,7 +312,7 @@ export function PromptComposer() {
           <button
             type="button"
             aria-label="Start voice recording"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-charcoal/5"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-white/5"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
               <path d="M19.348 13.001c0.517 0 0.89 0.5 0.683 0.975a8.753 8.753 0 0 1-7.28 5.24V21.25h1.25a0.75 0.75 0 0 1 0 1.5h-4a0.75 0.75 0 0 1 0-1.5h1.25v-2.032a8.754 8.754 0 0 1-7.281-5.242c-0.206-0.476 0.165-0.975 0.683-0.975a0.83 0.83 0 0 1 0.745 0.499 7.253 7.253 0 0 0 13.205 0 0.83 0.83 0 0 1 0.745-0.499Z" />
@@ -348,25 +348,45 @@ export function PromptComposer() {
 
 /**
  * Full-bleed hero — full-viewport, vertically centered, 1:1 with the live
- * lovable.dev hero: eyebrow h1, 32px/600 balanced h2 headline, smoke sub,
+ * freebuff.dev hero: eyebrow h1, 32px/600 balanced h2 headline, smoke sub,
  * white 28px composer at 38rem with typewriter placeholder.
  */
 export function Hero() {
   return (
     <section className="hero-gradient relative -mt-14 flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden px-6 [@media(max-height:400px)]:justify-start [@media(max-height:400px)]:pb-6 [@media(max-height:400px)]:pt-[calc(48px+24px)]">
       <div className="relative mb-7 flex flex-col items-center px-4 text-center md:mb-9">
-        <h1 className="mb-2 block text-center text-sm/6 font-normal text-[#616161] md:text-lg/7">
+        <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#22C55E]/25 bg-[#22C55E]/10 px-3 py-1 font-mono-code text-[12.5px] tracking-[0.08em] text-[#4ADE80] uppercase">
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true">
+            <path d="M13 2 L4.5 13.5 H10.5 L9.5 22 L19.5 9.5 H12.5 L13 2 Z" />
+          </svg>
           AI App Builder
+        </span>
+        <h1 className="mb-3 block text-balance text-center font-mono-code text-[34px]/[1.08] font-semibold tracking-[-1.4px] text-charcoal md:text-[52px]/[1.05] md:tracking-[-2.2px]">
+          Build something{" "}
+          <span className="bg-gradient-to-r from-[#4ADE80] via-[#22C55E] to-[#38BDF8] bg-clip-text text-transparent">
+            Freebuff
+          </span>
         </h1>
-        <h2 className="text-balance text-[32px]/[1.1] font-semibold tracking-[-1.28px] text-charcoal md:text-5xl/[1.1] md:tracking-[-1.92px]">
-          Build something Lovable
-        </h2>
-        <p className="mt-1 max-w-[25ch] text-pretty text-base/6 font-normal text-smoke md:max-w-none md:text-lg/6">
-          Bring a new product, internal tool, or entire company to life.
+        <p className="mt-2 max-w-[30ch] text-pretty text-base/6 font-normal text-dim-gray md:max-w-none md:text-lg/6">
+          Prompt it. Ship it. Own it — full-stack apps from a single input.
         </p>
       </div>
       <div className="w-full max-w-3xl md:max-w-[38rem]">
         <PromptComposer />
+      </div>
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono-code text-[12.5px] text-smoke">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-[#4ADE80]" aria-hidden="true" />
+          18 models wired in
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-[#38BDF8]" aria-hidden="true" />
+          Desktop + web, one checkout
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-[#22C55E]" aria-hidden="true" />
+          Your code, your keys
+        </span>
       </div>
     </section>
   );
@@ -392,7 +412,7 @@ export function Brands() {
           Trusted by top brands
         </h2>
         <p className="mx-auto mt-3 max-w-[560px] text-center text-body text-dim-gray">
-          Top companies empower their employees to create with Lovable. Join
+          Top companies empower their employees to create with Freebuff. Join
           them today and build the software that runs your business.
         </p>
         <div className="mt-8 flex justify-center">
@@ -423,14 +443,14 @@ export function Brands() {
 }
 
 /**
- * "Meet Lovable" — statement band that introduces the product pillars.
+ * "Meet Freebuff" — statement band that introduces the product pillars.
  */
-export function MeetLovable() {
+export function MeetFreebuff() {
   return (
     <section className="bg-parchment py-24">
       <div className="contain">
         <h2 className="max-w-[14ch] text-[clamp(40px,6vw,72px)] font-w480 leading-[1.02] tracking-[-1.5px] text-charcoal">
-          Meet Lovable
+          Meet Freebuff
         </h2>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2">
           <p className="max-w-[480px] text-heading text-charcoal">
@@ -438,7 +458,7 @@ export function MeetLovable() {
           </p>
           <p className="max-w-[520px] text-body text-dim-gray">
             Your idea doesn&apos;t need a technical cofounder. Describe what you
-            want — Lovable designs it, builds it, and ships it with you. Full
+            want — Freebuff designs it, builds it, and ships it with you. Full
             stack, production ready, and entirely yours.
           </p>
         </div>
@@ -467,7 +487,7 @@ export function FoundersDream() {
           today
         </h2>
         <p className="mx-auto mt-8 max-w-[560px] text-body text-charcoal">
-          Lovable is your AI cofounder and development team. Ship your ideas in
+          Freebuff is your AI cofounder and development team. Ship your ideas in
           days, not months — and start building the business you&apos;ve been
           dreaming about.
         </p>
@@ -532,8 +552,8 @@ function CardIdea({ className }: { className?: string }) {
           </div>
         </div>
         <CardCaption
-          title="You bring the idea. Lovable brings it to life."
-          body="Describe what you want in plain language. Watch as Lovable builds production-grade software with you in real time."
+          title="You bring the idea. Freebuff brings it to life."
+          body="Describe what you want in plain language. Watch as Freebuff builds production-grade software with you in real time."
         />
       </div>
     </>
@@ -760,8 +780,8 @@ function CardDepend({ className }: { className?: string }) {
         </div>
       </div>
       <CardCaption
-        title="Depend on Lovable, from end to end"
-        body="Lovable handles your end-to-end infrastructure – from hosting and authentication to payments and integrations."
+        title="Depend on Freebuff, from end to end"
+        body="Freebuff handles your end-to-end infrastructure – from hosting and authentication to payments and integrations."
       />
     </div>
   );
@@ -869,11 +889,11 @@ export function LegacyAnchors() {
  * sticky title rail on desktop, scrolling platform cards with product diagrams.
  */
 export function BuildingSection() {
-  const PX = px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down/https://assets.lovable.dev/content/home/platform");
+  const PX = px("/");
   const features = [
     {
       title: "Hosting, handled",
-      body: "Lovable handles hosting, SSL, and backend infrastructure. Your code and data stay yours. Always.",
+      body: "Freebuff handles hosting, SSL, and backend infrastructure. Your code and data stay yours. Always.",
       img: `${PX}/home-platform-hosting-v11.svg`,
       imgMobile: null as string | null,
     },
@@ -916,12 +936,12 @@ export function BuildingSection() {
                 </span>
               </h2>
               <p className="mt-4 max-w-[480px] text-base/6 text-[#C5C1B9] md:text-lg/7">
-                Lovable runs on enterprise-grade infrastructure — so you can create
+                Freebuff runs on enterprise-grade infrastructure — so you can create
                 full-stack software that scales.
               </p>
             </div>
             <p className="hidden text-sm/6 text-[#C5C1B9]/70 lg:block">
-              Depend on Lovable, from end to end.
+              Depend on Freebuff, from end to end.
             </p>
           </div>
           <div className="mt-12 flex flex-col gap-y-16 lg:mt-0">
@@ -982,7 +1002,7 @@ function RemixToast({ message }: { message: string }) {
 }
 
 /**
- * Template detail modal — Lovable dialog style: dark scrim, white rounded
+ * Template detail modal — Freebuff dialog style: dark scrim, white rounded
  * card, X close, dark pill CTA. Esc closes, ←/→ navigate the filtered list.
  */
 function TemplateModal({
@@ -1103,7 +1123,7 @@ export function Templates() {
 
   const templates: Template[] = [
     { title: "Personal portfolio", desc: "Personal work showcase", src: "/templates/t1.jpg", cat: "Portfolio" },
-    { title: "Lovable slides", desc: "Code-powered presentation builder", src: "/templates/t2.jpg", cat: "Web App" },
+    { title: "Freebuff slides", desc: "Code-powered presentation builder", src: "/templates/t2.jpg", cat: "Web App" },
     { title: "Architect Portfolio Website Template", desc: "Firm website & showcase", src: "/templates/t3.jpg", cat: "Portfolio" },
     { title: "Fashion blog", desc: "Minimal, playful design", src: "/templates/t4.jpg", cat: "Blog" },
     { title: "Event Platform Website Template", desc: "Find, register, create events", src: "/templates/t5.jpg", cat: "Web App" },
@@ -1247,7 +1267,7 @@ export function Pricing() {
         "5 daily credits",
         "Public projects",
         "Community support",
-        "Lovable branding",
+        "Freebuff branding",
       ],
     },
     {
@@ -1261,7 +1281,7 @@ export function Pricing() {
         "100 monthly credits",
         "Private projects",
         "Custom domains",
-        "Remove Lovable branding",
+        "Remove Freebuff branding",
         "GitHub sync & code export",
       ],
     },
@@ -1426,12 +1446,12 @@ export function Pricing() {
  * case card (quote, stats, avatar) + See-all link.
  */
 export function Cases() {
-  const PX = px("https://lovable.dev/cdn-cgi/image/width=400,f=auto,fit=scale-down/https://assets.lovable.dev/content/home/cases/logos");
+  const PX = px("/");
   const cases = [
     {
       name: "eXp Realty",
       logo: `${PX}/home-cases-logo-exprealty.svg`,
-      quote: "eXp Realty has cancelled millions in SaaS contracts for custom software built with Lovable.",
+      quote: "eXp Realty has cancelled millions in SaaS contracts for custom software built with Freebuff.",
       stats: [
         ["$2M+", "savings per year"],
         ["85%", "fewer support tickets"],
@@ -1450,13 +1470,13 @@ export function Cases() {
         ["€7.5M", "ARR partnership announced"],
       ],
       avatar:
-        px("https://lovable.dev/cdn-cgi/image/width=96,f=auto,fit=scale-down/https://assets.lovable.dev/content/home/cases/avatars/home-cases-avatar-andreas-melander.png"),
+        px("/"),
       person: "Andreas Melander · Co-founder, Klar",
     },
     {
       name: "The Scion Group",
       logo: `${PX}/home-cases-logo-sciongroup.svg`,
-      quote: "The Scion Group is all-in on Lovable, with every department building custom tools to streamline their workflows.",
+      quote: "The Scion Group is all-in on Freebuff, with every department building custom tools to streamline their workflows.",
       stats: [
         ["$1M+", "SaaS contracts on track to be retired"],
         ["100+", "apps deployed in under four months"],
@@ -1488,7 +1508,7 @@ export function Cases() {
           The proof is in production
         </h2>
         <p className="mx-auto mt-4 max-w-[560px] text-center text-body text-dim-gray">
-          These companies built the software they needed with Lovable. Now they
+          These companies built the software they needed with Freebuff. Now they
           run their businesses on it.
         </p>
 
@@ -1554,23 +1574,23 @@ export function Cases() {
 }
 
 /**
- * "Millions count on Lovable" — big-number stats band.
+ * "Millions count on Freebuff" — big-number stats band.
  */
 export function Stats() {
   const stats = [
     { value: "1.2 million", label: "New projects built every week" },
-    { value: "60 million", label: "Projects built with Lovable" },
-    { value: "900 million", label: "Monthly visits to Lovable-built projects" },
+    { value: "60 million", label: "Projects built with Freebuff" },
+    { value: "900 million", label: "Monthly visits to Freebuff-built projects" },
   ];
 
   return (
     <section className="bg-parchment py-24">
       <div className="contain text-center">
         <h2 className="mx-auto max-w-[24ch] text-heading-lg font-w480 text-charcoal">
-          Millions count on Lovable
+          Millions count on Freebuff
         </h2>
         <p className="mx-auto mt-4 max-w-[560px] text-body text-dim-gray">
-          People across the world are using Lovable every day to solve problems
+          People across the world are using Freebuff every day to solve problems
           and seize opportunities. Join them now and turn ‘someday’ into today.
         </p>
         <div className="mx-auto mt-14 grid max-w-[900px] grid-cols-1 gap-10 sm:grid-cols-3">

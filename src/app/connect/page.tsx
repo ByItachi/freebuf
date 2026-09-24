@@ -1,6 +1,7 @@
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
+import { px } from "@/lib/img";
 
-const ICONS = ["google_mail", "google_calendar", "google_docs", "google_drive", "google_sheets", "google_slides"];
+const ICONS = ["gmail", "google-calendar", "google-drive", "google-sheets", "meet", "contacts"];
 
 export default function ConnectPage() {
   return (
@@ -17,12 +18,12 @@ export default function ConnectPage() {
           {ICONS.map((n) => (
             <div key={n} className="flex flex-col items-center gap-2 rounded-2xl border border-black/10 bg-white p-4">
               <img
-                src={`https://lovable.dev/cdn-cgi/image/width=160,f=auto,fit=scale-down/https://assets.lovable.dev/img/connectors/${n}.svg`}
-                alt={n.replace(/_/g, " ")}
+                src={px(`/connectors/${n}.svg`)}
+                alt={n.replace(/-/g, " ")}
                 loading="lazy"
                 className="h-10 w-10"
               />
-              <span className="text-xs capitalize text-steel">{n.replace("google_", "").replace(/_/g, " ")}</span>
+              <span className="text-xs capitalize text-steel">{n.replace("google-", "").replace(/-/g, " ")}</span>
             </div>
           ))}
         </div>

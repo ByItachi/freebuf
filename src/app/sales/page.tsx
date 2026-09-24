@@ -1,9 +1,9 @@
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down");
-const CDH = px("https://lovable.dev/cdn-cgi/image/width=2000,f=auto,fit=scale-down");
-const BASE = "https://assets.lovable.dev/img/marketing-content/company/sales";
+const CD = px("/");
+const CDH = px("/");
+const BASE = "/";
 
 const ROWS = [
   { img: `${CD}/${BASE}/account-demos.webp`, title: "Account demos that feel real", desc: "Tailor a live demo environment to every big deal." },
@@ -27,7 +27,7 @@ export default function SalesPage() {
         <div className="overflow-hidden rounded-3xl border border-black/10 shadow-sm">
           <img
             src={`${CDH}/${BASE}/tools.webp`}
-            alt="Sales tools built with Lovable"
+            alt="Sales tools built with Freebuff"
             loading="eager"
             decoding="async"
             className="aspect-[16/8] w-full object-cover"
@@ -35,7 +35,7 @@ export default function SalesPage() {
         </div>
       </section>
 
-      <Section eyebrow="In the field" title="How Lovable unblocks sales teams">
+      <Section eyebrow="In the field" title="How Freebuff unblocks sales teams">
         <div className="flex flex-col gap-14 md:gap-20">
           {ROWS.map((r, i) => (
             <div

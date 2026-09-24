@@ -1,7 +1,7 @@
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
 
-const CD = "https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down";
-const BASE = "https://assets.lovable.dev/img/marketing-content/product/tools";
+const CD = "/";
+const BASE = "/";
 
 const ROWS = [
   { img: `${CD}/${BASE}/product.webp`, title: "Internal tools, built for anyone", desc: "If you can describe the workflow, you can ship the tool." },

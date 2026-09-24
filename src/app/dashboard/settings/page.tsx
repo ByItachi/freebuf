@@ -16,14 +16,14 @@ export default function SettingsPage() {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("lovable.keys");
+      const raw = localStorage.getItem("freebuff.keys");
       // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydration-safe localStorage read; lazy init would mismatch SSR
       if (raw) setKeys(JSON.parse(raw));
     } catch {}
   }, []);
 
   function save() {
-    localStorage.setItem("lovable.keys", JSON.stringify(keys));
+    localStorage.setItem("freebuff.keys", JSON.stringify(keys));
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
   }

@@ -1,8 +1,8 @@
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=1284,f=auto,fit=scale-down");
-const BASE = "https://assets.lovable.dev/img/marketing-content/industries/healthcare";
+const CD = px("/");
+const BASE = "/";
 
 const SHOTS = [
   { img: `${CD}/${BASE}/quality-and-outcomes-tracker.png`, title: "Quality & outcomes tracker" },
@@ -20,7 +20,7 @@ export default function HealthcarePage() {
         primary={{ label: "Start building", href: "/new" }}
         secondary={{ label: "Talk to sales", href: "/enterprise" }}
       />
-      <Section eyebrow="In production" title="Examples of Apps Built with Lovable">
+      <Section eyebrow="In production" title="Examples of Apps Built with Freebuff">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {SHOTS.map((s) => (
             <div key={s.title} className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
@@ -33,7 +33,7 @@ export default function HealthcarePage() {
       <Section narrow eyebrow="FAQ" title="Start Building Today">
         <Faq
           items={[
-            { q: "Is Lovable suitable for patient data?", a: "Business and enterprise plans add SSO, audit logs, data residency and no-training guarantees — talk to sales about regulated workloads." },
+            { q: "Is Freebuff suitable for patient data?", a: "Business and enterprise plans add SSO, audit logs, data residency and no-training guarantees — talk to sales about regulated workloads." },
             { q: "Can I integrate with existing systems?", a: "Yes. APIs, HL7/FHIR gateways and CSV imports all plug into your builds." },
             { q: "How fast can we prototype?", a: "Most teams demo a working intake flow within days of the first prompt." },
           ]}

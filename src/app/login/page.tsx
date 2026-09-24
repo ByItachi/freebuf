@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LovableLogo } from "@/components/brand";
+import { FreebuffLogo } from "@/components/brand";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,10 +11,10 @@ export default function LoginPage() {
       <div className="w-full max-w-[420px] text-center">
         <Link
           href="/"
-          aria-label="Lovable"
+          aria-label="Freebuff"
           className="inline-flex items-center justify-center text-charcoal"
         >
-          <LovableLogo />
+          <FreebuffLogo />
         </Link>
 
         <h1 className="mt-10 text-[28px] font-semibold leading-[1.2] tracking-[-0.7px] text-charcoal">

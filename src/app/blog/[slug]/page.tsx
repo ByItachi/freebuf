@@ -28,7 +28,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <p className="mt-4 text-lg leading-snug text-charcoal/65">{post.excerpt}</p>
         <div className="mt-8 overflow-hidden rounded-2xl border border-black/10">
           <img
-            src={px(`https://lovable.dev/cdn-cgi/image/width=1600,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/${post.cover}`)}
+            src={px(post.cover)}
             alt={post.title}
             loading="eager"
             decoding="async"

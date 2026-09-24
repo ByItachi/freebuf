@@ -29,11 +29,11 @@ import {
   PanelLeftOpen,
   X,
 } from "lucide-react";
-import { LovableMark } from "@/components/brand";
+import { FreebuffMark } from "@/components/brand";
 import { useFormState } from "./use-form-state";
 import type { AdminSnapshot } from "@/lib/admin-types";
 
-const ADMIN_SIDEBAR_KEY = "lovable.admin-sidebar-collapsed";
+const ADMIN_SIDEBAR_KEY = "freebuff.admin-sidebar-collapsed";
 
 /** localStorage-backed collapsed state; SSR renders expanded, client syncs after hydration. */
 const adminSidebarStore = {
@@ -175,10 +175,10 @@ export default function AdminPage() {
               className="flex size-6 items-center justify-center"
               aria-label="Kenar çubuğunu genişlet"
             >
-              <LovableMark className="size-6 shrink-0" />
+              <FreebuffMark className="size-6 shrink-0" />
             </button>
           ) : (
-            <LovableMark className="size-6 shrink-0" />
+            <FreebuffMark className="size-6 shrink-0" />
           )}
         </div>
 
@@ -263,7 +263,7 @@ export default function AdminPage() {
           />
           <aside className="fixed inset-y-0 left-0 z-50 flex w-60 flex-col border-r border-linen-border bg-parchment md:hidden">
             <div className="flex items-center justify-between px-4 pb-3 pt-5">
-              <LovableMark className="size-6 shrink-0" />
+              <FreebuffMark className="size-6 shrink-0" />
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -330,7 +330,7 @@ export default function AdminPage() {
               >
                 <Menu className="size-4" />
               </button>
-              <LovableMark className="size-5 shrink-0" />
+              <FreebuffMark className="size-5 shrink-0" />
               <span className="truncate text-[13px] font-medium tracking-tight text-charcoal">
                 Refero Design
               </span>
@@ -565,7 +565,7 @@ function Members({ data, reload }: { data: AdminSnapshot; reload: () => Promise<
 
   return (
     <div>
-      {/* filter pills — Lovable People ekranındaki All / Invitations / Collaborators / Requests */}
+      {/* filter pills — Freebuff People ekranındaki All / Invitations / Collaborators / Requests */}
       <div className="flex flex-wrap items-center gap-1">
         {(
           [
@@ -730,7 +730,7 @@ function Members({ data, reload }: { data: AdminSnapshot; reload: () => Promise<
                 </td>
                 <td className="px-4 py-2.5">
                   <div className="flex items-center gap-2.5">
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#82bcff] via-[#ff66f4] to-[#fe7b02] text-[11px] font-medium text-parchment">
+                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#4ade80] via-[#22c55e] to-[#0ea5e9] text-[11px] font-medium text-parchment">
                       {m.name.slice(0, 2).toUpperCase()}
                     </span>
                     <span className="min-w-0">

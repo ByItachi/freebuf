@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LovableLogo } from "@/components/brand";
+import { FreebuffLogo } from "@/components/brand";
 
 /* ---------- thin 1.5px outlined icons (design-system spec) ---------- */
 
@@ -123,6 +123,7 @@ type MenuItem = {
 const solutionsMenu: MenuItem[] = [
   { title: "For Work", desc: "Run on what you build.", href: "/for-work", icon: BriefcaseIcon },
   { title: "Founders", desc: "Ship before you pitch.", href: "/founders", icon: RocketIcon },
+  { title: "Desktop app", desc: "Freebuff on your machine.", href: "/download", icon: BuildingIcon },
   { title: "Product managers", desc: "Prototype, don't spec.", href: "/product-managers", icon: LayoutIcon },
   { title: "Designers", desc: "Your designs, built.", href: "/designers", icon: PenIcon },
   { title: "Marketers", desc: "Launch pages in minutes.", href: "/marketers", icon: MegaphoneIcon },
@@ -140,8 +141,8 @@ const resourcesMenu: MenuItem[] = [
   { title: "Templates", desc: "Begin with a template.", href: "/templates", icon: TemplateIcon },
   { title: "Guides", desc: "Learn as you build.", href: "/guides", icon: SparkleIcon },
   { title: "Connectors", desc: "Build from what you already use.", href: "/connect", icon: ChatIcon },
-  { title: "Academy", desc: "Learn to build with Lovable.", href: "https://academy.lovable.app/", icon: BookIcon },
-  { title: "Docs", desc: "Everything under the hood.", href: "https://docs.lovable.dev/introduction/welcome", icon: HelpIcon },
+  { title: "Academy", desc: "Learn to build with Freebuff.", href: "/guides", icon: BookIcon },
+  { title: "Docs", desc: "Everything under the hood.", href: "/blog", icon: HelpIcon },
   { title: "Customer stories", desc: "See what teams have built.", href: "/customers", icon: HeartIcon },
 ];
 
@@ -218,13 +219,13 @@ function MegaPanel({ items, open, variant }: { items: MenuItem[]; open: boolean;
             </div>
             <div className="border-l border-linen-border px-5 pt-8 pb-6">
               <div className="text-steel ml-3 text-xs">Announcement</div>
-              <Link href="/blog/introducing-lovable-partner-program" className="group mt-2.5 block w-[244px]">
+              <Link href="/blog" className="group mt-2.5 block w-[244px]">
                 <div className="flex flex-col gap-4 px-3 py-2">
                   <div className="relative aspect-video overflow-hidden rounded-xl transition-transform duration-300 group-hover:-translate-y-0.5">
-                    <img src="https://lovable.dev/cdn-cgi/image/width=640,f=auto,fit=scale-down/https://assets.lovable.dev/content/news/covers/introducing-lovable-partner-program.png" alt="" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                    <img src="/" alt="" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-charcoal">Introducing the Lovable Partner Program</div>
+                    <div className="text-sm font-medium text-charcoal">Freebuff Desktop is here</div>
                     <div className="mt-1 flex items-center gap-1 text-sm text-steel">Learn more <span aria-hidden="true">→</span></div>
                   </div>
                 </div>
@@ -352,7 +353,7 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
         <Link
           href="/new"
           onClick={onNavigate}
-          className="flex-1 rounded-buttons bg-black px-3 py-2 text-center text-[15px] font-semibold text-white transition-colors hover:bg-charcoal"
+          className="flex-1 rounded-buttons hero-gradient-btn px-3 py-2 text-center text-[15px] font-semibold text-ink transition-all hover:brightness-110"
         >
           Get started
         </Link>
@@ -406,13 +407,13 @@ export function Header() {
       onMouseLeave={scheduleClose}
       className={`sticky top-0 z-50 transition-colors ${
         scrolled || mobileOpen
-          ? "border-b border-linen-border bg-[rgba(255,255,255,0.8)] backdrop-blur-[4px]"
+          ? "border-b border-linen-border bg-[rgba(11,18,32,0.8)] backdrop-blur-[4px]"
           : "bg-transparent"
       }`}
     >
       <div className="contain flex h-12 items-center gap-8">
-        <Link href="/" aria-label="Lovable" className="hover-heartbeat flex w-fit items-center text-charcoal">
-          <LovableLogo />
+        <Link href="/" aria-label="Freebuff" className="hover-heartbeat flex w-fit items-center text-charcoal">
+          <FreebuffLogo />
         </Link>
 
         <nav className="hidden flex-1 items-center gap-6 lg:flex">
@@ -463,11 +464,10 @@ export function Header() {
             Log in
           </Link>
           <Link
-            href="/new"
-            className="rounded-buttons bg-black px-2.5 py-1.5 text-[15px] font-semibold text-white transition-colors hover:bg-charcoal"
-          >
-            Get started
-          </Link>
+            href="/new"          className="rounded-buttons hero-gradient-btn px-2.5 py-1.5 text-[15px] font-semibold text-ink transition-all hover:brightness-110"
+        >
+          Get started
+        </Link>
           <button
             type="button"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}

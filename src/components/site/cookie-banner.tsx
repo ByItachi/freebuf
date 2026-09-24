@@ -10,7 +10,7 @@ export function CookieBanner() {
   useEffect(() => {
     const t = setTimeout(() => {
       try {
-        if (!localStorage.getItem("lovable-consent")) setVisible(true);
+        if (!localStorage.getItem("freebuff-consent")) setVisible(true);
       } catch {
         setVisible(true);
       }
@@ -19,7 +19,7 @@ export function CookieBanner() {
   }, []);
   const decide = (v: string) => {
     try {
-      localStorage.setItem("lovable-consent", v);
+      localStorage.setItem("freebuff-consent", v);
     } catch {}
     setVisible(false);
   };

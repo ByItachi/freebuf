@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { LovableMark } from "@/components/brand";
+import { FreebuffMark } from "@/components/brand";
 
 export function LoginForm() {
   const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ export function LoginForm() {
       className="w-full max-w-sm rounded-3xl border border-linen-border bg-parchment p-6 shadow-[0_24px_60px_-32px_rgba(28,28,28,0.25)]"
     >
       <div className="flex items-center gap-2">
-        <LovableMark className="size-6" />
+        <FreebuffMark className="size-6" />
         <span className="text-[15px] font-medium tracking-tight text-charcoal">Refero Design</span>
       </div>
       <h1 className="mt-4 text-[18px] font-medium tracking-tight text-charcoal">Admin paneli</h1>

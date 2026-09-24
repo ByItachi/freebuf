@@ -3,7 +3,7 @@
 // Local project-view tracking powering "Recently viewed" / "Most visited
 // today" tabs. Persisted in localStorage — no server round-trip needed.
 
-const KEY = "lovable.views";
+const KEY = "freebuff.views";
 
 export type ViewEntry = { count: number; last: string };
 
@@ -46,7 +46,7 @@ export function recentProjectIds(limit = 12): string[] {
 }
 
 /** Hidden ids ("Hide from recents") — excluded from fallback lists too. */
-const HIDDEN_KEY = "lovable.views.hidden";
+const HIDDEN_KEY = "freebuff.views.hidden";
 
 export function isProjectHidden(id: string): boolean {
   if (typeof window === "undefined" || !id) return false;

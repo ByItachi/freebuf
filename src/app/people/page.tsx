@@ -1,7 +1,7 @@
 import { PersonaPage } from "@/components/site/inner";
 
-const CD = "https://lovable.dev/cdn-cgi/image/width=640,f=auto,fit=scale-down";
-const BASE = "https://assets.lovable.dev/img/marketing-content/audiences/people/hero";
+const CD = "/";
+const BASE = "/";
 
 export default function PeoplePage() {
   return (

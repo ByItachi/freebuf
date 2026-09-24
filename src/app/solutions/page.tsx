@@ -4,7 +4,7 @@ const solutions = [
   {
     title: "Founders",
     desc: "Go from idea to MVP in days",
-    body: "Your AI cofounder and dev team. Describe what you want — Lovable designs it, builds it, and ships it with you. Full stack, production ready, and entirely yours.",
+    body: "Your AI cofounder and dev team. Describe what you want — Freebuff designs it, builds it, and ships it with you. Full stack, production ready, and entirely yours.",
     features: [
       "Ship MVP in days, not months",
       "No need for technical cofounder",
@@ -17,7 +17,7 @@ const solutions = [
   {
     title: "Enterprise",
     desc: "Secure, scalable AI development",
-    body: "Lovable runs on enterprise-grade infrastructure — so you can create full-stack software that scales. Meet security and compliance requirements with automatic scans and audit logs.",
+    body: "Freebuff runs on enterprise-grade infrastructure — so you can create full-stack software that scales. Meet security and compliance requirements with automatic scans and audit logs.",
     features: [
       "Enterprise-grade infrastructure",
       "Automatic security scans",
@@ -31,7 +31,7 @@ const solutions = [
   {
     title: "Agencies",
     desc: "Ship client projects faster",
-    body: "Build and manage your clients' projects with AI. From landing pages to web apps — Lovable handles hosting, SSL, and backend infrastructure. Your code and data stay yours.",
+    body: "Build and manage your clients' projects with AI. From landing pages to web apps — Freebuff handles hosting, SSL, and backend infrastructure. Your code and data stay yours.",
     features: [
       "Ship client projects faster",
       "White-label deployments",
@@ -44,7 +44,7 @@ const solutions = [
   {
     title: "Product Managers",
     desc: "Prototype without the backlog",
-    body: "Describe what you want — Lovable builds it. Prototype features, validate ideas, and iterate with your team in real time. No backlog, no dependencies, no waiting.",
+    body: "Describe what you want — Freebuff builds it. Prototype features, validate ideas, and iterate with your team in real time. No backlog, no dependencies, no waiting.",
     features: [
       "Quick prototyping",
       "Validate ideas fast",
@@ -57,7 +57,7 @@ const solutions = [
   {
     title: "Designers",
     desc: "Turn designs into real products",
-    body: "Describe your design vision in plain language. Lovable builds it — pixel-perfect, responsive, and ready to ship. Focus on design, let AI handle the code.",
+    body: "Describe your design vision in plain language. Freebuff builds it — pixel-perfect, responsive, and ready to ship. Focus on design, let AI handle the code.",
     features: [
       "Design-to-code in minutes",
       "Pixel-perfect output",
@@ -70,7 +70,7 @@ const solutions = [
   {
     title: "Marketers",
     desc: "Launch pages without devs",
-    body: "Build landing pages, campaign sites, and marketing sites without waiting for development. Describe what you want — Lovable builds it. Connect your analytics, launch, and measure.",
+    body: "Build landing pages, campaign sites, and marketing sites without waiting for development. Describe what you want — Freebuff builds it. Connect your analytics, launch, and measure.",
     features: [
       "Launch pages in minutes",
       "No dev team needed",
@@ -83,7 +83,7 @@ const solutions = [
 ];
 
 export const metadata = {
-  title: "Solutions | Lovable",
+  title: "Solutions | Freebuff",
   description: "Find the right solution for your role. Founders, enterprise, agencies, product managers, designers, marketers.",
 };
 
@@ -95,10 +95,10 @@ export default function SolutionsPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <p className="text-body font-semibold text-charcoal">Solutions</p>
             <h1 className="mt-4 text-[clamp(44px,6vw,72px)] font-w480 leading-[1.02] tracking-[-1.5px] text-charcoal">
-              Build with Lovable, whatever your role
+              Build with Freebuff, whatever your role
             </h1>
             <p className="mt-6 max-w-[520px] text-body text-dim-gray">
-              Whether you&apos;re a founder, enterprise team, agency, product manager, designer, or marketer — Lovable helps you build better, faster.
+              Whether you&apos;re a founder, enterprise team, agency, product manager, designer, or marketer — Freebuff helps you build better, faster.
             </p>
           </div>
         </section>
@@ -158,7 +158,7 @@ export default function SolutionsPage() {
               Ready to build?
             </h2>
             <p className="mt-4 max-w-[420px] mx-auto text-body text-dim-gray">
-              Join millions of builders who use Lovable to turn ideas into reality.
+              Join millions of builders who use Freebuff to turn ideas into reality.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a

@@ -92,22 +92,18 @@ function NavItem({
   );
 }
 
-function LovableHeart({ className }: { className?: string }) {
+function FreebuffGlyph({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+    <svg viewBox="0 0 180 180" className={className} aria-hidden>
       <defs>
-        <linearGradient id="lovable-heart-dash" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#82bcff" />
-          <stop offset="35%" stopColor="#2483ff" />
-          <stop offset="55%" stopColor="#ff66f4" />
-          <stop offset="75%" stopColor="#ff3029" />
-          <stop offset="100%" stopColor="#fe7b02" />
+        <linearGradient id="freebuff-glyph-dash" x1="12" y1="8" x2="168" y2="172" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#4ADE80" />
+          <stop offset="0.55" stopColor="#22C55E" />
+          <stop offset="1" stopColor="#0EA5E9" />
         </linearGradient>
       </defs>
-      <path
-        fill="url(#lovable-heart-dash)"
-        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-      />
+      <rect width="180" height="180" rx="44" fill="url(#freebuff-glyph-dash)" />
+      <path d="M103 22 L52 98 H84 L76 158 L128 78 H95 L103 22 Z" fill="#04121F" />
     </svg>
   );
 }
@@ -117,7 +113,7 @@ type ThemeChoice = "light" | "dark" | "system";
 function readStoredTheme(): ThemeChoice {
   if (typeof window === "undefined") return "light";
   try {
-    const v = localStorage.getItem("lovable.theme");
+    const v = localStorage.getItem("freebuff.theme");
     return v === "dark" || v === "system" ? v : "light";
   } catch {
     return "light";
@@ -131,9 +127,14 @@ function useTheme() {
   useEffect(() => {
     const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
     const apply = () => {
+      // Freebuff is dark-first: dark is the default (no attribute) and the
+      // light parchment variant is opt-in via data-theme="light".
       const dark = choice === "dark" || (choice === "system" && mq?.matches);
-      document.documentElement.toggleAttribute("data-theme", dark);
-      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      if (dark) {
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
     };
     apply();
     mq?.addEventListener?.("change", apply);
@@ -143,7 +144,7 @@ function useTheme() {
   const setTheme = useCallback((next: ThemeChoice) => {
     setChoice(next);
     try {
-      localStorage.setItem("lovable.theme", next);
+      localStorage.setItem("freebuff.theme", next);
     } catch {}
   }, []);
 
@@ -207,7 +208,7 @@ function SignOutDialog({
         onClick={(e) => e.stopPropagation()}
         className="dash-menu-pop-up w-full max-w-sm rounded-3xl border border-linen-border bg-parchment p-5 shadow-[0_24px_60px_-24px_rgba(28,28,28,0.5)]"
       >
-        <h2 className="text-[16px] font-medium tracking-tight text-charcoal">Sign out of Lovable?</h2>
+        <h2 className="text-[16px] font-medium tracking-tight text-charcoal">Sign out of Freebuff?</h2>
         <p className="mt-1.5 text-[13px] leading-relaxed text-dim-gray">
           Your projects stay safely in this workspace. You can sign back in anytime.
         </p>
@@ -261,7 +262,7 @@ function AccountMenu({
       aria-orientation="vertical"
       className="dash-menu-pop-up absolute bottom-full left-0 z-50 mb-2 w-56 overflow-visible rounded-2xl border border-linen-border bg-parchment p-1.5 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
     >
-      {/* identity row — avatar + email, like Lovable's account menu */}
+      {/* identity row — avatar + email, like Freebuff's account menu */}
       <Link
         href="/dashboard/settings"
         onClick={onClose}
@@ -353,7 +354,7 @@ function AccountMenu({
         ) : null}
       </div>
       <a
-        href="https://community.lovable.dev"
+        href="https://community.freebuff.dev"
         target="_blank"
         rel="noopener noreferrer"
         onClick={onClose}
@@ -382,20 +383,20 @@ function WorkspaceMenu({
 }: {
   onClose: () => void;
 }) {
-  // Lovable's compact workspace popover: workspace header, Invite members,
+  // Freebuff's compact workspace popover: workspace header, Invite members,
   // Settings, the daily credits meter, and Turn Pro. All deeper settings
   // sections live on /settings/workspace.
   const { user, initials } = useUser();
   const [credits, setCredits] = useState(readCredits());
   useEffect(() => {
     const sync = () => setCredits(readCredits());
-    window.addEventListener("lovable:credits-changed", sync);
-    return () => window.removeEventListener("lovable:credits-changed", sync);
+    window.addEventListener("freebuff:credits-changed", sync);
+    return () => window.removeEventListener("freebuff:credits-changed", sync);
   }, []);
   const remaining = remainingCredits(credits);
   const usedPct = Math.min(100, Math.round((credits.used / CREDITS_LIMIT) * 100));
 
-  const workspaceName = user?.name ?? "Gürkan's Lovable";
+  const workspaceName = user?.name ?? "Gürkan's Freebuff";
   const itemCls =
     "flex w-full items-center justify-center gap-2 rounded-full border border-linen-border bg-parchment px-3 py-2.5 text-[13px] font-medium tracking-tight text-charcoal transition-colors hover:bg-black/[0.04]";
 
@@ -623,12 +624,12 @@ export function AppSidebar({
             aria-label="Expand navigation"
             className="flex size-9 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-black/[0.04]"
           >
-            <LovableHeart className="size-6" />
+            <FreebuffGlyph className="size-6" />
           </button>
         </div>
       ) : (
         <div className="flex items-center justify-between px-4 pb-2 pt-4">
-          <LovableHeart className="size-6 shrink-0 transition-transform duration-300 hover:scale-110" />
+          <FreebuffGlyph className="size-6 shrink-0 transition-transform duration-300 hover:scale-110" />
           <button
             type="button"
             onClick={onToggleCollapsed}
@@ -797,7 +798,7 @@ export function AppSidebar({
             >
               <span className="min-w-0">
                 <span className="block truncate text-[13px] font-medium tracking-tight text-charcoal">
-                  Share Lovable
+                  Share Freebuff
                 </span>
                 <span className="block truncate text-[11.5px] leading-snug text-dim-gray">
                   100 credits per paid referral

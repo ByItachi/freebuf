@@ -2,7 +2,7 @@ import { LegalShell } from "@/components/site/inner";
 
 export default function PrivacyPage() {
   return (
-    <LegalShell title="Lovable Privacy Policy" updated="January 2026">
+    <LegalShell title="Freebuff Privacy Policy" updated="January 2026">
       <section>
         <h2>What we collect</h2>
         <p>

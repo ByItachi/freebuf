@@ -110,7 +110,7 @@ const CATEGORIES: Category[] = [
 /** First 12 connector names for the hero pill cloud. */
 const HERO_PILLS = CONNECTORS.slice(0, 12).map((c) => c.name);
 
-const STORAGE = "lovable.connectors";
+const STORAGE = "freebuff.connectors";
 
 function iconSrc(id: string) {
   // Local brand SVGs fetched into public/connectors by scripts/fetch-connector-icons.mjs
@@ -422,7 +422,7 @@ export function ConnectorsDrawer({ open, onClose }: { open: boolean; onClose: ()
                   Build from what you already use
                 </h2>
                 <p className="max-w-md text-[13px] leading-relaxed text-dim-gray">
-                  Connectors let your Lovable app talk to external tools like Stripe, Slack, and
+                  Connectors let your Freebuff app talk to external tools like Stripe, Slack, and
                   Google. Ask the agent to get started.
                 </p>
                 <div className="mt-2 flex items-center gap-2">

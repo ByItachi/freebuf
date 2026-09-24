@@ -1,9 +1,9 @@
 import { CtaBand, Faq, InnerHero, Section } from "@/components/site/inner";
 import { px } from "@/lib/img";
 
-const CD = px("https://lovable.dev/cdn-cgi/image/width=2000,f=auto,fit=scale-down");
-const AV = px("https://lovable.dev/cdn-cgi/image/width=200,f=auto,fit=scale-down");
-const BASE = "https://assets.lovable.dev/img/marketing-content/audiences/product-managers";
+const CD = px("/");
+const AV = px("/");
+const BASE = "/";
 
 export default function ProductManagersPage() {
   return (
@@ -19,7 +19,7 @@ export default function ProductManagersPage() {
       <Section>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
-            <img src={`${CD}/${BASE}/tools.webp`} alt="Internal tools built with Lovable" loading="eager" decoding="async" className="aspect-[4/3] w-full object-cover" />
+            <img src={`${CD}/${BASE}/tools.webp`} alt="Internal tools built with Freebuff" loading="eager" decoding="async" className="aspect-[4/3] w-full object-cover" />
             <div className="p-5">
               <h2 className="text-xl font-medium tracking-tight text-charcoal">Create custom internal tools</h2>
               <p className="mt-1.5 text-[15px] leading-relaxed text-steel">Dashboards, approvals and ops views your team actually opens every day.</p>

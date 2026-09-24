@@ -3,7 +3,7 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowUp } from "lucide-react";
-import { LovableMark } from "@/components/brand";
+import { FreebuffMark } from "@/components/brand";
 import ModelPicker from "@/components/chat/model-picker";
 import { getProvider, type ModelSelection } from "@/lib/models";
 import { spendCredit } from "@/lib/credits";
@@ -20,8 +20,8 @@ type Message = {
   content: string;
 };
 
-const STORAGE_MODEL = "lovable.model";
-const STORAGE_KEYS = "lovable.keys";
+const STORAGE_MODEL = "freebuff.model";
+const STORAGE_KEYS = "freebuff.keys";
 
 function loadSelection(): ModelSelection {
   try {
@@ -147,7 +147,7 @@ function NewChatInner() {
       {/* ===== Sidebar — mark alone on top, actions below (reference layout) ===== */}
       <aside className="hidden w-[268px] shrink-0 flex-col border-r border-linen-border bg-warm-sand md:flex">
         <div className="px-4 py-4">
-          <LovableMark className="h-7 w-7 text-charcoal" />
+          <FreebuffMark className="h-7 w-7 text-charcoal" />
         </div>
         <div className="px-3">
           <button
@@ -189,7 +189,7 @@ function NewChatInner() {
             <span
               className={`h-2 w-2 rounded-full ${
                 selection.source === "remote"
-                  ? "bg-[#4B73FF]"
+                  ? "bg-[#22C55E]"
                   : ollamaRunning
                     ? "bg-charcoal"
                     : "bg-stone"
@@ -208,7 +208,7 @@ function NewChatInner() {
           <div className="flex flex-1 flex-col items-center justify-center px-6">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-white shadow-subtle">
-                <LovableMark className="h-7 w-7" />
+                <FreebuffMark className="h-7 w-7" />
               </div>
             </div>
             <h1 className="mt-8 text-center text-[clamp(32px,5vw,48px)] font-w480 leading-[1.1] tracking-[-1.2px] text-charcoal">
@@ -235,7 +235,7 @@ function NewChatInner() {
                   <div key={i} className="flex gap-4">
                     {msg.role === "assistant" && (
                       <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center">
-                        <LovableMark className="h-5 w-5" />
+                        <FreebuffMark className="h-5 w-5" />
                       </div>
                     )}
                     <div
@@ -252,7 +252,7 @@ function NewChatInner() {
                 {thinking && (
                   <div className="flex gap-4">
                     <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center">
-                      <LovableMark className="h-5 w-5" />
+                      <FreebuffMark className="h-5 w-5" />
                     </div>
                     <div className="flex items-center gap-1.5 rounded-3xl border border-linen-border bg-white px-4 py-3">
                       <span className="h-2 w-2 animate-bounce rounded-full bg-stone" />

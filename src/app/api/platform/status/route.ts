@@ -8,7 +8,7 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     brand: "Manus",
-    design: "lovable-parchment",
+    design: "freebuff-parchment",
     kernel,
     control: platform.control.missionControl(),
     capabilities: platform.kernel.capabilities,
