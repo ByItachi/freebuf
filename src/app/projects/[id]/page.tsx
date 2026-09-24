@@ -5,16 +5,24 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
+  Bot,
+  Braces,
   Check,
   ChevronDown,
+  FileCode2,
+  FileDiff,
+  GraduationCap,
   Loader2,
   Mic,
   MicOff,
+  Minus,
   PanelRightOpen,
   Plus,
   RefreshCw,
   Sparkles,
   Star,
+  Target,
+  Timer,
 } from "lucide-react";
 import { recordProjectView, unhideProjectFromRecents } from "@/lib/recents";
 import ModelPicker from "@/components/chat/model-picker";
@@ -36,6 +44,69 @@ type SpeechRecognitionLike = {
 };
 
 type Msg = { role: "user" | "assistant"; content: string };
+type Mode = "build" | "plan" | "mission" | "skills";
+const MODES: Array<{ value: Mode; title: string; desc: string }> = [
+  { value: "build", title: "Build", desc: "Make changes directly" },
+  { value: "plan", title: "Plan", desc: "Detailed spec for complex builds" },
+  { value: "mission", title: "Mission", desc: "Long-horizon autonomous run" },
+  { value: "skills", title: "Skills", desc: "Run a saved skill" },
+];
+
+const MODE_ICONS: Record<Mode, React.ComponentType<{ className?: string }>> = {
+  build: Braces,
+  plan: FileCode2,
+  mission: Target,
+  skills: GraduationCap,
+};
+
+/** Deterministic sample diff summary shown in the workspace run card. */
+const FILE_CHANGES: Array<{ path: string; add: number; del: number }> = [
+  { path: "src\\app\\dashboard\\layout.tsx", add: 2, del: 0 },
+  { path: "src\\app\\globals.css", add: 84, del: 12 },
+  { path: "src\\app\\settings\\workspace\\page.tsx", add: 367, del: 54 },
+  { path: "src\\components\\site\\header.tsx", add: 96, del: 18 },
+  { path: "src\\components\\brand.tsx", add: 24, del: 3 },
+  { path: "src\\lib\\credits.ts", add: 11, del: 1 },
+  { path: "src\\app\\new\\page.tsx", add: 6, del: 0 },
+  { path: "src\\app\\api\\chat\\route.ts", add: 1, del: 0 },
+];
+
+const TOTAL_ADD = FILE_CHANGES.reduce((a, f) => a + f.add, 0);
+const TOTAL_DEL = FILE_CHANGES.reduce((a, f) => a + f.del, 0);
+
+function AgentChangedCard({ open, onToggle }: { open: boolean; onToggle: () => void }) {
+  return (
+    <div className="mr-4 overflow-hidden rounded-3xl border border-linen-border bg-white">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        className="flex w-full items-center gap-2 px-4 py-3 text-left transition-colors hover:bg-black/[0.02]"
+      >
+        <Bot className="size-4 shrink-0 text-dim-gray" />
+        <span className="text-[13px] font-medium tracking-tight text-charcoal">Agent changed {FILE_CHANGES.length} files</span>
+        <span className="font-mono-code text-[11.5px] text-[#16a34a]">+{TOTAL_ADD}</span>
+        <span className="font-mono-code text-[11.5px] text-[#dc2626]">-{TOTAL_DEL}</span>
+        <ChevronDown className={`ml-auto size-4 shrink-0 text-dim-gray transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open ? (
+        <ul className="border-t border-linen-border px-4 py-2">
+          {FILE_CHANGES.map((f) => (
+            <li key={f.path} className="flex items-center gap-2 py-1.5">
+              <FileCode2 className="size-3.5 shrink-0 text-[#ea580c]" />
+              <span className="min-w-0 flex-1 truncate font-mono-code text-[11.5px] text-charcoal/80">{f.path}</span>
+              <span className="shrink-0 font-mono-code text-[11px] text-[#16a34a]">+{f.add}</span>
+              <span className="shrink-0 font-mono-code text-[11px] text-[#dc2626]">
+                <Minus className="inline size-2.5 -translate-y-px" />
+                {f.del}
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
 type Project = {
   id: string;
   name: string;
@@ -60,7 +131,9 @@ export default function ProjectWorkspacePage() {
   const [mobileTab, setMobileTab] = useState<"chat" | "preview">("chat");
   const [modeOpen, setModeOpen] = useState(false);
   const [attachOpen, setAttachOpen] = useState(false);
-  const [mode, setMode] = useState<"build" | "plan">("build");
+  const [mode, setMode] = useState<Mode>("build");
+  const [workOpen, setWorkOpen] = useState(false);
+  const [changesOpen, setChangesOpen] = useState(true);
   const [listening, setListening] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
   // Model selection (shared with /new via localStorage)
@@ -69,7 +142,29 @@ export default function ProjectWorkspacePage() {
   const [ollama, setOllama] = useState<{ running?: boolean; models: string[] }>({ models: [] });
   const modeMenuRef = useRef<HTMLDivElement>(null);
   const attachMenuRef = useRef<HTMLDivElement>(null);
+  const workRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Session clock: "Worked for 40m 40s" style badge in the header.
+  const [startedAt, setStartedAt] = useState<number | null>(null);
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  useEffect(() => {
+    setStartedAt((s) => s ?? Date.now());
+  }, []);
+  const workedLabel = useMemo(() => {
+    if (!startedAt) return "";
+    const s = Math.max(0, Math.floor((now - startedAt) / 1000));
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    const mm = h > 0 ? String(m).padStart(2, "0") : String(m);
+    const ss = String(sec).padStart(2, "0");
+    return h > 0 ? `${h}h ${mm}m ${ss}s` : `${mm}m ${ss}s`;
+  }, [startedAt, now]);
 
   // Load selection + keys + ollama status (deferred; same stores as /new)
   useEffect(() => {
@@ -148,6 +243,9 @@ export default function ProjectWorkspacePage() {
   useEffect(() => {
     function onDown(e: MouseEvent) {
       const t = e.target as Node;
+      if (workOpen && workRef.current && !workRef.current.contains(t)) {
+        setWorkOpen(false);
+      }
       if (modeOpen && modeMenuRef.current && !modeMenuRef.current.contains(t)) {
         setModeOpen(false);
       }
@@ -172,7 +270,7 @@ export default function ProjectWorkspacePage() {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [modeOpen, attachOpen]);
+  }, [modeOpen, attachOpen, workOpen]);
 
   const load = useCallback(async () => {
     if (!id) return;
@@ -250,6 +348,7 @@ export default function ProjectWorkspacePage() {
             providerId: selection.providerId,
             apiKey: selection.providerId ? apiKeys[selection.providerId] : undefined,
             model: selection.model,
+            mode,
             messages,
           }),
         });
@@ -341,9 +440,38 @@ export default function ProjectWorkspacePage() {
         >
           <ArrowLeft className="size-4" />
         </button>
-        <div className="min-w-0 flex-1">
-          <h1 className="truncate text-[15px] font-medium tracking-tight">{project.name}</h1>
-          <p className="truncate text-[12px] text-dim-gray">AI builder workspace</p>
+        <div className="relative min-w-0 flex-1">
+          <div ref={workRef} className="flex min-w-0 items-center gap-2">
+            <h1 className="truncate text-[15px] font-medium tracking-tight">{project.name}</h1>
+            <button
+              type="button"
+              onClick={() => setWorkOpen((v) => !v)}
+              aria-expanded={workOpen}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-linen-border bg-warm-sand px-2.5 py-1 text-[11.5px] font-medium tracking-tight text-charcoal transition-colors hover:bg-black/[0.05]"
+            >
+              <span className="size-1.5 rounded-full bg-[#22C55E]" />
+              {workedLabel ? `Worked for ${workedLabel}` : "Ready"}
+              <ChevronDown className="size-3 text-dim-gray" />
+            </button>
+          </div>
+          {workOpen ? (
+            <div
+              role="region"
+              aria-label="Work summary"
+              className="dash-menu-pop absolute left-0 top-full z-50 mt-2 w-72 rounded-2xl border border-linen-border bg-parchment p-4 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
+            >
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-charcoal">
+                  <Timer className="size-3.5 text-dim-gray" />
+                  Worked for {workedLabel || "0m 00s"}
+                </span>
+                <span className="text-[11px] text-dim-gray">Freebuff Agent</span>
+              </div>
+              <p className="mt-2 text-[12px] leading-relaxed text-dim-gray">
+                The agent is working in this workspace. Completed runs appear here with a file change summary.
+              </p>
+            </div>
+          ) : null}
         </div>
         <button
           type="button"
@@ -398,6 +526,7 @@ export default function ProjectWorkspacePage() {
                   <Loader2 className="size-4 animate-spin" /> Building…
                 </div>
               ) : null}
+              <AgentChangedCard open={changesOpen} onToggle={() => setChangesOpen((v) => !v)} />
               {error ? <p className="text-[13px] text-red-600">{error}</p> : null}
               <div ref={bottomRef} />
             </div>
@@ -483,7 +612,7 @@ export default function ProjectWorkspacePage() {
                       aria-haspopup="menu"
                       className="inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-[13px] font-medium text-charcoal transition-colors hover:bg-black/[0.05]"
                     >
-                      {mode === "build" ? "Build" : "Plan"}
+                      {MODES.find((m) => m.value === mode)?.title ?? mode}
                       <ChevronDown className="size-3.5 text-dim-gray" />
                     </button>
                     {modeOpen ? (
@@ -493,12 +622,7 @@ export default function ProjectWorkspacePage() {
                         className="dash-menu-pop absolute top-full right-0 z-50 mt-2 min-w-48 rounded-2xl border border-linen-border bg-parchment p-1 shadow-[0_16px_40px_-16px_rgba(28,28,28,0.35)]"
                       >
                         <div role="group">
-                          {(
-                            [
-                              { value: "build" as const, title: "Build", desc: "Make changes directly" },
-                              { value: "plan" as const, title: "Plan", desc: "Detailed spec for complex builds" },
-                            ]
-                          ).map((opt) => (
+                          {MODES.map((opt) => (
                             <button
                               key={opt.value}
                               type="button"
